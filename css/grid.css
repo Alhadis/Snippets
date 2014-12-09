@@ -1,0 +1,33 @@
+/** CSS grid */
+.grid{
+	margin-left: -2%; /* This is how much we wish to separate each cell by */
+}
+	.grid > *{
+		width: 25%;
+		float: left;
+		padding-left: 2%;
+		outline: 1px solid red;
+	}
+	
+	.grid::after{
+		content: "";
+		display: block;
+		clear: both;
+	}
+
+
+
+/** EXAMPLE:
+===========================================
+	
+	<ul class="grid">
+		<li>A</li>
+		<li>A</li>
+		<li>A</li>
+		<li>A</li>
+		<li>A</li>
+		<li>A</li>
+		<li>A</li>
+		<li>A</li>
+	</ul>
+*/

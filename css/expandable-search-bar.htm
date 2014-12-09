@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Expandable Search Bar</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="initial-scale=1, minimum-scale=1" />
+<style type="text/css">
+*{
+	box-sizing: border-box;
+}
+body{
+	background: #000;
+	color: #fff;
+	margin: 0 auto;
+	padding: 1em;
+	max-width: 40em;
+}
+
+.control{
+	display: none;
+}
+
+label{
+	cursor: pointer;
+}
+
+.trans-all{
+	transition: .3s ease all;
+}
+
+
+
+/** Actual rules begin here. */
+#search-bar{
+	position: relative;
+	display: inline-block;
+	vertical-align: middle;
+}
+	#search-bar > .disclosure{
+		position: absolute;
+		display: block;
+		background: #f00;
+		opacity: .5;
+		left:	0;
+		top:	0;
+		bottom:	0;
+		right:	0;
+
+		-webkit-transition:	0s left step-end .3s;
+		-moz-transition:	0s left step-end .3s;
+		-ms-transition:		0s left step-end .3s;
+		-o-transition:		0s left step-end .3s;
+	}
+		/** If you want the search button to submit the form whenever the field's open, uncomment the following ruleset: */
+		#sb_close:not(:checked) + .disclosure{
+			left: 100%;
+		}/***/
+
+
+	/** Search term field */
+	#s{
+		display: block !important;
+		position: absolute;
+		margin: 0 .45em 0 0;
+		padding: 0 .5em;
+		border:	0;
+		bottom:	0;
+		right:	100%;
+		height:	100%;
+		width: 11em;
+		color: #999;
+
+		-webkit-transition:	.3s ease all;
+		-moz-transition:	.3s ease all;
+		-o-transition:		.3s ease all;
+		transition:			.3s ease all;
+	}
+		/** Collapsed */
+		#sb_close:checked ~ #s{
+			width: 0 !important;
+			opacity: 0;
+		}
+
+	/** Invisible element blocking user interaction when search bar's closed. */
+	#sb_buffer{
+		display: none;
+		position: absolute;
+		right: 100%;
+		height: 100%;
+		top: 0;
+		width: 1em;
+	}
+		#sb_close:checked ~ #sb_buffer{
+			display: block;
+		}
+
+	/** Search button with magnifying glass */
+	#sb_submit{
+		font: 1.25em Mondelicons;
+		text-align: center;
+		background: #613787;
+		color: #fff;
+		padding: .4em 1em;
+		border: 0;
+		margin: 0;
+
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+
+		-webkit-border-radius:	0 .15em .15em 0;
+		-moz-border-radius:		0 .15em .15em 0;
+		border-radius:			0 .15em .15em 0;
+	}
+</style>
+</head>
+
+
+<body>
+	<div id="search-bar">
+		<input class="control" type="checkbox" id="sb_close" checked="checked" />
+		<label class="disclosure" for="sb_close"></label>
+
+		<input type="search" placeholder="Search&hellip;" value="" id="s" name="s" />
+		<input type="submit" id="sb_submit" value="&#xF002;" />
+		<i id="sb_buffer"></i>
+	</div>
+
+
+
+	<main role="main">
+		<h1>Main body of content</h1>
+	</main>
+
+	<script type="text/javascript">
+		(function(){
+			var searchField	=	document.getElementById("s");
+			var searchClose	=	document.getElementById("sb_close");
+
+			/** Shifts input focus to the newly-revealed search pane. */
+			searchClose.addEventListener("change", function(e){
+
+				if(!e.target.checked)
+					setTimeout(function(){ searchField.focus(); }, 100);
+			});
+
+
+			/** If clicking/tapping anywhere in the page's body, close the search menu if it's still open. */
+			document.getElementsByTagName("main")[0].addEventListener("click", function(e){
+				searchClose.checked	=	true;
+			});
+		}());
+	</script>
+</body>
+</html>

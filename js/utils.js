@@ -390,6 +390,16 @@ function truncate(string){
 }
 
 
+/**
+ * Returns the number of words in a string. Hyphenation is ignored: "twenty-two" will be read as two words instead of one.
+ * @param {String} input - Text to measure the word count of.
+ * @return {Number}
+ */
+function wordCount(input){
+	var words	=	input.replace(/[^\w-_]+/g, " ").replace(/^\s+|\s+$/g, "").split(/\s+/g);
+	return words[0] ? words.length : 0;
+}
+
 
 
 /**

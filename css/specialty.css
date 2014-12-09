@@ -1,0 +1,242 @@
+/** "Pinches" a row of inline elements to the same line. Useful for columns and slideshows. */
+.pinch		{white-space: nowrap}
+.pinch > *	{white-space: normal}
+
+/** Improves font antialiasing on Mac OS */
+.antialias{
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.content-box{
+	-webkit-box-sizing: content;
+	-webkit-box-sizing: content-box;
+	-moz-box-sizing: content;
+	-moz-box-sizing: content-box;
+	box-sizing: content-box;
+}
+
+
+.vcentre{
+	display:	inline-block;
+	position:	absolute;
+	top:		50%;
+	left:		50%;
+
+	-webkit-transform:	translate(-50%, -50%);
+	-moz-transform:		translate(-50%, -50%);
+	-ms-transform:		translate(-50%, -50%);
+	-o-transform:		translate(-50%, -50%);
+	transform:			translate(-50%, -50%);
+}
+
+
+/** AJAX-loading state */
+.loader{
+	position: relative;
+}
+	.loader::after{
+		background: url("../img/load.gif") no-repeat 50% 50% #000;
+		display: block;
+		position: absolute;
+		top:	0;
+		left:	0;
+		width:	0;
+		height:	0;
+		z-index: 400;
+
+		content:	"";
+		opacity:	0;
+
+		-webkit-transition:	.25s opacity ease 0s,	0s width linear .25s,	0s height linear .25s;
+		-moz-transition:	.25s opacity ease 0s,	0s width linear .25s,	0s height linear .25s;
+		-o-transition:		.25s opacity ease 0s,	0s width linear .25s,	0s height linear .25s;
+		transition:			.25s opacity ease 0s,	0s width linear .25s,	0s height linear .25s;
+	}
+
+	.loader.loading::after{
+		width:	100%;
+		height:	100%;
+		opacity: .65;
+		
+		-webkit-transition-delay:	0s;
+		-moz-transition-delay:		0s;
+		-o-transition-delay:		0s;
+		transition-delay:			0s;
+	}
+
+
+/** Useful for customising form fields. Stretches, overlays and hides an element inside a positioned container,
+ * 	allowing for custom form markup to be laid out underneath. */
+.shrink-wrap{
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	opacity: 0;
+	z-index: 99;
+}
+
+
+
+/**
+ *	Scalable stamp: suitable for starbursts.
+ *	<div class="stamp">
+ *		<img src="stamp.png" alt="" />
+ *		<span>New</span>
+ *	</div>
+ */
+.stamp{
+	position: relative;
+	display: inline-block;
+	text-align: center;
+}
+	.stamp > img{
+		position: absolute;
+		width: 100%;
+		height: auto;
+		display: block;
+		top: 50%;
+		margin-top: -50%;
+	}
+	.stamp > span{
+		display: inline-block;
+		position: relative;
+		z-index: 20;
+		padding: 0 .5em;
+	}
+
+
+
+
+
+/** Segmented navigation bar */
+.segmented-nav{
+	display: inline-table;
+	vertical-align: top;
+	white-space: nowrap;
+	padding: 0;
+	margin: 0;
+
+	-webkit-border-radius:	.5em;
+	-moz-border-radius:		.5em;
+	border-radius:			.5em;
+}
+	.segmented-nav > li{
+		display: table-cell;
+		vertical-align: middle;
+	}
+		/** Actual thick, button-like links */
+		.segmented-nav > li > a{
+			display: block;
+			text-align: center;
+			padding: .5em 1em;
+			border-left:	1px solid #666;
+			border-right:	1px solid #444;
+		}
+			.segmented-nav > li:first-child	> a	{border-left:	none}
+			.segmented-nav > li:last-child	> a	{border-right:	none}
+	
+
+		/** Set the navigation's first and last segments to use rounded corners */
+		.segmented-nav > li:first-child,
+		.segmented-nav > li:first-child > a{
+			-webkit-border-top-left-radius:		inherit;
+			-moz-border-radius-topleft:			inherit;
+			border-top-left-radius:				inherit;
+
+			-webkit-border-bottom-left-radius:	inherit;
+			-moz-border-radius-bottomleft:		inherit;
+			border-bottom-left-radius:			inherit;
+		}
+
+		.segmented-nav > li:last-child,
+		.segmented-nav > li:last-child > a{
+			-webkit-border-top-right-radius:		inherit;
+			-moz-border-radius-topright:			inherit;
+			border-top-right-radius:				inherit;
+
+			-webkit-border-bottom-right-radius:		inherit;
+			-moz-border-radius-bottomright:			inherit;
+			border-bottom-right-radius:				inherit;
+		}
+
+
+
+/*=============================================================================*
+	1.	NON-SPECIALTY
+		Assorted "non-specialty" rulesets that're still too uncommon for boilerplate inclusion.
+===============================================================================*/
+
+/** Strips any generated content from the element */
+.no-gen::before,
+.no-gen::after{
+	content: none !important;
+}
+
+
+
+/** CSS3 helper classes */
+.trans-all{
+	-webkit-transition:		.4s all ease;
+	-moz-transition:		.4s all ease;
+	-o-transition:			.4s all ease;
+	transition:				.4s all ease;
+}
+	.trans-all.slow{
+		-webkit-transition-duration:	.6s;
+		-moz-transition-duration:		.6s;
+		-o-transition-duration:			.6s;
+		transition-duration:			.6s;
+	}
+	
+	.trans-all.fast{
+		-webkit-transition-duration:	.2s;
+		-moz-transition-duration:		.2s;
+		-o-transition-duration:			.2s;
+		transition-duration:			.2s;
+	}
+
+.xform-reset{
+	-webkit-transform:	translate(0);
+	-moz-transform:		translate(0);
+	-ms-transform:		translate(0);
+	-o-transform:		translate(0);
+	transform:			translate(0);
+
+	-webkit-backface-visibility:	hidden;
+	-moz-backface-visibility:		hidden;
+	backface-visibility:			hidden;
+}
+
+
+.bg-fit-x{
+	-webkit-background-size:	100% auto;
+	-khtml-background-size:		100% auto;
+	-moz-background-size:		100% auto;
+	-ms-background-size:		100% auto;
+	-o-background-size:			100% auto;
+	background-size:			100% auto;
+}
+
+.bg-fit-y{
+	-webkit-background-size:	auto 100%;
+	-khtml-background-size:		auto 100%;
+	-moz-background-size:		auto 100%;
+	-ms-background-size:		auto 100%;
+	-o-background-size:			auto 100%;
+	background-size:			auto 100%;
+}
+
+.bg-at-border{
+	-webkit-background-origin:	border;
+	-webkit-background-origin:	border-box;
+	-khtml-background-origin:	border-box;
+	-moz-background-origin:		border;
+	-moz-background-origin:		border-box;
+	-ms-background-origin:		border-box;
+	-o-background-origin:		border-box;
+	background-origin:			border-box;
+}
