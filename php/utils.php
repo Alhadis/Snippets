@@ -169,7 +169,7 @@ function url_to_path($url){
  *	@param bool $display Whether to echo the result or return it as a string.
  *	@param string $quot Quotation mark type to use for wrapping the attribute's value.
  *	@param bool $xhtml If FALSE, result will use the deprecated HTML format (e.g., <input selected> instead of <input selected="selected"/>.
- *	$return string HTML attribute or empty string if $a and $b didn't match.
+ *	@return string HTML attribute or empty string if $a and $b didn't match.
  */
 function boolean_html_attr($name, $a = NULL, $b = true, $display = true, $quot = '"', $xhtml = true){
 	$on		=	((string) $a == (string) $b);
