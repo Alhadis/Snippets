@@ -448,7 +448,7 @@ function wordCount(input){
  * Executes a callback function on every text node found within an element's descendants.
  * 
  * @param {Element} el - Element to parse the contents of.
- * @param {Function} fn - Callback executed on each text node. Passed two args: the text node itself, and the currentl depth level.
+ * @param {Function} fn - Callback executed on each text node. Passed two args: the text node itself, and the current depth level.
  * @param {Number} depth - Internal use only. Current number of recursion levels.
  * 
  * @return {Element} The HTML element originally passed to the function.
@@ -493,6 +493,37 @@ function injectWordBreaks(element, limit){
 		}
 	});
 }
+
+
+
+/**
+ * Strips any text nodes from the immediate descendants of an element.
+ * 
+ * @param {Element} el - Subject element to operate on.
+ * @param {Boolean} emptyOnly - Whether to limit deletion to whitespace nodes only.
+ * @return {Element}
+ */
+function pruneTextNodes(el, emptyOnly){
+	if(!el || !el.childNodes.length) return el;
+	el.normalize();
+
+	var i	=	el.lastChild,
+		r	=	/^\s*$/;
+
+	/** If the last node's a textNode, shoot it. */
+	if(3 === i.nodeType && (!emptyOnly || r.test(i.data))){
+		el.removeChild(i);
+		i = el.lastChild;
+		if(!i) return el;
+	}
+
+	/** Run through each child node and nuke whatever isn't an element. */
+	while(i = i.previousSibling)
+		if(3 === i.nodeType && (!emptyOnly || r.test(i.data))) el.removeChild((i = i.nextSibling).previousSibling);
+
+	return el;
+};
+
 
 
 /**
