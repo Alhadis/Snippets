@@ -404,6 +404,26 @@ function get_subclasses($value, $slow = false){
 }
 
 
+
+/**
+ * Recursively iterates through an array and replaces any scalar values equating to
+ * FALSE with a PHP-compatible string representation of their literal value.
+ * 
+ * Used by the trace/dump caveman debugging functions below. Not expected to be used anywhere else.
+ * 
+ * @param array $array - Top-level array to iterate over
+ * @return $array - Array with modified descendants
+ * @access private 
+ */
+function array_disambiguate_empty_values($array){
+	if(!is_array($array)) return $array;
+	foreach($array as $key => $value)
+		if(is_array($value))						$array[$key]	=	call_user_func('array_disambiguate_empty_values', $value);
+		else if(is_bool($value) || $value === NULL)	$array[$key]	=	var_export($value, TRUE);
+	return $array;
+}
+
+
 /**
  * Caveman debugging function well-suited for irritable web developers.
  * Takes a variable number of arguments and spits their string representations into error_log.
@@ -411,7 +431,7 @@ function get_subclasses($value, $slow = false){
 function trace(){
 	$spaces	=	str_repeat(' ', 4);
 	foreach(func_get_args() as $a)
-		error_log(str_replace($spaces, "\t", print_r($a, true)));
+		error_log(str_replace($spaces, "\t", print_r(((is_bool($a) || $a === NULL) ? var_export($a, TRUE) : call_user_func('array_disambiguate_empty_values', $a)), true)));
 }
 
 
@@ -421,12 +441,9 @@ function trace(){
  */
 function dump(){
 	$spaces	=	str_repeat(' ', 4);
-	
 	$output	=	'';
 	foreach(func_get_args() as $a)
-		$output .= preg_replace('#(</?)pre>#i', '$1 pre >', str_replace($spaces, "\t", print_r($a, TRUE)));
-
-
+		$output .= preg_replace('#(</?)pre>#i', '$1 pre >', str_replace($spaces, "\t", print_r(call_user_func('array_disambiguate_empty_values', $a), TRUE)));
 	!headers_sent() ? header('Content-Type: text/plain') : ($output = '<pre>' . $output . '</pre>');
 	echo $output;
 	exit;
