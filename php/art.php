@@ -91,3 +91,34 @@
 		return TRUE;
 	}
 
+
+
+	/**
+	 * Wrapper for PHP's various "imagecreatefrom-" functions that returns an identifier for the image based on its detected type.
+	 * 
+	 * @param string $file - Path to the image file
+	 * @return resource|bool An image resource, or FALSE on failure
+	 */
+	function imagecreateauto($file){
+		
+		#	Image matches a recognised IMAGETYPE_ constant.
+		switch($type = exif_imagetype($file)){
+			case IMAGETYPE_GIF:		{return imagecreatefromgif($file);	break;}
+			case IMAGETYPE_JPEG:	{return imagecreatefromjpeg($file);	break;}
+			case IMAGETYPE_PNG:		{return imagecreatefrompng($file);	break;}
+			case IMAGETYPE_BMP:		{return imagecreatefrompng($file);	break;}
+			case IMAGETYPE_WBMP:	{return imagecreatefromwbmp($file);	break;}
+			case IMAGETYPE_XBM:		{return imagecreatefromxbm($file);	break;}
+		}
+
+
+		#	Some formats can be read by PHP, but aren't detectable with exif_imagetype. We'll simply sniff the filename instead.
+		switch($extension = end(explode('.', strtolower($file)))){
+			case 'gd':	{return imagecreatefromgd($file);	break;}
+			case 'gd2':	{return imagecreatefromgd2($file);	break;}
+			case 'webp':{if(function_exists('imagecreatefromwebp'))	return imagecreatefromwebp($file);	break;	}
+			case 'xpm':	{if(imagetypes() & IMG_XBM)					return imagecreatefromxpm($file);	break;	}
+		}
+
+		return FALSE;
+	}
