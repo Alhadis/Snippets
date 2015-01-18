@@ -221,8 +221,7 @@ HTMLTableElement.prototype.extract	=	function(){
 
 
 	/** Gather our column names */
-	th		=	this.tHead.querySelectorAll("tr:first-child > th"),
-	headers	=	[];
+	th	=	this.tHead ? this.tHead.querySelectorAll("tr:first-child > th") : this.tBodies[0].querySelectorAll("tr:first-child > td");
 	for(i = 0, l = th.length; i < l; ++i)
 		headers.push(th[i].textContent.trim());
 
