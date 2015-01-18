@@ -79,7 +79,7 @@ function tokenise($template, $tokens){
 
 
 
-/*
+/**
  * Returns a randomly-generated alphanumeric ID for a DOM element guaranteed to be unique.
  * 
  * @param string $prefix String to prepend to the generated ID. Defaults to 'id_'.
@@ -181,35 +181,6 @@ function boolean_html_attr($name, $a = NULL, $b = true, $display = true, $quot =
 	function checked($a, $b, $display = true)	{	return boolean_html_attr("checked", $a, $b, $display);	}
 	function selected($a, $b, $display = true)	{	return boolean_html_attr("selected", $a, $b, $display);	}
 
-
-function mm2px($input, $dpi = 300){
-	return round(($input * 0.03937) * $dpi);
-}
-
-function px2mm($input, $dpi = 300){
-	return (round($input) / $dpi) * 25.4;
-}
-
-
-/** Converts an opacity value between 0-1 (transparent to opaque) to 0-127 (opaque to transparent). */
-function alpha_dec2php($alpha){
-	return 127 - abs($alpha) * 127;
-}
-
-/** Converts an opacity value between 0-127 (opaque to transparent) to 0-1 (transparent to opaque). */
-function alpha_php2dec($alpha){
-	return 1 - (1 * ($alpha / 127));
-}
-
-
-/** Returns TRUE if compiled GD library appears to be v2 or greater */
-function is_gd_v2(){
-	$info	=	gd_info();
-	$gd_ver	=	$info["GD Version"];
-	if(preg_match("#([\d\.]+)#", $gd_ver, $matches) > 0)
-			return	(version_compare($matches[1], "2.0") >= 0) ? true : false;
-	else	return	NULL;
-}
 
 
 /**
@@ -446,5 +417,17 @@ function dump(){
 		$output .= preg_replace('#(</?)pre>#i', '$1 pre >', str_replace($spaces, "\t", print_r(call_user_func('array_disambiguate_empty_values', $a), TRUE)));
 	!headers_sent() ? header('Content-Type: text/plain') : ($output = '<pre>' . $output . '</pre>');
 	echo $output;
+	exit;
+}
+
+
+/**
+ * Spits the JSON-encoded form of a variable to the output buffer and stops script execution.
+ * 
+ * @param mixed $input Whatever needs to be returned to the client in JSON format. 
+ */
+function json($input){
+	header('Content-Type: application/json; charset=UTF-8');
+	echo json_encode($input ?: array());
 	exit;
 }
