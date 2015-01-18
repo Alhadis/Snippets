@@ -664,7 +664,7 @@ function cookie(name, value, options){
  * @return {Element}
  */
 function New(nodeType, obj){
-	var	node	=	document.createElement(nodeType),
+	var	node	=	document.createElement(nodeType), i,
 		absorb	=	function(a, b){
 			for(i in b)
 				if(Object(a[i]) === a[i] && Object(b[i]) === b[i])
