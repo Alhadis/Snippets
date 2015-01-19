@@ -228,8 +228,8 @@ HTMLTableElement.prototype.extract	=	function(){
 
 	/** Next, start collecting our data. */
 	for(i = 0, l = this.tBodies.length; i < l; ++i){
-		(function(body, data){
-			var	row		=	0,
+		(function(body, data, start){
+			var	row		=	start,
 				numRows	=	body.children.length,
 				cells, numCells, c, item;
 
@@ -243,7 +243,7 @@ HTMLTableElement.prototype.extract	=	function(){
 				data.push(item);
 			}
 
-		}(this.tBodies[i], data));
+		}(this.tBodies[i], data, +(!this.tHead && !i)));
 	}
 
 	return data;
