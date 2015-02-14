@@ -1,2 +1,4 @@
 .DS_Store
 .project
+sftp-config.json
+error_log
