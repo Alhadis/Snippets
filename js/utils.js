@@ -312,6 +312,41 @@ String.prototype.toTitleCase	=	function(){
 
 
 /**
+ * Wraps a string to a specified line length.
+ *
+ * Words are pushed onto the following line, unless they exceed the line's total length limit.
+ * @param {Number} length - Number of characters permitted on each line.
+ * @return {Array} An array of fold points, preserving any new-lines in the original text.
+ */
+String.prototype.wordWrap	=	function(length){
+for(var	length	=	length || 80,
+		output	=	[],
+		match,	nl,
+		i		=	0,
+		l		=	this.length
+
+	; i < l; i += length){
+		var segment	=	this.substring(i, i+length);
+
+		/** Segment contains at least one newline. */
+		if(-1 !== (nl = segment.lastIndexOf("\n"))){
+			output.push(segment.substring(0, nl+1));
+			segment	=	segment.substring(nl+1);
+		}
+
+		/** We're attempting to cut on a non-whitespace character. Do something. */
+		if(/\S/.test(this[(i+length)-1]) && (match = segment.match(/\s(?=\S+$)/))){
+			output.push(segment.substr(0, i + length > this.length ? this.length : (match.index+1)));
+			i	=	(i - (match.input.length - match.index))+1;
+		}
+		else output.push(segment);
+	}
+	return output;
+};
+
+
+
+/**
  * Returns the number of words in a string. Hyphenation is ignored: "twenty-two" will be read as two words instead of one.
  * @param {String} input - Text to measure the word count of.
  * @return {Number}
