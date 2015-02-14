@@ -387,7 +387,7 @@ function get_subclasses($value, $slow = false){
  * @access private 
  */
 function array_disambiguate_empty_values($array){
-	if(!is_array($array)) return $array;
+	if(!is_array($array) || $GLOBALS === $array) return $array;
 	foreach($array as $key => $value)
 		if(is_array($value))						$array[$key]	=	call_user_func('array_disambiguate_empty_values', $value);
 		else if(is_bool($value) || $value === NULL)	$array[$key]	=	var_export($value, TRUE);
@@ -415,7 +415,7 @@ function dump(){
 	$output	=	'';
 	foreach(func_get_args() as $a)
 		$output .= preg_replace('#(</?)pre>#i', '$1 pre >', str_replace($spaces, "\t", print_r(call_user_func('array_disambiguate_empty_values', $a), TRUE)));
-	!headers_sent() ? header('Content-Type: text/plain') : ($output = '<pre>' . $output . '</pre>');
+	!headers_sent() ? header('Content-Type: text/plain; charset=UTF-8') : ($output = '<pre>' . $output . '</pre>');
 	echo $output;
 	exit;
 }
