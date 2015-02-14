@@ -6,7 +6,7 @@
  * it works.
  *
  * If you're getting inexplicable runtime errors in IE8 ("Not implemented"), be sure your code's not overwriting
- * a property defined by the subject element's DOM interface.
+ * a property defined by the subject element's DOM interface (examples include "dir", "lang", "id", etc).
  *
  * @param {Function} fn - Pointer to the JavaScript "class"
  * @param {Number} argIndex - Index of the constructor argument that holds the class's subject DOM reference.
