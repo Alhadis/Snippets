@@ -91,6 +91,11 @@ textarea{
 .control{
 	display: none;
 }
+	.control[type="checkbox"]:checked ~ .fold,
+	.control[type="radio"]:not(:checked) ~ .fold{
+		max-height: 0 !important;
+		overflow: hidden;
+	}
 
 .disclosure{
 	cursor: pointer;
@@ -100,9 +105,6 @@ textarea{
 	user-select:			none;
 }
 
-.menu.control:checked ~ ul{
-	max-height: 0 !important;
-}
 
 
 
