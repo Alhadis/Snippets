@@ -110,6 +110,41 @@
 
 
 
+/** Smooth sliding effect for mobile dropdown menus */
+.fold{
+	overflow: hidden;
+	overflow-y: auto;
+
+	max-height: 100vh;
+	max-height: -webkit-calc(	100vh - 3.125em);
+	max-height: -moz-calc(		100vh - 3.125em);
+	max-height: calc(			100vh - 3.125em);
+
+	-webkit-transform:	translateY(0);
+	-moz-transform:		translateY(0);
+	-ms-transform:		translateY(0);
+	-o-transform:		translateY(0);
+	transform:			translateY(0);
+
+	-webkit-transition:	0s step-end max-height,	.3s ease -webkit-transform;
+	-moz-transition:	0s step-end max-height,	.3s ease -moz-transform;
+	-o-transition:		0s step-end max-height,	.3s ease -o-transform;
+	transition:			0s step-end max-height,	.3s ease transform;
+}
+	/** Closed state */
+	.control[type="checkbox"]:checked ~ .fold,
+	.control[type="radio"]:not(:checked) ~ .fold{
+		-webkit-transform:	translateY(-100%);
+		-moz-transform:		translateY(-100%);
+		-ms-transform:		translateY(-100%);
+		-o-transform:		translateY(-100%);
+		transform:			translateY(-100%);
+
+		-webkit-transition-delay:	.3s, 0s;
+		-moz-transition-delay:		.3s, 0s;
+		-o-transition-delay:		.3s, 0s;
+		transition-delay:			.3s, 0s;
+	}
 
 
 /** Segmented navigation bar */
