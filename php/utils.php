@@ -139,6 +139,27 @@ function array_remove_value(){
 }
 
 
+/**
+ * Recursively scan a directory. Behaviour otherwise identical to PHP's scandir function.
+ * 
+ * @param string $path - Directory to scan the contents of.
+ * @return array
+ */
+function rscandir($path){
+	$output	=	array();
+	foreach(scandir($path) as $file){
+
+		#	Skip the current/parent directory pointers.
+		if($file === '.' || $file === '..') continue;
+
+		$filepath = $path . '/' . $file;
+		if(is_dir($filepath))
+			$output		=	array_merge($output, rscandir($filepath));
+		else $output[]	=	$filepath;
+	}
+	return $output;
+}
+
 
 /**	Returns TRUE if a file appears to be of a valid image MIME type. */
 function is_image($file, $webonly = true){
