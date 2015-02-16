@@ -1,0 +1,4 @@
+#!/bin/bash
+# Simple wrapper for stripping metadata from images.
+exiftool $@ "-All=" -overwrite_original
+
