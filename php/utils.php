@@ -333,10 +333,12 @@ function convert_to_bytes($string){
 
 
 /**
- * Calculates the physical distance between two latitude/longitude coordinates.
+ * Calculates the distance in metres between two latitude/longitude coordinates.
  * 
- * Each coordinate should be supplied as an array of two floats representing latitude and longitude, respectively.   
+ * Each coordinate should be supplied as an array of two floats representing latitude and
+ * longitude, respectively. Calculation logic courtesy of Chris Veness @ Movable-Type.
  *
+ * @link http://www.movable-type.co.uk/scripts/latlong.html
  * @param array $from
  * @param array $to
  * @return float
