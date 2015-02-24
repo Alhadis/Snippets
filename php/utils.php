@@ -333,6 +333,24 @@ function convert_to_bytes($string){
 
 
 /**
+ * Calculates the physical distance between two latitude/longitude coordinates.
+ * 
+ * Each coordinate should be supplied as an array of two floats representing latitude and longitude, respectively.   
+ *
+ * @param array $from
+ * @param array $to
+ * @return float
+ */
+function geographic_distance($from, $to){
+	$pi		=	pi();
+	$lat1	=	$from[0]	* $pi / 180;
+	$lat2	=	$to[0]		* $pi / 180;
+	return acos(sin($lat1) * sin($lat2) + cos($lat1) * cos($lat2) * cos(($to[1] - $from[1]) * $pi / 180)) * 6371000;
+}
+
+
+
+/**
  * Truncates a string to a specified number of words.
  *
  * @param string $input String to operate on.
