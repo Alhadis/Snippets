@@ -19,7 +19,12 @@ html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:1
 html{
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
-	text-rendering: optimizeLegibility;
+
+	-webkit-font-feature-settings:	"liga" 1, "calt" 1, "swsh" 1;
+	-moz-font-feature-settings:		"liga=1, calt=1, swsh=1";
+	-moz-font-feature-settings:		"liga" 1, "calt" 1, "swsh" 1;
+	-o-font-feature-settings:		"liga" 1, "calt" 1, "swsh" 1;
+	font-feature-settings:			"liga" 1, "calt" 1, "swsh" 1;
 }
 
 a:link,
