@@ -1,22 +1,4 @@
-/** "Pinches" a row of inline elements to the same line. Useful for columns and slideshows. */
-.pinch		{white-space: nowrap}
-.pinch > *	{white-space: normal}
-
-/** Improves font antialiasing on Mac OS */
-.antialias{
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-}
-
-.content-box{
-	-webkit-box-sizing: content;
-	-webkit-box-sizing: content-box;
-	-moz-box-sizing: content;
-	-moz-box-sizing: content-box;
-	box-sizing: content-box;
-}
-
-
+/** Affixes an element to the centre of its containing element. */
 .vcentre{
 	display:	inline-block;
 	position:	absolute;
@@ -45,8 +27,8 @@
 		height:	0;
 		z-index: 400;
 
-		content:	"";
-		opacity:	0;
+		content: "";
+		opacity: 0;
 
 		-webkit-transition:	.25s opacity ease 0s,	0s width linear .25s,	0s height linear .25s;
 		-moz-transition:	.25s opacity ease 0s,	0s width linear .25s,	0s height linear .25s;
@@ -54,7 +36,7 @@
 		transition:			.25s opacity ease 0s,	0s width linear .25s,	0s height linear .25s;
 	}
 
-	.loader.loading::after{
+	.loader.show::after{
 		width:	100%;
 		height:	100%;
 		opacity: .65;
@@ -199,79 +181,19 @@
 		}
 
 
-
-/*=============================================================================*
-	1.	NON-SPECIALTY
-		Assorted "non-specialty" rulesets that're still too uncommon for boilerplate inclusion.
-===============================================================================*/
-
-/** Strips any generated content from the element */
-.no-gen::before,
-.no-gen::after{
-	content: none !important;
+/** Basic CSS grid */
+.grid{
+	margin-left: -2%; /* This is how much we wish to separate each cell by */
 }
-
-
-
-/** CSS3 helper classes */
-.trans-all{
-	-webkit-transition:		.4s all ease;
-	-moz-transition:		.4s all ease;
-	-o-transition:			.4s all ease;
-	transition:				.4s all ease;
-}
-	.trans-all.slow{
-		-webkit-transition-duration:	.6s;
-		-moz-transition-duration:		.6s;
-		-o-transition-duration:			.6s;
-		transition-duration:			.6s;
+	.grid > *{
+		width: 25%;
+		float: left;
+		padding-left: 2%;
+		outline: 1px solid red;
 	}
 	
-	.trans-all.fast{
-		-webkit-transition-duration:	.2s;
-		-moz-transition-duration:		.2s;
-		-o-transition-duration:			.2s;
-		transition-duration:			.2s;
+	.grid::after{
+		content: "";
+		display: block;
+		clear: both;
 	}
-
-.xform-reset{
-	-webkit-transform:	translate(0);
-	-moz-transform:		translate(0);
-	-ms-transform:		translate(0);
-	-o-transform:		translate(0);
-	transform:			translate(0);
-
-	-webkit-backface-visibility:	hidden;
-	-moz-backface-visibility:		hidden;
-	backface-visibility:			hidden;
-}
-
-
-.bg-fit-x{
-	-webkit-background-size:	100% auto;
-	-khtml-background-size:		100% auto;
-	-moz-background-size:		100% auto;
-	-ms-background-size:		100% auto;
-	-o-background-size:			100% auto;
-	background-size:			100% auto;
-}
-
-.bg-fit-y{
-	-webkit-background-size:	auto 100%;
-	-khtml-background-size:		auto 100%;
-	-moz-background-size:		auto 100%;
-	-ms-background-size:		auto 100%;
-	-o-background-size:			auto 100%;
-	background-size:			auto 100%;
-}
-
-.bg-at-border{
-	-webkit-background-origin:	border;
-	-webkit-background-origin:	border-box;
-	-khtml-background-origin:	border-box;
-	-moz-background-origin:		border;
-	-moz-background-origin:		border-box;
-	-ms-background-origin:		border-box;
-	-o-background-origin:		border-box;
-	background-origin:			border-box;
-}
