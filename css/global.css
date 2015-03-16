@@ -165,6 +165,7 @@ textarea{
 	position: relative;
 	text-align: left;
 	text-indent: -999em;
+	font-style: normal;
 	font-size: 2em;
 	width:	1em;
 	height:	1em;
