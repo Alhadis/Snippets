@@ -35,12 +35,12 @@ label{
 
 <body>
 	<div id="search-bar">
-		<input class="control" type="checkbox" id="sb_close" checked="checked" />
-		<label class="disclosure" for="sb_close"></label>
+		<input class="control" type="checkbox" id="search-close" checked="checked" />
+		<label class="disclosure" for="search-close"></label>
 
 		<input type="search" placeholder="Search&hellip;" value="" id="s" name="s" />
-		<input type="submit" id="sb_submit" value="&#xF002;" />
-		<i id="sb_buffer"></i>
+		<input type="submit" id="search-submit" value="&#x2315;" />
+		<i id="search-buffer"></i>
 	</div>
 
 
@@ -49,10 +49,11 @@ label{
 		<h1>Main body of content</h1>
 	</main>
 
+
 	<script type="text/javascript">
 		(function(){
-			var searchField	=	document.getElementById("s");
-			var searchClose	=	document.getElementById("sb_close");
+			var	searchField	=	document.getElementById("s"),
+				searchClose	=	document.getElementById("search-close");
 
 			/** Shifts input focus to the newly-revealed search pane. */
 			searchClose.addEventListener("change", function(e){
