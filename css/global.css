@@ -110,6 +110,13 @@ textarea{
 	user-select:			none;
 }
 
+.fold{
+	-webkit-transition:	.3s ease max-height;
+	-moz-transition:	.3s ease max-height;
+	-o-transition:		.3s ease max-height;
+	transition:			.3s ease max-height;
+}
+
 
 
 
