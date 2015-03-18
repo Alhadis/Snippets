@@ -72,6 +72,19 @@ function zeroise(value, min){
 }
 
 
+/**
+ * Returns TRUE if a variable is a Number or number-like String.
+ * 
+ * The string-checking is intentionally restricted to "basic" notation only: strings
+ * using advanced notation like hexadecimal, exponential or binary literals are ignored.
+ * E.g., "0b11100100", "0xE4" or "3.1536e+10" would, if supplied as strings, test as FALSE.
+ * 
+ * @param {Mixed} i - Value to inspect
+ * @return {Boolean}
+ */
+function isNumeric(i){
+	return "" !== i && +i == i && (String(i) === String(+i) || !/[^\d\.]+/.test(i));
+}
 
 
 /**
