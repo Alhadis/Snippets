@@ -1,6 +1,8 @@
 #!/bin/bash
 # Because I really, really, really hate these useless files.
 
+IFS=${IFS/ /}
+
 # Parse any options.
 verbose=1
 
