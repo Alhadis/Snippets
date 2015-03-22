@@ -33,18 +33,29 @@ fi
 # Right. Search and destroy.
 for i in $(find ${1:-.} -name "*.DS_Store" -type f); do
 
-	# File isn't writable (read-only or insufficient permissions). Skip it.
-	if [ ! -w $i ]; then
-		if [ $verbose = 1 ]; then printf "    Skipped: %s\n" $i; fi
-		skipped=$(( $skipped + 1 ))
+	filesize=$(stat -f "%z" $i);
+	directory=$(dirname $i);
+	dirmod=$(stat -f "%Sm" -t "%Y%m%d%H%M.%S" $directory)
 
-	else
-		filesize=$(stat -f "%z" $i);
+
+	# Kill the file.
+	unlink $i 2>/dev/null && {
+
+		# Deleted successfully.
 		if [ $verbose = 1 ]; then printf '    Removed: %s (%s bytes)\n' $i $filesize; fi
 		total_filesize=$(( $total_filesize + $filesize ))
-		unlink $i
 		removed=$(( $removed + 1 ))
-	fi
+		
+		# Restore the original modification time of the file's containing directory.
+		touch -t $dirmod $directory
+
+	} || {
+		
+		# File isn't writable (read-only or insufficient permissions). Skip it.
+		if [ $verbose = 1 ]; then printf "    Skipped: %s\n" $i; fi
+		skipped=$(( $skipped + 1 ))
+	}
+
 done;
 
 
