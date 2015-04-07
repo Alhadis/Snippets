@@ -42,14 +42,33 @@ exit; fi
 
 # Subroutine that handles the final line-trimming once input's been resolved.
 do_trim(){
+	finished=
+
+	# Callback triggered when we've finished cycling through our input; or if interactive input's been interrupted by user.
+	end(){
+		printf %s%s $output $L;
+		if [ ! $finished ]; then
+			trap 1 2
+			finished=1
+			exit;
+		fi
+	}
+
+	# Start listening for an interrupt signal.
+	trap end 2;
+
+	# Begin processing standard input
 	output=''
 	eol=$'\n'"Z"
 	while read -r L || [ $({ eol=''; }) ]; do
 		line=$((printf %s%s $L $eol) | sed -E $pattern);
 		output+=${line/%Z/};
 	done
-	printf %s%s $output $L;
+
+	finished=1
+	end
 }
+
 
 # Basic wrapper for echoing an error message to stderr
 error(){
@@ -130,4 +149,4 @@ elif [ $# -gt 0 ]; then
 
 
 # Otherwise, just collect from user's terminal input.
-else do_trim 1>&1; fi
+else do_trim; fi
