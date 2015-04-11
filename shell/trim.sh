@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # Display help if called with -h or --help
 if [[ `echo "$*" | grep -E '(\s|^)(--help|-h)(\s|$)'` != '' ]]; then
@@ -40,33 +40,32 @@ ${B}OPTIONS${b}
 ";
 exit; fi
 
+
 # Subroutine that handles the final line-trimming once input's been resolved.
 do_trim(){
-	finished=
-
-	# Callback triggered when we've finished cycling through our input; or if interactive input's been interrupted by user.
-	end(){
-		printf %s%s $output $L;
-		if [ ! $finished ]; then
-			trap 1 2
-			finished=1
-			exit;
-		fi
-	}
-
-	# Start listening for an interrupt signal.
-	trap end 2;
-
-	# Begin processing standard input
 	output=''
-	eol=$'\n'"Z"
-	while read -r L || [ $({ eol=''; }) ]; do
-		line=$((printf %s%s $L $eol) | sed -E $pattern);
-		output+=${line/%Z/};
-	done
+	stopchar=$'\n'Z;
+	no_nl=
 
-	finished=1
-	end
+	while read -r L || {
+		nl=$'\n'
+
+		# Check if the final character of the original string WASN'T a newline.
+		[ -n "$L" ] && [[ $nl != $(printf %s "$L" | tail -c1 | hexdump | cut -c 9- | head -n1) ]] && {
+			no_nl=1
+		};
+
+		[ -n "$L" ];
+	}; do
+		line=$(printf %s%s $L $stopchar | sed -E $pattern);
+		output+=${line/%Z};
+		
+		[ $no_nl ] && {
+			output=${output/%$'\n'}
+		};
+	done;
+
+	printf %s $output
 }
 
 
@@ -129,15 +128,22 @@ if [ $clipboard ]; then pbpaste | do_trim | pbcopy
 # We've been given a file to trim the contents of.
 elif [ ! -z $file ]; then
 
-	# If the -w flag was set, write the modified contents back to the file (assuming it's writable).
-	if [ $writeback ] && [ -w $file ]; then
-		cat $file | do_trim | tee $file;
+	# -w flag was set
+	if [ $writeback ]; then
 
-	# File couldn't be written to (lack of permission, or the resource was read-only).
-	else
-		error "ERROR: File not writable. Sending to standard output instead."
-		do_trim < $file;
-	fi;
+		# Write the modified contents back to the file.
+		if [ -w $file ]; then
+			cat $file | do_trim | tee $file;
+
+		# File couldn't be written to (lack of permission, or the resource was read-only).
+		else
+			error "ERROR: File not writable. Sending to standard output instead."
+			do_trim < $file;
+		fi
+
+
+	# Not writing back to the file, so just send to standard output instead.
+	else do_trim < $file; fi;
 	
 
 
@@ -148,5 +154,26 @@ elif [ $# -gt 0 ]; then
 	done
 
 
-# Otherwise, just collect from user's terminal input.
-else do_trim; fi
+# Otherwise, just read from STDIN.
+else
+	input=''
+	finished=
+
+	# Callback triggered when stdin's finished being read, or user cancels interactive input
+	end(){
+		if [ ! $finished ]; then
+			echo ${input/%$'\n'} | do_trim
+			trap 1 2
+			finished=1
+			exit;
+		fi
+	}
+
+	trap end 2;
+	while read -r L; do
+		input+=$L$'\n'
+	done;
+
+	finished=1
+	echo ${input/%$'\n'} | do_trim
+fi
