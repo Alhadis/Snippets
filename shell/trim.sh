@@ -31,7 +31,7 @@ ${B}OPTIONS${b}
 
      ${B}Input/Output${b}
        -f ${U}FILE${u}         Use the specified file's content as input
-       -w              If -f was set, write the modified data back to the source file
+       -w              If -f was set, write the modified data back to the source file, suppressing standard output
        -o ${U}OUTPUT${u}       Path to write the trimmed text to. If omitted, echoes straight to standard input. Ignored if -w is used
        -c              Operate directly on the contents of the system's clipboard, ignoring all further arguments
 
@@ -133,7 +133,7 @@ elif [ ! -z $file ]; then
 
 		# Write the modified contents back to the file.
 		if [ -w $file ]; then
-			cat $file | do_trim | tee $file;
+			cat $file | do_trim | tee $file > /dev/null;
 
 		# File couldn't be written to (lack of permission, or the resource was read-only).
 		else
