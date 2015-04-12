@@ -20,8 +20,8 @@ ${B}DESCRIPTION${b}
      The ${B}trim${b} utility simply strips leading and trailing whitespace from each line of a supplied string.
      If passed no arguments, the utility reads from standard input instead.
 
-     The trimmed text is echoed to standard output by default. Use ${B}-o${b} to write the results to disk,
-     or ${B}-w${b} to modify the file the text was originally sourced from using ${B}-f${b}.
+     The trimmed text is echoed to standard output by default. If either ${B}-c${b} or ${B}-wf${b} was passed, the modified
+     content is instead written back to the clipboard or source file, respectively.
 
 ${B}OPTIONS${b}
      ${B}Processing control${b}
@@ -32,7 +32,6 @@ ${B}OPTIONS${b}
      ${B}Input/Output${b}
        -f ${U}FILE${u}         Use the specified file's content as input
        -w              If -f was set, write the modified data back to the source file, suppressing standard output
-       -o ${U}OUTPUT${u}       Path to write the trimmed text to. If omitted, echoes straight to standard input. Ignored if -w is used
        -c              Operate directly on the contents of the system's clipboard, ignoring all further arguments
 
      ${B}Other${b}
@@ -87,14 +86,13 @@ mode=255
 
 
 # Assign any options that we were passed.
-while getopts lrt:f:wo:c option; do
+while getopts lrt:f:wc option; do
 	case $option in
 	l)	mode=$(( $mode ^ 1 ))	;;	#	-l	Trim only the left-hand side of each line
 	r)	mode=$(( $mode ^ 2 ))	;;	#	-r	Trim only the right-hand side
 	t)	chars=$OPTARG			;;	#	-t	Specify a custom regex to use when trimming characters from each side
 	f)	file=$OPTARG			;;	#	-f	Use the specified file's content as input
 	w)	writeback=1				;;	#	-w	Write over the source file if -f was enabled
-	o)	output=$OPTARG			;;	#	-o	Write trimmed content to given file
 	c)	clipboard=1				;;	#	-c	Read/write to and from system clipboard
 	esac
 done
