@@ -99,7 +99,6 @@ textarea{
 	.control[type="checkbox"]:checked ~ .fold,
 	.control[type="radio"]:not(:checked) ~ .fold{
 		max-height: 0 !important;
-		overflow: hidden;
 	}
 
 .disclosure{
@@ -111,6 +110,7 @@ textarea{
 }
 
 .fold{
+	overflow: hidden;
 	-webkit-transition:	.3s ease max-height;
 	-moz-transition:	.3s ease max-height;
 	-o-transition:		.3s ease max-height;
