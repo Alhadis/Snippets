@@ -204,6 +204,29 @@ function cssUnitSupport(unit){
 
 
 /**
+ * Returns TRUE if browser understands a given CSS selector.
+ * Not supported in IE6-7 (which always report TRUE, even for unsupported selectors).
+ *
+ * @param {String} s - Selector to test support for. E.g., "input:checked"
+ * @return {Boolean}
+ */
+function cssSelectorSupport(s){
+	var	d	=	document,
+		b	=	d.body,
+		r	=	s+"{}",
+		s	=	b.appendChild(d.createElement("style")),
+		h	=	s.sheet, o;
+
+		h ? (s.textContent = r, h = s.sheet) : ((h = s.styleSheet).cssText = r);
+		o	=	0 !== (h.cssRules || h.rules).length;
+		b.removeChild(s);
+		return o;
+}
+
+
+
+
+/**
  * Returns the width of the scrollbars being displayed by this user's OS/device.
  * @return {Number}
  */
