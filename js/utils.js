@@ -681,10 +681,6 @@ function rgba(r, g, b, a){
 
 
 
-/** Compressed version for use in production sites. */
-function rgba(r,n,t,o){var x=String.fromCharCode,e=function(r,n){return Array(r+1).join(n||"\0")},a=function(r){return String.fromCharCode(r>>>24,r>>>16&255,r>>>8&255,255&r)},f="\x89PNG\15\12\32\12\0\0\0\15IHDR\0\0\0\4\0\0\0\4\10\6\0\0\0\xA9\xF1\x9E~\0\0\0O",u="IDAT\10\35\1D\0\xBB\xFF",c="\1"+x(r)+x(n)+x(t)+x(o)+e(12)+"\2"+e(2,e(16)+"\2")+e(16),h=a(function(r){for(var n=1,t=i=0,o=r.length,x=65521;o>i;++i)n=(n+r.charCodeAt(i))%x,t=(t+n)%x;return t<<16|n}(c)),C=a(function(r){for(var n=-1,t=0;t<r.length;++t)for(var o=256|r.charCodeAt(t);1!=o;o>>>=1)n=n>>>1^(1&(n^o)?3988292384:0);return~n}(u+c+h));return function(r){for(var n="",t="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",o=5,x=8*r.length+5;x>o;o+=6)n+=t[(r.charCodeAt(~~(o/8)-1)<<8|r.charCodeAt(~~(o/8)))>>7-o%8&63];for(;n.length%4;n+="=");return n}(f+u+c+h+C+e(4)+"IEND\xAEB`\x82")}
-
-
 
 
 /** Decodes a UTF-8 string into a stream of single-byte sequences. */
