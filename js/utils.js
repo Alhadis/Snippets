@@ -93,7 +93,7 @@ function isNumeric(i){
  * @return {String} A reader-friendly representation of filesize.
  */
 function formatBytes(input){
-	var bytes = new Array("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB");
+	var val, bytes = new Array("B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB");
 	for(val in bytes) if(input >= 1024) input = input / 1024; else break;
 	return Math.round(input*100)/100+" "+bytes[val];
 }
@@ -107,10 +107,10 @@ function formatBytes(input){
  * @return {Object} A hash enumerated with key/value pairs found in the parsed string.
  */
 function unserialiseQuery(q){
-	var q	=	q || document.location.search;
+	q	=	q || document.location.search;
 	if(!q) return {};
 	q	=	q.replace(/^\?/, "").split(/&/g);
-	for(var output = {}, i = 0; i < q.length; ++i){
+	for(var q, output = {}, i = 0; i < q.length; ++i){
 		if(!i) continue;
 		q[i]	=	q[i].split(/=/);
 		output[q[i][0]]	=	q[i].slice(1).join("=");
@@ -177,9 +177,9 @@ function parseDuration(t){
  * @return {Boolean} TRUE if the browser supports the property in either prefixed or unprefixed form. 
  */
 function cssSupport(n){
-	var s	=	document.documentElement.style;
+	s	=	document.documentElement.style;
 	if(n.toLowerCase() in s) return true;
-	for(var p = "Webkit Moz Ms O Khtml", p = (p.toLowerCase() + p).split(" "), i = 0; i < 10; ++i)
+	for(var s, p = "Webkit Moz Ms O Khtml", p = (p.toLowerCase() + p).split(" "), i = 0; i < 10; ++i)
 		if(p[i]+n in s) return true;
 	return false;
 }
@@ -231,14 +231,14 @@ function cssSelectorSupport(s){
  * @return {Number}
  */
 function getScrollbarWidth(){
-	var el	=	document.createElement("div");
+	var el	=	document.createElement("div"), output;
 	el.style.width		=	"120px";
 	el.style.height		=	"60px";
 	el.style.overflow	=	"auto";
 	el.innerHTML		=	Array(150).join(" W ");
 	(document.body || document.documentElement).appendChild(el);
 
-	var output	=	el.offsetWidth - el.scrollWidth;
+	output	=	el.offsetWidth - el.scrollWidth;
 	el.parentNode.removeChild(el);
 	return output;
 }
@@ -406,8 +406,7 @@ function wordCount(input){
 function walkTextNodes(el, fn, depth){
 	depth	=	depth || 0;
 
-	var children	=	Array.prototype.slice.call(el.childNodes, 0);
-	for(var n, l = children.length, i = 0; i < l; ++i){
+	for(var children = Array.prototype.slice.call(el.childNodes, 0), n, l = children.length, i = 0; i < l; ++i){
 		n	=	children[i];
 		if(n.nodeType === Node.TEXT_NODE)
 			fn.call(this, n, depth);
@@ -428,12 +427,13 @@ function walkTextNodes(el, fn, depth){
 function injectWordBreaks(element, limit){
 
 	walkTextNodes(element, function(node){
-		var original	=	node;
-		var terminators	=	'.,+*?$|#{}()\\^\\-\\[\\]\\\\\/!%\'"~=<>_:;\\s';
-		var splitAt		=	new RegExp("([^" + terminators + "]{" + limit + "})", "g");
+		var	original	=	node,
+			terminators	=	'.,+*?$|#{}()\\^\\-\\[\\]\\\\\/!%\'"~=<>_:;\\s',
+			splitAt		=	new RegExp("([^" + terminators + "]{" + limit + "})", "g"),
 		
 		/** Collect a list of insertion points. */
-		var breakPoints	=	[];
+			breakPoints	=	[];
+
 		while(splitAt.exec(node.data))
 			breakPoints.push(splitAt.lastIndex);
 	
@@ -490,9 +490,9 @@ function isIE(version, operand){
 		">":	"gt ",
 		">=":	"gte ",
 		"!=":	"!"
-	};
+	},
 
-	var div			=	document.createElement("div");
+	div				=	document.createElement("div");
 	div.innerHTML	=	"<!--[if "+(operands[operand] || "")+"IE "+version+"]><i></i><![endif]-->";
 	return div.getElementsByTagName("i").length;
 }
@@ -529,8 +529,8 @@ function camelToKebabCase(string){
  * @param {Object} actions - An object map of callbacks assigned by key.
  */
 function hashActions(actions){
-	var addEvent	=	document.addEventListener || function(e,f){this.attachEvent("on"+e,f);};
-	for(var id in actions) (function(id, callback){
+	var id, addEvent	=	document.addEventListener || function(e,f){this.attachEvent("on"+e,f);};
+	for(id in actions) (function(id, callback){
 		for(var id = camelToKebabCase(id), links = document.querySelectorAll('a[href="#' + id + '"]'), l = links.length, i = 0; i < l; ++i)
 			addEvent.call(links[i], "click", function(e){
 				e.preventDefault ? e.preventDefault() : e.returnValue = false;
