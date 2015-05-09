@@ -1,6 +1,6 @@
 #!/bin/sh
 
-image_ext='png|gif|jpe?g$'
+image_ext='png|gif|jpeg|jpg$'
 
 for i in *; do
 	type=$(file -b --mime-type "$i" | grep -Eo "/$image_ext/" | tr -d '/' | sed -e 's/jpeg/jpg/')
