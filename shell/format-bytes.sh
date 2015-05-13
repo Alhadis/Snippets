@@ -4,65 +4,13 @@
 
 # Display help if called with -h or --help
 if [[ `echo "$*" | grep -E '(\s|^)(--help|-h)(\s|$)'` != '' ]]; then
-
-B=$(tput bold)	# Bold type
-b=$(tput sgr0)	# Normal formatting
-U=$(tput smul)	# Underline - Start
-u=$(tput rmul)	# Underline - Stop
-
-
-echo "${B}
-NAME
-     format-bytes${b} -- Formats a number of bytes for human-readable output.
-
-${B}SYNOPSIS
-     format-bytes ${b}[${B}-lpk${b}] [${B}-d${b} ${U}decimal-length${u}] [${B}-f${b} ${U}file${u}] [${U}bytes${u}]
-
-${B}DESCRIPTION${b}
-     The ${B}format-bytes${b} utility takes a number of bytes either from a file, command line, or
-     standard input, and formats them using the most reader-friendly unit of measurement.
-     For instance, the following line yields a result of \"4.4 MB\" (or \"4.4 MBs\" if the -p
-     option is set):
-
-          $ format-bytes 4358361
-
-     If ${U}bytes${u} is omitted, the program reads from standard input instead:
-
-          $ echo '4358361' | format-bytes
-
-
-     The following options are available:
-
-     ${B}-d${b}  ${U}num${u}      Specifies maximum decimal length (${U}num${u} digits after the decimal point).
-
-     ${B}-f${b}  ${U}file${u}     Read bytes from a file's size instead of an arbitrary amount.
-
-     ${B}-l${b}           Use long unit names (\"Kilobytes\" instead of \"KB\", etc).
-
-     ${B}-p${b}           Pluralises short units when necessary; useful only if ${B}-l${b} is off. Note that
-                  byte units will never be pluralised, so the program won't generate an
-                  uncomfortable-looking result like \"480 Bs\".
-
-     ${B}-k${b}           By default, ${B}format-bytes${b} strips any redundant zeroes after the decimal point
-                  as a result of meeting the required decimal length (set by the ${B}-l${b} option).
-                  Setting ${B}-k${b} overrides this behaviour so formatted values like \"20 KB\" will
-                  be printed as \"20.00 KB\". Note this also affects \"partial\" decimal values
-                  like \"20.30 KB\" (which would ordinarily be formatted as \"20.3 KB\" with this
-                  option off).
-
-${B}EXAMPLES${b}
-     Basic usage:
-           $ format-bytes 1600           # 1.56 KB
-
-     Use longer measurement units:
-           $ format-bytes -l 1600        # 1.56 Kilobytes
-
-     Add pluralisation for short units (no effect if ${B}-l${b} is set):
-           $ format-bytes -p 1600        # 1.56 KBs
-
-     Read from a file's size instead:
-           $ format-bytes -f README.md
-";
+	file=$(basename "$0");
+	man "$file" || {
+		tput setaf 9;
+		>&2 printf 'ERROR: Could not locate manual page for "%s".\n' $(basename $file);
+		tput sgr0;
+		exit 1;
+	};
 exit; fi
 
 # End of help/documentation

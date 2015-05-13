@@ -1,0 +1,30 @@
+.TH NAME 1
+.SH NAME
+\fBtrim\fP \-\- Trim leading and trailing whitespace
+.SH SYNOPSIS
+\fBtrim\fP [\fB\-lrc\fP] [\fB\-t\fP \fItrim-chars\fP] \fIstring\-1\fP [\fIstring\-2\fP ...]
+.SH DESCRIPTION
+The \fBtrim\fP utility simply strips leading and trailing whitespace from each line of a supplied string.
+If passed no arguments, the utility reads from standard input instead.
+.P
+The trimmed text is echoed to standard output by default.
+If either \fB-c\fP or \fB-wf\fP was passed, the modified content is instead written back to the clipboard or source file, respectively.
+.SH OPTIONS
+.TP 3
+\fBProcessing control\fP
+\-l            Trim only the left\-hand side of each line
+.br
+\-r            Trim only the right\-hand side
+.br
+\-t \fIchars\fP      Regex for trimming each side of a text row.
+Defaults to '[\\t\\x20]+' (tabs, spaces)
+.TP 3
+\fBInput/Output\fP
+\-f \fIfile\fP       Use the specified \fIfile\fP's content as input
+.br
+\-w            If \fB-f\fP was set, write the modified data back to the source file, suppressing standard output
+.br
+\-c            Operate directly on the contents of the system's clipboard, ignoring all further arguments
+.TP 3
+\fBOther\fP
+\-h, \-\-help    Display this help page and exit

@@ -2,41 +2,13 @@
 
 # Display help if called with -h or --help
 if [[ `echo "$*" | grep -E '(\s|^)(--help|-h)(\s|$)'` != '' ]]; then
-
-B=$(tput bold)	# Bold type
-b=$(tput sgr0)	# Normal formatting
-U=$(tput smul)	# Underline - Start
-u=$(tput rmul)	# Underline - Stop
-
-
-echo "${B}
-NAME
-     trim${b} -- Trim leading and trailing whitespace
-
-${B}SYNOPSIS
-     trim ${b}[-${B}lrc${b}] [-${B}t${b}] \"${U}string-1${u}\" [\"${U}string-2${u}\" ...]
-
-${B}DESCRIPTION${b}
-     The ${B}trim${b} utility simply strips leading and trailing whitespace from each line of a supplied string.
-     If passed no arguments, the utility reads from standard input instead.
-
-     The trimmed text is echoed to standard output by default. If either ${B}-c${b} or ${B}-wf${b} was passed, the modified
-     content is instead written back to the clipboard or source file, respectively.
-
-${B}OPTIONS${b}
-     ${B}Processing control${b}
-       -l              Trim only the left-hand side of each line
-       -r              Trim only the right-hand side
-       -t ${U}TRIM_CHARS${u}   Regex for trimming each side of a text row. Defaults to '[\t\x20]+' (tabs, spaces)
-
-     ${B}Input/Output${b}
-       -f ${U}FILE${u}         Use the specified file's content as input
-       -w              If -f was set, write the modified data back to the source file, suppressing standard output
-       -c              Operate directly on the contents of the system's clipboard, ignoring all further arguments
-
-     ${B}Other${b}
-       -h, --help      Display this help page and exit
-";
+	file=$(basename "$0");
+	man "$file" || {
+		tput setaf 9;
+		>&2 printf 'ERROR: Could not locate manual page for "%s".\n' $(basename $file);
+		tput sgr0;
+		exit 1;
+	};
 exit; fi
 
 
