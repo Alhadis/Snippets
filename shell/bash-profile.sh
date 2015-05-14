@@ -4,6 +4,7 @@ alias l='ls -alh'
 alias g='git status'
 alias u='pbpaste | uglifyjs --mangle 2>/dev/null | pbcopy'
 alias strip-meta='exiftool $@ "-All=" -overwrite_original'
+alias fuck-this-shit='git reset --hard HEAD; git clean -fd'
 
 
 # Global function for full-screening the terminal window.
