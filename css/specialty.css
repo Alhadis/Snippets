@@ -92,6 +92,53 @@
 
 
 
+/** Embedded SVG images too complex or rare for integrating into an icon font */
+.sigil{
+	position: relative;
+	cursor: pointer;
+	z-index: 2;
+	text-align: center;
+	font-size: 1.5em;
+}
+	/** Aspect ratio */
+	.sigil::before{
+		content: "";
+		display: block;
+		padding-top: 100%;
+	}
+
+	/** Actual SVG element */
+	.sigil > svg{
+		position: absolute;
+		top:	0;
+		left:	0;
+		width:	100%;
+		height:	100%;
+		z-index: 3;
+	}
+	
+	/** Label, if any */
+	.sigil > span{
+		position: absolute;
+		display: block;
+		top:	50%;
+		left:	0;
+		right:	0;
+		z-index: 4;
+
+		-webkit-transform:	translateY(-50%);
+		-moz-transform:		translateY(-50%);
+		-ms-transform:		translateY(-50%);
+		-o-transform:		translateY(-50%);
+		transform:			translateY(-50%);
+
+		-webkit-backface-visibility:	hidden;
+		-moz-backface-visibility:		hidden;
+		backface-visibility:			hidden;
+	}
+
+
+
 /** Smooth sliding effect for mobile dropdown menus */
 .fold{
 	overflow: hidden;
