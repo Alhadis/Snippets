@@ -1,6 +1,7 @@
 
 # Global aliases
 alias l='ls -alh'
+alias bc='bc -l'
 alias g='git status'
 alias u='pbpaste | uglifyjs --mangle 2>/dev/null | pbcopy'
 alias strip-meta='exiftool $@ "-All=" -overwrite_original'
