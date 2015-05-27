@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Create the "min" directory if it doesn't already exist
+[ ! -d min ] && { mkdir min; }
+
+
 # Stylesheets
 cat css/fonts.css css/global.css css/main.css | cleancss --skip-advanced -o min/min.css
 
