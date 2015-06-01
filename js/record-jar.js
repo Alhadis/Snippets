@@ -212,7 +212,11 @@
 
 
 
-	/** Export */
-	window.RecordJar	=	RecordJar;
+	/** NodeJS */
+	if("undefined" === typeof window)
+		module.exports	=	RecordJar;
+
+	/** Browser/DOM */
+	else window.RecordJar = RecordJar;
 
 }());
