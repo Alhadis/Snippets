@@ -9,6 +9,7 @@ alias fuck-this-shit='git reset --hard HEAD; git clean -fd'
 alias lipsum='lorem-ipsum 10 paragraphs'
 alias fit-chrome='osascript -e '"'"'tell first window of application "Google Chrome" to set bounds to {0, 0, 1440, 820}'"'"
 alias apl='apl --noColor'
+alias md5='md5 -q'
 
 
 # Global function for full-screening the terminal window.
