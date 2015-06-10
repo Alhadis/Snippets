@@ -3,6 +3,14 @@
 
 IFS=${IFS/ /}
 
+
+# Check for "-h" or "--home" long-option
+if [[ `echo "$*" | grep -E '(\s|^)(--home|-h)(\s|$)'` != '' ]]; then
+	dsclean "$HOME" 2>/dev/null;
+	exit;
+fi;
+
+
 # Parse any options.
 verbose=1
 
