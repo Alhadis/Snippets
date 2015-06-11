@@ -46,7 +46,8 @@ var GAEvents	=	function(config){
 
 
 	/** Shim for Element.matches method */
-	Element.prototype.matches	= Element.prototype.matches || webkitMatchesSelector || mozMatchesSelector || msMatchesSelector || oMatchesSelector || function(selector){
+	var el	=	Element.prototype;
+	el.matches	= el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector || el.oMatchesSelector || function(selector){
 		var matches	=	(this.document || this.ownerDocument).querySelectorAll(selector), i	= 0;
 		while(matches[i] && this !== matches[i]) i++;
 		return !!matches[i];
