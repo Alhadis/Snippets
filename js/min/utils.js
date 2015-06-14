@@ -38,7 +38,7 @@ function formatBytes(B){var r,e=new Array("B","KB","MB","GB","TB","PB","EB","ZB"
 
 
 
-/** Parses a well-formed URL query string into an associative array. */
+/** Parses a well-formed URL query string into an object hash. */
 function unserialiseQuery(e){e=e||document.location.search;if(!e)return{};e=e.replace(/^\?/,"").split(/&/g);for(var i={},n=0,e;n<e.length;++n){if(!n)continue;e[n]=e[n].split(/=/);i[e[n][0]]=e[n].slice(1).join("=")}return i}
 
 

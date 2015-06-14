@@ -101,7 +101,7 @@ function formatBytes(input){
 
 
 /**
- * Parses a well-formed URL query string into an associative array.
+ * Parses a well-formed URL query string into an object hash.
  * 
  * @param {String} q - If supplied, will be used instead of the current document's own URL.
  * @return {Object} A hash enumerated with key/value pairs found in the parsed string.
