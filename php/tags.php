@@ -97,7 +97,14 @@ function tw_share_link($text){
  * @param string $id - Google Analytics ID (e.g., "UA-47377755-3")
  * @version 1.0 - Added 2015-05-25
  */
-function google_analytics($id){ ?>
+function google_analytics($id){
+
+	# No ID passed? Stub the GA function to prevent runtime errors.
+	if(!$id): ?> 
+<script>window.ga = function(){};</script><?php
+
+	# Otherwise, inject the script normally.
+	else: ?> 
 <script>
 (function(i,s,o,g,r,a,m){i["GoogleAnalyticsObject"]=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -105,6 +112,7 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,"script","//www.google-analytics.com/analytics.js","ga");
 ga("create", "<?= $id ?>", "auto");
 ga("send", "pageview");
-</script> <?php
+</script><?php
+	endif;
 	echo PHP_EOL;
 }
