@@ -80,6 +80,7 @@ function fb_share_link($params = array()){
 }
 
 
+
 /**
  * Generates a URL for sharing a message on Twitter.
  *
@@ -88,6 +89,35 @@ function fb_share_link($params = array()){
  */
 function tw_share_link($text){
 	return htmlspecialchars('https://twitter.com/home?status=' . urlencode(urldecode($text)));
+}
+
+
+
+/**
+ * Generates an escaped and URL-encoded mailto: link, ready to inject into an href attribute.
+ *
+ * @param array|string $params {
+ *     @type string        $to          Recipient's e-mail address
+ *     @type string        $subject     Initial subject line
+ *     @type string        $body        Initial body text
+ * }
+ */
+function mailto_link($params = array()){
+	
+	# If passed a string, treat it as the $to parameter.
+	if(is_string($params))
+		$params	=	array('to' => $params);
+
+
+	foreach($params as $key => $value)
+		$params[$key]	=	html_entity_decode($value);
+	
+	# Don't include the recipient's e-mail address in the query parameters.
+	$to	=	$params['to'];
+	unset($params['to']);
+
+	$params	=	http_build_query($params);
+	return htmlspecialchars(str_replace('+', '%20', sprintf('mailto:%1$s%2$s', $to, $params ? '?'.$params : '')));
 }
 
 
