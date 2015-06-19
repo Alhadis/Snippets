@@ -60,20 +60,21 @@ window._fbq.push(["track", "PixelInitialized", {}]);
 /**
  * Generates a URL for sharing a link on Facebook with customised message/s.
  * 
- * @param string	$app_id			- Facebook app's ID
- * @param string	$link			- URL to be shared by user
- * @param string	$picture		- URL pointing to the link's thumbnail image
- * @param string	$name			- Link's title
- * @param string	$caption		- Text displayed beneath title
- * @param string	$description	- A paragraph elaborating on the nature of the link
- * @param string	$redirect_uri	- URL to direct the user to after posting $link
+ * @param array $params {
+ *     Array of parameters:
  *
+ *     @type string        $app_id          Facebook app's ID
+ *     @type string        $link            URL to be shared by user
+ *     @type string        $picture         URL pointing to the link's thumbnail image
+ *     @type string        $name            Link's title
+ *     @type string        $caption         Text displayed beneath title
+ *     @type string        $description     A paragraph elaborating on the nature of the link
+ *     @type string        $redirect_uri    URL to direct the user to after posting $link
+ * }
  * @return {string} The escaped and URL-encoded link, ready for echoing to an HREF attribute.
  */
-function fb_share_link($app_id, $link, $picture, $name, $caption, $description, $redirect_uri){
-	$params	=	compact(explode(' ', 'app_id link picture name caption description redirect_uri'));
-	foreach($params as $key => $value)
-		$params[$key]	=	html_entity_decode($value);
+function fb_share_link($params = array()){
+	$params	=	array_map('html_entity_decode', $params);
 
 	return htmlspecialchars('https://www.facebook.com/dialog/feed?' . http_build_query($params));
 }
