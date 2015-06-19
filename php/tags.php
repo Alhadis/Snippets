@@ -109,9 +109,8 @@ function mailto_link($params = array()){
 		$params	=	array('to' => $params);
 
 
-	foreach($params as $key => $value)
-		$params[$key]	=	html_entity_decode($value);
-	
+	$params	=	array_map('html_entity_decode', $params);
+
 	# Don't include the recipient's e-mail address in the query parameters.
 	$to	=	$params['to'];
 	unset($params['to']);
