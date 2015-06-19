@@ -3,7 +3,8 @@
 <IfModule mod_rewrite.c>
 	RewriteEngine On
 	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteRule ^(favicon\.ico|browserconfig\.xml|manifest\.json|(?:(?:android-chrome|apple-touch-icon|favicon|mstile)(?:-\d+x\d+|-precomposed)?)\d+\.png)$ src/img/icons/$1 [L]
+	RewriteRule ^(browserconfig\.xml|manifest\.json)$ src/img/icons/$1 [L]
+	RewriteRule ^((?:android-chrome|apple-touch-icon|favicon|mstile)(?:-\d+x\d+|-precomposed)?)(?:-\d+)?\.(ico|png)$ src/img/icons/$1.$2 [L]
 </IfModule>
 
 
