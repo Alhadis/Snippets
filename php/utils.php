@@ -401,6 +401,19 @@ function mb_chr($ascii){
 
 
 /**
+ * Normalises newlines in a string, replacing all Windows/Unix-style line-breaks with a consistent EOL terminator.
+ *
+ * @param string $input - String to operate upon
+ * @param string $eol - EOL marker to use for each newline.
+ * @return string
+ */
+function convert_eol($input, $eol = PHP_EOL){
+	return preg_replace('#\n#', $eol, preg_replace('#\r\n|\r#', "\n", $input));
+}
+
+
+
+/**
  * Returns an array of all a class's subclasses, if any.
  * 
  * @param class $value Class reference to retrieve subclasses of.
