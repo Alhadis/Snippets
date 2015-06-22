@@ -11,6 +11,7 @@ alias fit-chrome='osascript -e '"'"'tell first window of application "Google Chr
 alias html-day-options='html-option-list -w 2 {1..31} | pbcopy';
 alias apl='apl --noColor'
 alias md5='md5 -q'
+alias php='/Applications/MAMP/bin/php/php5.6.7/bin/php'
 
 
 # Global function for full-screening the terminal window.
