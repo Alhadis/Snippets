@@ -77,7 +77,8 @@ function cssSelectorSupport(e){var t=document,s=t.body,l=e+"{}",e=s.appendChild(
  * Returns the width of the scrollbars being displayed by this user's OS/device.
  * @return {Number}
  */
-function getScrollbarWidth(){var e=document.createElement("div"),t;e.style.width="120px";e.style.height="60px";e.style.overflow="auto";e.innerHTML=Array(150).join(" W ");(document.body||document.documentElement).appendChild(e);t=e.offsetWidth-e.scrollWidth;e.parentNode.removeChild(e);return t}
+function getScrollbarWidth(){var e=document,t=e.createElement("div"),o=t.style,r=120,d;o.width=o.height=r+"px";o.overflow="auto";t.innerHTML=Array(r*5).join(" W ");(e.body||e.documentElement).appendChild(t);d=t.offsetWidth-t.scrollWidth;t.parentNode.removeChild(t);return d}
+
 
 
 

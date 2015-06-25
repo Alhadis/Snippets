@@ -231,16 +231,21 @@ function cssSelectorSupport(s){
  * @return {Number}
  */
 function getScrollbarWidth(){
-	var el	=	document.createElement("div"), output;
-	el.style.width		=	"120px";
-	el.style.height		=	"60px";
-	el.style.overflow	=	"auto";
-	el.innerHTML		=	Array(150).join(" W ");
-	(document.body || document.documentElement).appendChild(el);
+	var	DOC		=	document,
+		el		=	DOC.createElement("div"),
+		style	=	el.style,
+		size	=	120,
+		result;
 
-	output	=	el.offsetWidth - el.scrollWidth;
+	style.width			=
+	style.height		=	size+"px";
+	style.overflow		=	"auto";
+	el.innerHTML		=	Array(size*5).join(" W ");
+	(DOC.body || DOC.documentElement).appendChild(el);
+
+	result	=	el.offsetWidth - el.scrollWidth;
 	el.parentNode.removeChild(el);
-	return output;
+	return result;
 }
 
 
