@@ -16,18 +16,24 @@ String.prototype.trim	=	String.prototype.trim || function(){return this.replace(
 
 
 /** Store "constants" on the window object to flag specific versions of Explorer. */
-(function(win){
-	for(var i = 6; i < 10; ++i){
-		if(function(v){
-			var d		=	document.createElement("div");
-			d.innerHTML	=	"<!--[if IE "+v+"]><i></i><![endif]-->";
-			return d.getElementsByTagName("i").length;
-		}(i))
+(function(){
+	var WIN			=	window,
+		DOC			=	document,
+		IE_VERSION	=	"IE_VERSION",
+		i			=	6;
 
-		win["IS_IE"+i]		=	true,
-		win["IE_VERSION"]	=	i;
-	}
-}(window));
+	for(; i < 10; ++i) if(function(v){
+		var d		=	DOC.createElement("div");
+		d.innerHTML	=	"<!--[if IE "+v+"]><i></i><![endif]-->";
+		return d.getElementsByTagName("i").length;
+	}(i))
+		WIN["IS_IE" + i ]	=	true,
+		WIN[ IE_VERSION ]	=	i;
+
+
+	/** Might as well flag the root element with CSS classes while we're here. */
+	DOC.documentElement.classList.add("ie", "ie"+WIN[ IE_VERSION ]);
+}());
 
 
 
