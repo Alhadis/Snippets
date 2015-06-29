@@ -5,7 +5,7 @@ alias bc='bc -l'
 alias g='git status'
 alias u='pbpaste | uglifyjs --mangle 2>/dev/null | pbcopy'
 alias strip-meta='exiftool $@ "-All=" -overwrite_original'
-alias fuck-this-shit='git reset --hard HEAD; git clean -fd'
+alias fuck-this-shit='git stash; git stash drop; git gc; git prune -v;'
 alias lipsum='lorem-ipsum 10 paragraphs'
 alias fit-chrome='osascript -e '"'"'tell first window of application "Google Chrome" to set bounds to {0, 0, 1440, 820}'"'"
 alias html-day-options='html-option-list -w 2 {1..31} | pbcopy';
