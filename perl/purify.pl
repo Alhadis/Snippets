@@ -84,5 +84,6 @@ while(<>){
 
 	# Finally, normalise some oddities
 	$line =~	s/''/"/g;
+	$line =~	s/\x{20}{2,}/ /g;
 	say $line;
 }
