@@ -3,6 +3,7 @@
 alias l='ls -alh'
 alias bc='bc -l'
 alias g='git status'
+alias p='pbpaste | purify | trim | pbcopy'
 alias u='pbpaste | uglifyjs --mangle 2>/dev/null | pbcopy'
 alias strip-meta='exiftool $@ "-All=" -overwrite_original'
 alias fuck-this-shit='git stash; git stash drop; git gc; git prune -v;'
