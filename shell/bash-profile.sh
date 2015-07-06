@@ -2,6 +2,7 @@
 # Global aliases
 alias l='ls -alh'
 alias bc='bc -l'
+alias gl='git log'
 alias g='git status'
 alias p='pbpaste | purify | trim | pbcopy'
 alias u='pbpaste | uglifyjs --mangle 2>/dev/null | pbcopy'
