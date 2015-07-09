@@ -1,5 +1,8 @@
 #!/bin/sh
 
+# Switch the script's current directory
+cd `dirname $0`;
+
 # Neuter the internal field separator
 IFS=''
 
