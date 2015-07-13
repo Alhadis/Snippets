@@ -12,7 +12,6 @@ alias lipsum='lorem-ipsum 10 paragraphs'
 alias fit-chrome='osascript -e '"'"'tell first window of application "Google Chrome" to set bounds to {0, 0, 1440, 820}'"'"
 alias html-day-options='html-option-list -w 2 {1..31} | pbcopy';
 alias cpan='sudo cpan'
-alias apl='apl --noColor'
 alias md5='md5 -q'
 
 
