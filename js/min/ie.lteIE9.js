@@ -13,6 +13,7 @@
 if(!Array.prototype.forEach){Array.prototype.forEach=function(r,o){if(typeof r!=="function")throw new TypeError(r+" is not a function");if(this==null)throw new TypeError('"this" is null or undefined.');var t,i=0,n=Object(this),e=n.length>>>0;while(i<e){if(i in n)r.call(o,n[i],i,n);++i}}}
 Date.now				=	Date.now || function(){return +new Date};
 String.prototype.trim	=	String.prototype.trim || function(){return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");};
+Object.defineProperties	=	Object.defineProperties || function(obj, props){for(var i in props) Object.defineProperty(obj, i, props[i]);};
 
 
 /** Store "constants" on the window object to flag specific versions of Explorer. */
