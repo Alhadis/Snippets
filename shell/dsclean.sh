@@ -5,10 +5,10 @@ IFS=${IFS/ /}
 
 
 # Check for "-h" or "--home" long-option
-if [[ `echo "$*" | grep -E '(\s|^)(--home|-h)(\s|$)'` != '' ]]; then
+[[ `echo "$*" | grep -E '(\s|^)(--home|-h)(\s|$)'` != '' ]] && {
 	dsclean "$HOME" 2>/dev/null;
 	exit;
-fi;
+}
 
 
 # Parse any options.
@@ -29,13 +29,15 @@ skipped=0
 removed=0
 
 
-# Display some feedback if we're running in verbose mode.
-if [ $verbose = 1 ]; then
-	B=$(tput bold)	# Bold type
-	b=$(tput sgr0)	# Normal formatting
+# Formatting variables
+B=$(tput bold)				# Bold type
+b=$(tput sgr0)				# Normal formatting
+blue=$(tput setaf 12)		# Blue-coloured
+arrow="${B}${blue}==>${b}"	# Arrow
 
-	echo "${B}STARTING CLEAN:${b}";
-fi
+
+# Display some feedback if we're running in verbose mode.
+[ $verbose = 1 ] && { echo "$arrow${B} STARTING CLEAN:${b}"; }
 
 
 # Right. Search and destroy.
@@ -60,7 +62,7 @@ for i in $(find ${1:-.} -name "*.DS_Store" -type f); do
 	} || {
 		
 		# File isn't writable (read-only or insufficient permissions). Skip it.
-		if [ $verbose = 1 ]; then printf "    Skipped: %s\n" $i; fi
+		[ $verbose = 1 ] && { printf "    Skipped: %s\n" $i; }
 		skipped=$(( $skipped + 1 ))
 	}
 
@@ -69,8 +71,8 @@ done;
 
 
 # Generate a feedback string to pass to stdout
-if [ $verbose = 1 ]; then
-	echo "${B}SUMMARY:${b}";
+[ $verbose = 1 ] && {
+	echo "$arrow${B} SUMMARY:${b}";
 
 	feedback=$(printf "    %s file%s removed" $removed $([ $removed != 1 ] && echo 's'))
 
@@ -92,4 +94,4 @@ if [ $verbose = 1 ]; then
 
 	# If there were any files skipped for whatever reason, include those too.
 	[ $skipped -gt 0 ] && { printf '    %s file%s skipped\n' $skipped $([ $skipped != 1 ] && echo 's'); };
-fi
+};
