@@ -97,7 +97,8 @@ sub validate {
 my $length		=	16;
 my $use_symbols	=	1;
 my $use_similar	=	1;
-GetOptions("length=i" => \$length, "use-symbols=i" => \$use_symbols, "use-similar=i" => \$use_similar);
+my $copy		=	0;
+GetOptions("length=i" => \$length, "use-symbols=i" => \$use_symbols, "use-similar=i" => \$use_similar, "copy" => \$copy);
 
 
 # Generate a password, dropping any that aren't strong enough.
@@ -105,5 +106,16 @@ my $password;
 do{ $password = generate_password $length, $use_symbols, $use_similar; }
 while(!validate $password);
 
+
+# If --copy was passed, copy our password to the system clipboard (Mac OS/X only).
+if($copy){
+	my $bold	=	`tput bold`;
+	my $green	=	`tput setaf 10`;
+	my $reset	=	`tput sgr0`;
+	$password	=~	s{"}{\\"}g;
+	`printf %s "$password" | pbcopy;` unless !$copy;
+	say "${bold}COPIED TO CLIPBOARD:${reset}  ${green}$password${reset}";
+}
+
 # Send to STDOUT
-say $password;
+else{ say $password; }
