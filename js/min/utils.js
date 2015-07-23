@@ -141,7 +141,7 @@ function hashActions(e){var t,n=document.addEventListener||function(e,t){this.at
 
 
 /** Get or set the value of a cookie with the designated name. */
-function cookie(e,n,o){if(!e){var t=document.cookie.split(/;\s*/g),i={},r,s,u;for(s=0,u=t.length;s<u;++s)if(r=t[s].indexOf("="))i[t[s].substr(0,r)]=decodeURIComponent(t[s].substr(r+1));return i}if(undefined===n){t=document.cookie.split(/;\s*/g),r=e.length+1;for(var s=0,u=t.length;s<u;++s)if(e+"="===t[s].substr(0,r))return decodeURIComponent(t[s].substr(r));return null}else{o=o||{};if(null===n){n="";o.expires=-1}if(o.expires){var d=o.expires,d=(!d.toUTCString?new Date(Date.now()+864e5*d):d).toUTCString()}document.cookie=e+"="+encodeURIComponent(n)+(d?"; expires="+d:"")+(o.path?"; path="+o.path:"")+(o.domain?"; domain="+o.domain:"")+(o.secure?"; secure":"")}}
+function cookie(e,t,n){var o=document.cookie,i=/;\s*/g,r={},s=decodeURIComponent,u,c,d,f;if(!e){for(o=o.split(i),c=0,d=o.length;c<d;++c)if(o[c]&&(u=o[c].indexOf("=")))r[o[c].substr(0,u)]=s(o[c].substr(u+1));return r}if(undefined===t){for(o=o.split(i),u=e.length+1,c=0,d=o.length;c<d;++c)if(e+"="===o[c].substr(0,u))return s(o[c].substr(u));return null}else{n=n||{};f=n.expires;if(null===t)t="",f=-1;if(f)f=(!f.toUTCString?new Date(Date.now()+864e5*f):f).toUTCString();document.cookie=e+"="+encodeURIComponent(t)+(f?"; expires="+f:"")+(n.path?"; path="+n.path:"")+(n.domain?"; domain="+n.domain:"")+(n.secure?"; secure":"")}}
 
 
 

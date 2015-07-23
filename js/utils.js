@@ -559,50 +559,50 @@ function hashActions(actions){
  * @return {String} The cookie's existing value if a value wasn't passed to the function.
  */
 function cookie(name, value, options){
+	var cookies	=	document.cookie,
+		rSplit	=	/;\s*/g,
+		output	=	{},
+		decode	=	decodeURIComponent,
+		cutoff, i, l, expires;
+
 
 	/** If called without any arguments, or if an empty value's passed as our name parameter, return a hash of EVERY available cookie. */
 	if(!name){
-		var cookies	=	document.cookie.split(/;\s*/g),
-			output	=	{},
-			cutoff, i, len;
-		for(i = 0, len = cookies.length; i < len; ++i)
-			if(cutoff = cookies[i].indexOf("="))
-				output[cookies[i].substr(0, cutoff)] = decodeURIComponent(cookies[i].substr(cutoff+1));
+		for(cookies = cookies.split(rSplit), i = 0, l = cookies.length; i < l; ++i)
+			if(cookies[i] && (cutoff = cookies[i].indexOf("=")))
+				output[cookies[i].substr(0, cutoff)] = decode(cookies[i].substr(cutoff+1));
 		return output;
 	}
 
 
 	/** Getter */
 	if(undefined === value){
-		cookies	=	document.cookie.split(/;\s*/g),
-		cutoff	=	name.length + 1;
-
-		for(var i = 0, len = cookies.length; i < len; ++i)
+		for(cookies	=	cookies.split(rSplit),
+			cutoff	=	name.length + 1,
+			i		=	0,
+			l		=	cookies.length;
+			i < l; ++i)
 			if(name+"=" === cookies[i].substr(0, cutoff))
-				return decodeURIComponent(cookies[i].substr(cutoff));
+				return decode(cookies[i].substr(cutoff));
 		return null;
 	}
 
 
 	/** Setter */
 	else{
-		options	=	options || {};
+		options		=	options || {};
+		expires		=	options.expires;
 
 		/** Delete a cookie */
-		if(null === value){
-			value			=	"";
-			options.expires	=	-1;
-		}
+		if(null === value)
+			value	=	"",
+			expires	=	-1;
 
-		/** Expiry date */
-		if(options.expires){
-			var expiry	=	options.expires,
-
+		if(expires)
 			/** If we weren't passed a Date instance as our expiry point, typecast the expiry option to an integer and use as a number of days from now. */
-			expiry	=	(!expiry.toUTCString ? new Date(Date.now() + (86400000 * expiry)) : expiry).toUTCString();
-		}
+			expires	=	(!expires.toUTCString ? new Date(Date.now() + (86400000 * expires)) : expires).toUTCString();
 
-		document.cookie	=	name+"="+encodeURIComponent(value) + (expiry ? "; expires="+expiry : "") 
+		document.cookie	=	name+"="+encodeURIComponent(value) + (expires ? "; expires="+expires : "") 
 			+	(options.path ? "; path="+options.path : "")
 			+	(options.domain ? "; domain="+options.domain : "")
 			+	(options.secure ? "; secure" : "");
