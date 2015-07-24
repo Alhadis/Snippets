@@ -1,19 +1,17 @@
-#!/usr/bin/env perl
-
+#!/usr/bin/perl
 use warnings;
 use strict;
 use utf8;
-use feature 'say';
-use feature 'unicode_strings';
-use open (':std', 'utf8');
-use Path::Tiny;
+use feature "say";
+use feature "unicode_strings";
+use open (":std", "utf8");
 
 
 # Draws a pretty green border
 sub border {
-	system('tput setaf 10');
-	say "\n" . '=' x `tput cols`;
-	system('tput sgr0');
+	system("tput setaf 10");
+	say "\n" . "=" x `tput cols`;
+	system("tput sgr0");
 }
 
 
@@ -27,22 +25,22 @@ sub marker {
 	my($label, $colour) = @_;
 
 	$colour	=	$colour	|| 10;
-	$label	=	$label	|| '';
+	$label	=	$label	|| "";
 
-	system('tput bold; tput setaf ' . $colour);
-	print '===> ';
-	system('tput sgr0; tput bold;');
+	system("tput bold; tput setaf $colour");
+	print "===> ";
+	system("tput sgr0; tput bold");
 	printf "%s\n", $label;
-	system('tput sgr0;');
+	system("tput sgr0");
 }
 
 
+# Enable slurp mode
+$/=undef;
 
 my $line;
 while(<>){
-	chomp;
 	$line =		$_;
-
 
 
 	# First, expand encoded HTML entities
@@ -85,5 +83,5 @@ while(<>){
 	# Finally, normalise some oddities
 	$line =~	s/''/"/g;
 	$line =~	s/\x{20}{2,}/ /g;
-	say $line;
+	print STDOUT $line;
 }
