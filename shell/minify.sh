@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# Switch to the script's current directory
+cd `dirname $0`;
+
+
 # Create the "min" directory if it doesn't already exist
 [ ! -d min ] && { mkdir min; }
 
