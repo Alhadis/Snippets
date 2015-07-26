@@ -128,6 +128,7 @@ elif [ $# -gt 0 ]; then
 else
 	input=''
 	finished=
+	no_nl=
 
 	# Callback triggered when stdin's finished being read, or user cancels interactive input
 	end(){
@@ -140,10 +141,21 @@ else
 	}
 
 	trap end 2;
-	while read -r L; do
-		input+=$L$'\n'
-	done;
+	while read -r L || {
+		
+		# Check if the last character of the final line WASN'T a newline.
+		[[ $nl != $(printf %s "$L" | tail -c1 | hexdump | cut -c 9- | head -n1) ]] && {
+			no_nl=1;
+		};
+
+		[[ -n "$L" ]];
+	}; do input+=$L$'\n'; done;
 
 	finished=1
-	echo ${input/%$'\n'} | do_trim
+	
+	# Strip the trailing newline if there's not supposed to be one.
+	[[ $no_nl ]] && { input=${input/%$'\n'}; };
+
+	# Perform trim
+	printf %s $input | do_trim
 fi
