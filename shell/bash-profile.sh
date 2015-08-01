@@ -9,7 +9,7 @@ alias gc='git commit'
 alias p='pbpaste | purify | trim | pbcopy'
 alias u='pbpaste | uglifyjs --mangle 2>/dev/null | pbcopy'
 alias strip-meta='exiftool $@ "-All=" -overwrite_original'
-alias fuck-this-shit='git stash; git stash drop; git gc; git prune -v;'
+alias fuck-this-shit='git stash; git stash drop; git gc; git prune -v; git clean -fd;'
 alias lipsum='lorem-ipsum 10 paragraphs'
 alias fit-chrome='osascript -e '"'"'tell first window of application "Google Chrome" to set bounds to {0, 0, 1440, 820}'"'"
 alias html-day-options='html-option-list -w 2 {1..31} | pbcopy';
