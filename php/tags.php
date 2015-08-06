@@ -58,6 +58,39 @@ window._fbq.push(["track", "PixelInitialized", {}]);
 
 
 /**
+ * Embeds Facebook's Canvas script into the page.
+ *
+ * @param string $id - Facebook app ID
+ * @version 1.0 - Added 2015-08-07
+ */
+function fb_canvas($id){ ?> 
+<script>
+	window.fbAsyncInit = function(){
+		FB.init({
+			appId:		"<?= $id ?>",
+			xfbml:		true,
+			version:	"v2.4"
+		});
+
+		/** If fluid height is required (which it almost always will be): */
+		FB.Canvas.setAutoGrow();
+		FB.Canvas.scrollTo(0,0);
+	};
+
+	(function(d, s, id){
+		var js, fjs = d.getElementsByTagName(s)[0];
+		if (d.getElementById(id)) {return;}
+		js = d.createElement(s); js.id = id;
+		js.src = "//connect.facebook.net/en_US/sdk.js";
+		fjs.parentNode.insertBefore(js, fjs);
+	}(document, "script", "facebook-jssdk"));
+</script><?php
+echo PHP_EOL;
+}
+
+
+
+/**
  * Generates a URL for sharing a link on Facebook with customised message/s.
  * 
  * @param array $params {
