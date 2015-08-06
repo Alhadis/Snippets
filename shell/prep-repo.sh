@@ -12,6 +12,13 @@ while getopts u opt; do case $opt in
 esac; done
 
 
+# Git hasn't been initialised in this directory yet, so do so
+[ $usegit ] && [ ! -d .git ] && {
+	git init;
+	git add . --all;
+	git commit -m "Initialise repository";
+};
+
 # Crap we hate/don't need
 cp ${snippets}/.gitignore ./.gitignore
 [ $usegit ] && {
