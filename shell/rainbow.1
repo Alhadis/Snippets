@@ -1,0 +1,51 @@
+.TH RAINBOW 1
+.f1
+.SH NAME
+\fBrainbow\fP \-\- Display a palette of xterm colours
+.SH SYNOPSIS
+\fBrainbow\fP [\-\fBalb\fP] [\fB\-c\fP \fIcolour\-count\fP] [\fB\-t\fP \fItext\fP]
+.SH DESCRIPTION
+The \fBrainbow\fP utility prints a line of text in different xterm colours, prefixing each row with the colour's respective index.
+.SH OPTIONS
+.TP 5
+\fB\-a, \-l\fP
+List all colours this terminal's capable of rendering. (Mnemonics: \fIall\fP, \fIlong-list\fP)
+.TP 5
+\fB\-b\fP
+Fills each row with a solid\-coloured bar (using codepoint U+2588).
+This flag overrides the \fB\-t\fP option, if present.
+.TP 5
+\fB\-c\fP \fIcolour\-count\fP
+Sets a specific number of colours to list.
+By default, the program will list up to 16 colours (or 8 if it's an 8\-colour terminal).
+
+Note that arbitrary amounts will always be capped to the maximum number of colours a terminal can display.
+
+Also note that because colour indices are indexed from zero, the last row's index will always be one less than \fIcolour\-count\fP.
+.TP 5
+\fB\-t\fP \fItext\fP
+Use a custom string for displaying each colour row.
+By default, the program will print the Latin alphabet, separated by numbers 1\-9 in between.
+.SH EXAMPLES
+.TP 2
+\fBDisplay "Hello, world!" in 3 different colours:\fP
+
+    $ rainbow \-t 'Hello, world!' \-c 3
+.TP 2
+Textual output (colour not shown):
+
+    0   Hello, world!
+    1   Hello, world!
+    2   Hello, world!
+.SH EXIT STATUS
+The \fBrainbow\fP utility exits with either:
+.PP
+.nf
+0     Program runs normally
+1     Unknown option passed
+2     Running in a terminal without colour support
+.fi
+.SH AUTHOR
+Copyright (c) 2015 John Gardner <gardnerjohng@gmail.com>.
+.PP
+Freely released under the MIT license. See also http://opensource.org/licenses/MIT
