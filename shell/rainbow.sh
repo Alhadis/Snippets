@@ -10,7 +10,7 @@ count=$max;
 # Bail if coloured output's not supported
 [ "$max" -lt 1 ] && {
 	>&2 echo "ERROR: Terminal doesn't support coloured output. Aborting.";
-	exit 1;
+	exit 2;
 };
 
 
