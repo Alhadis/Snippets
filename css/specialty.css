@@ -244,3 +244,38 @@
 		display: block;
 		clear: both;
 	}
+
+
+
+/** Pipe-separated links */
+.bars,
+.bars > li{
+	display: inline;
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+	.bars > li > a{
+		padding: .25em;
+		white-space: nowrap;
+	}
+		/** Vertical divider */
+		.bars > li > a::after{
+			content: "\A0";
+			width: 0;
+			font-size: 1.05em;
+			border-left: 1px solid;
+			margin: 0 -.2em 0 .4em;
+		}
+
+		.bars > li > a::after,
+		.bars > li > a{
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+	/** Hide the first divider from sight, but don't remove it altogether; it's needed to maintain consistent vertical alignment */
+	.bars > :last-child > a::after{
+		border-left-color: transparent;
+		margin: 0;
+	}
