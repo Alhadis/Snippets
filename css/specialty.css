@@ -250,14 +250,14 @@
 /** Pipe-separated links */
 .bars,
 .bars > li{
-	display: inline;
+	display: inline-block;
 	list-style: none;
 	padding: 0;
 	margin: 0;
 }
 	.bars > li > a{
-		padding: .25em;
 		white-space: nowrap;
+		padding: .25em;
 	}
 		/** Vertical divider */
 		.bars > li > a::after{
@@ -271,7 +271,7 @@
 		.bars > li > a::after,
 		.bars > li > a{
 			display: inline-block;
-			vertical-align: middle;
+			vertical-align: top;
 		}
 
 	/** Hide the first divider from sight, but don't remove it altogether; it's needed to maintain consistent vertical alignment */
