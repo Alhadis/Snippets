@@ -13,6 +13,7 @@ alias fuck-this-shit='git stash; git stash drop; git gc; git prune -v; git clean
 alias lipsum='lorem-ipsum 10 paragraphs'
 alias fit-chrome='osascript -e '"'"'tell first window of application "Google Chrome" to set bounds to {0, 0, 1440, 820}'"'"
 alias html-day-options='html-option-list -w 2 {1..31} | pbcopy';
+alias passgen='passgen -c -l 24'
 alias woff2-compress='woff2_compress'
 alias woff2-decompress='woff2_decompress'
 alias cpan='sudo cpan'
