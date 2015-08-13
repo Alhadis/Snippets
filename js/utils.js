@@ -482,6 +482,33 @@ function pruneTextNodes(el, emptyOnly){
 
 
 /**
+ * Returns the containing element of a node that matches the given selector.
+ *
+ * If the node itself matches, it'll be returned unless ignoreSelf is set.
+ *
+ * @param {Node} node - A document node to inspect the hierarchy of
+ * @param {String} selector - A CSS selector string
+ * @param {Boolean} ignoreSelf - If given a truthy value, only the parents of a node will be queried
+ * @return {Element} The closest matching element, or NULL if none of the node's parents matched the selector.
+ */
+function inside(node, selector, ignoreSelf){
+	var parent		=	ignoreSelf ? node.parentNode : node,
+		matches		=	document.querySelectorAll(selector),
+		numMatches	=	matches.length,
+		match;
+
+	if(numMatches)
+	while(parent){
+		for(match = 0; match < numMatches; ++match)
+			if(matches[match] === parent) return parent;
+		parent	=	parent.parentNode;
+	}
+	return null;
+}
+
+
+
+/**
  * Checks if the user agent is a particular version of Internet Explorer.
  *
  * @param {String} version - The version to check against.
