@@ -101,6 +101,26 @@ function formatBytes(input){
 
 
 /**
+ * Breaks a path into separate components.
+ *
+ * The elements of the returned array are:
+ *    0:    Original input string
+ *    1:    Protocol with :// appended
+ *    2:    Directory path (including hostname/domain)
+ *    3:    Filename
+ *    4:    ?query=string
+ *    5:    #Hash
+ *
+ * @param {String} path - Directory path or URI (either absolute or relative)
+ * @return {Array}
+ */
+function parseURL(path){
+	return path.match(/^([^\/#\?]*:?\/\/)?(\/?(?:[^\/#\?]+\/)*)?([^\/#\?]+)?(?:\/(?=$))?(\?[^#]*)?(#.*)?$/);
+}
+
+
+
+/**
  * Parses a well-formed URL query string into an object hash.
  * 
  * @param {String} q - If supplied, will be used instead of the current document's own URL.
