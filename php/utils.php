@@ -69,7 +69,7 @@ function parse_list($input){
 	# Bail early if we weren't passed a valid array.
 	if(!$input) return $output;
 
-	$rows	=	explode(PHP_EOL, preg_replace('#(?:^[\x20\t]+)|(?:\n\s*)(?=\n)|\s+$|\n\n#smi', '', $input ?: ''));
+	$rows	=	explode(PHP_EOL, preg_replace('#(?:^[\x20\t]+)|(?:\n\s*)(?=\n)|^\s+|\s+$|\n\n#smi', '', $input ?: ''));
 	foreach($rows as $row){
 		$row				=	preg_split('~\s*:\s*~', $row);
 		$output[$row[0]]	=	$row[1];
