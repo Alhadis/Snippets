@@ -50,6 +50,43 @@ function build_tag($name, $attr = NULL, $content = NULL, $close = TRUE){
 
 
 /**
+ * Splits a line-delimited list of key:value pairs into an associative array.
+ *
+ * Trailing and leading whitespace is stripped from each line, as are blank rows.
+ * 
+ * @example parse_list('
+ *     home: Home
+ *     about: About Us
+ *     gallery: View our entries
+ *     terms-and-conditions: Terms & Conditions
+ * ')
+ * @param string $input - Block of text, supplied in the format described above.
+ * @return array
+ */
+function parse_list($input){
+	$output	=	array();
+	
+	# Bail early if we weren't passed a valid array.
+	if(!$input) return $output;
+
+	$rows	=	explode(PHP_EOL, preg_replace('#(?:^[\x20\t]+)|(?:\n\s*)(?=\n)|\s+$|\n\n#smi', '', $input ?: ''));
+	foreach($rows as $row){
+		$row				=	preg_split('~\s*:\s*~', $row);
+		$output[$row[0]]	=	$row[1];
+	}
+
+	# Check if that was an associative array we just parsed
+	if(!count(array_filter(array_values($output)))){
+
+		# If so, return a plain indexed array
+		$output	=	$rows;
+	}
+	return $output;
+}
+
+
+
+/**
  * Replaces any variable declarations found in a string with the accompanying values found in the supplied key/value pair.
  * This provides a safer and more controlled alternative to PHP's native eval function.
  * 
