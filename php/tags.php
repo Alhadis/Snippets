@@ -4,20 +4,30 @@
  * Vomits a diverse morass of varyingly-sized favicons tailored for different devices.
  *
  * @param int $colour	- Background tile colour, relevant only for Windows Phones.
+ * @param string $name  - App/site's name, used by Android Chrome M39, iOS8 and Windows 8
  * @param string $base	- Path containing each icon, trailing slash inclusive. Defaults to root directory: '/'
  * @param bool $inc_ico	- If TRUE, will include a link for Windows Icon files for IE.
  * @return string
  */
-function favicons($colour = 0x000000, $base = '/', $inc_ico = TRUE){
-	$touch_icons	=	array('57x57', '114x114', '72x72', '144x144', '60x60', '120x120', '76x76', '152x152', '180x180');
-	$icons			=	array('192x192', '160x160', '96x96', '16x16', '32x32');
+function favicons($colour = 0x000000, $name = '', $base = '/', $inc_ico = TRUE){
+	$colour			=	sprintf("%'.06x", $colour);
+	$name			=	htmlspecialchars($name);
+
+	$touch_icons	=	array('57x57', '60x60', '72x72', '76x76', '114x114', '120x120', '144x144', '152x152', '180x180');
+	$favicons		=	array('16x16', '32x32', '96x96', '194x194');
+	$android		=	array('192x192');
 	$output			=	'';
 
-	foreach($touch_icons as $size)	$output	.=	sprintf('<link rel="apple-touch-icon" sizes="%1$s" href="%2$sapple-touch-icon-%1$s.png"/>'.PHP_EOL,	$size, $base);
-	foreach($icons as $size)		$output	.=	sprintf('<link rel="icon" type="image/png" href="%2$sfavicon-%1$s.png" sizes="%1$s"/>'.PHP_EOL,		$size, $base);
+	foreach($touch_icons as $size)	$output	.=	sprintf('<link rel="apple-touch-icon" sizes="%1$s" href="%2$sapple-touch-icon-%1$s.png"/>'.PHP_EOL,		$size, $base);
+	foreach($favicons as $size)		$output	.=	sprintf('<link rel="icon" type="image/png" href="%2$sfavicon-%1$s.png" sizes="%1$s"/>'.PHP_EOL,			$size, $base);
+	foreach($android as $size)		$output	.=	sprintf('<link rel="icon" type="image/png" href="%2$sandroid-chrome-%1$s.png" sizes="%1$s"/>'.PHP_EOL,	$size, $base);
 
-	$output	.=	sprintf('<meta name="msapplication-TileColor" content="#%1$s"/>'.PHP_EOL, sprintf("%'.06x", $colour), $base);
-	$output	.=	sprintf('<meta name="msapplication-TileImage" content="%1$smstile-144x144.png" />'.PHP_EOL, $base);
+	$output	.=	sprintf('<link rel="manifest" href="%1$smanifest.json"/>'.PHP_EOL,				$base);
+	$output	.=	sprintf('<meta name="apple-mobile-web-app-title" content="%1$s"/>'.PHP_EOL,		$name);
+	$output	.=	sprintf('<meta name="application-name" content="%1$s"/>'.PHP_EOL,				$name);
+	$output	.=	sprintf('<meta name="msapplication-TileColor" content="#%1$s"/>'.PHP_EOL,		$colour);
+	$output	.=	sprintf('<meta name="msapplication-TileImage" content="%1$smstile-144x144.png"/>'.PHP_EOL, $base);
+	$output	.=	sprintf('<meta name="theme-color" content="#%1$s"/>'.PHP_EOL, $colour);
 
 	# Include .ICO files unless explicitly disabled.
 	if($inc_ico)
