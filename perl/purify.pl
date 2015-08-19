@@ -49,6 +49,11 @@ while(<>){
 	$line =~	s/&#x(\d+);/chr(hex($1))/ge;
 
 
+	# Replacements: "End of Text" markers (U+0003) with newlines. Inserted by Adobe Illustrator in type-areas.
+	marker('Replacing end-of-text markers with newlines');
+	$line =~	s/\x{03}/\n/g;
+
+
 	# Delete control characters and unused/deprecated codepoints
 	marker('Deleting control characters and unused/deprecated codepoints');
 	$line =~	s/[\x{00}-\x{08}\x{0B}\x{0C}\x{0E}-\x{1D}\x{1F}\x{7F}\x{80}-\x{84}\x{86}-\x{9A}\x{9C}-\x{9F}\x{AD}\x{180E}\x{200B}-\x{200D}\x{FEFF}\x{FFFE}\x{FFFF}\x{1FFFE}\x{1FFFF}\x{E0000}-\x{E007F}]//g;
