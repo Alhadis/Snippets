@@ -13,6 +13,7 @@ function autoFill(){
 		"phone-number":		"(02) 6056 5455",
 		"email-addr":		"test@domain.com",
 		"answer":			"Lorem ipsum dolor sit amet",
+		"caption":			"Eiusmod quis ipsum proident dolor",
 		"accepted-terms":	true
 	}, i, field;
 
