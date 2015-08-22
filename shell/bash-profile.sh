@@ -17,6 +17,9 @@ alias woff2-compress='woff2_compress'
 alias woff2-decompress='woff2_decompress'
 alias cpan='sudo cpan'
 alias md5='md5 -q'
+alias n='node --harmony'
+alias use-node='brew unlink iojs; brew link node;'
+alias use-iojs='brew unlink node; brew link --force iojs;'
 
 
 # Global function for full-screening the terminal window.
