@@ -40,7 +40,7 @@ sub sprinkle {
 sub generate_password {
 
 	# Assign arguments
-	my ($length, $use_symbols, $use_similar) = @_;
+	my ($length, $use_symbols, $use_similar, $allow_spaces) = @_;
 
 	# Enforce a minimum length
 	my $min_length = $use_symbols ? 4 : 3;
@@ -54,7 +54,11 @@ sub generate_password {
 	# Character strings
 	my $letters		=	"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	my $numbers		=	"0123456789";
-	my $symbols		=	" !\"#\$%&'()*+,-./:;<=>?@[\]^_{|}~";
+	my $symbols		=	"!\"#\$%&'()*+,-./:;<=>?@[\]^_{|}~";
+
+	# Include a space if it's okay to do so
+	$symbols .=	' ' if($allow_spaces);
+
 
 	# Strip similar-looking characters if --use-similar was disabled
 	if(!$use_similar){
@@ -94,16 +98,23 @@ sub validate {
 
 
 # Parse our command-line options
-my $length		=	16;
-my $use_symbols	=	1;
-my $use_similar	=	1;
-my $copy		=	0;
-GetOptions("length=i" => \$length, "use-symbols=i" => \$use_symbols, "use-similar=i" => \$use_similar, "copy" => \$copy);
+my $length			=	16;
+my $use_symbols		=	1;
+my $use_similar		=	1;
+my $allow_spaces	=	0;
+my $copy			=	0;
+GetOptions(
+	"length=i"		=> \$length,
+	"use-symbols=i"	=> \$use_symbols,
+	"use-similar=i"	=> \$use_similar,
+	"spaces"		=> \$allow_spaces,
+	"copy"			=> \$copy
+);
 
 
 # Generate a password, dropping any that aren't strong enough.
 my $password;
-do{ $password = generate_password $length, $use_symbols, $use_similar; }
+do{ $password = generate_password $length, $use_symbols, $use_similar, $allow_spaces; }
 while(!validate $password);
 
 
