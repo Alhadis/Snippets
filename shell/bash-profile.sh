@@ -8,6 +8,7 @@ alias ga='git add . --all'
 alias p='pbpaste | purify | trim | sed -E s/"\r\n"/"\n"/ | tr "\r" "\n" | pbcopy'
 alias u='pbpaste | uglifyjs --mangle 2>/dev/null | pbcopy'
 alias strip-meta='exiftool $@ "-All=" -overwrite_original'
+alias fuck-that-shit='git reset --soft HEAD~1;'
 alias fuck-this-shit='git stash; git stash drop; git gc; git prune -v; git clean -fd;'
 alias lipsum='lorem-ipsum 10 paragraphs'
 alias fit-chrome='osascript -e '"'"'tell first window of application "Google Chrome" to set bounds to {0, 0, 1440, 820}'"'"
