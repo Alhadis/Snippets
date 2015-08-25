@@ -43,25 +43,24 @@ function favicons($colour = 0x000000, $name = '', $base = '/', $inc_ico = TRUE){
  * Injects Facebook's Custom Audience tracking code into the page.
  *
  * @param string $id - Tracking ID
- * @version 1.0 - Added 2015-05-27
+ * @version 2.0 - Updated 2015-08-25
  */
-function fb_custom_audience($id){ ?> 
+function fb_custom_audience($id){
+	
+	# No ID? Bail.
+	if(!$id) return;
+?> 
 <script>
-(function(){
-	var _fbq = window._fbq || (window._fbq = []);
-	if(!_fbq.loaded){
-		var fbds = document.createElement("script");
-		fbds.async = true;
-		fbds.src = "//connect.facebook.net/en_US/fbds.js";
-		var s = document.getElementsByTagName("script")[0];
-		s.parentNode.insertBefore(fbds, s);
-		_fbq.loaded = true;
-	}
-	_fbq.push(["addPixelId", "<?= $id ?>"]);
-})();
-window._fbq = window._fbq || [];
-window._fbq.push(["track", "PixelInitialized", {}]);
-</script><noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?id=<?= $id ?>&amp;ev=PixelInitialized"/></noscript>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version="2.0";n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,"script","//connect.facebook.net/en_US/fbevents.js");
+
+fbq("init", "<?= $id ?>");
+fbq("track", "PageView");
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=<?= $id ?>&amp;ev=PageView&amp;noscript=1" /></noscript>
 <?php echo PHP_EOL;
 }
 
