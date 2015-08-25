@@ -66,6 +66,44 @@ fbq("track", "PageView");
 
 
 
+
+/**
+ * Injects Facebook's ad-tracking code into the page
+ *
+ * @param string $id - Conversion ID
+ * @param bool $fire - Whether to fire a conversion immediately on page-load.
+ * @version 1.0 - Added 2015-08-25
+ */
+function fb_conversion_pixel($id, $fire = FALSE){
+
+	# Do nothing if we weren't passed a conversion ID.
+	if(!$id) return;
+?> 
+<script>(function(){
+var _fbq = window._fbq || (window._fbq = []);
+if(!_fbq.loaded){
+	var fbds	= document.createElement("script");
+	fbds.async	= true;
+	fbds.src	= "//connect.facebook.net/en_US/fbds.js";
+	var s		= document.getElementsByTagName("script")[0];
+	s.parentNode.insertBefore(fbds, s);
+	_fbq.loaded	= true;
+}
+})();
+window._fbq = window._fbq || [];<?php
+if($fire): ?> 
+window._fbq.push(["track", "<?= $id ?>", {"value":"0.00","currency":"AUD"}]);
+</script>
+<noscript><img height="1" width="1" alt="" style="display:none" src="https://www.facebook.com/tr?ev=<?= $id ?>&amp;cd[value]=0.00&amp;cd[currency]=AUD&amp;noscript=1"/></noscript><?php
+else: ?> 
+</script><?php
+endif;
+echo PHP_EOL;
+}
+
+
+
+
 /**
  * Embeds Facebook's Canvas script into the page.
  *
