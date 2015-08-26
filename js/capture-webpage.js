@@ -178,8 +178,11 @@ page.viewportSize	= {width: width, height: height};
 
 /** Load and render the page */
 page.open(url, function(status){
-	var orientation	=	width == height ? "" : (width < height ? "-portrait" : "-landscape");
-	var filename	=	output ? output : ((presetID ? presetID + orientation : "")+".pdf");
+	var orientation	=	width == height ? "" : (width < height ? "-portrait" : "-landscape"),
+		date	=	Date.now();
+		/*date	=	[date.getFullYear(), date.getMonth(), date.getDate()].join("-0").replace(/-0\d{2}/g, "-$1");*/
+
+	var filename	=	output ? output : (((presetID ? presetID + orientation : "") || width+"x"+height + "-" + date)+".pdf");
 	var size = page.evaluate(function(){
 		document.documentElement.style.backgroundColor = "#fff";
 		return [window.innerWidth, window.innerHeight].join(",");
