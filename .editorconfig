@@ -10,3 +10,7 @@ indent_size = 4
 
 [*.{md,php}]
 trim_trailing_whitespace = false
+
+[*.{yml,reek,rviz,yaml}]
+indent_style = space
+indent_size = 4
