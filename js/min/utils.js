@@ -29,6 +29,10 @@ function deCasteljau(e,n){var t,h,l,n=n||.5,r=[];while(e.length>1){for(l=0;l<e.l
 function zeroise(n,r){var t=n.toString();if(t.length<r)t=Array(r-t.length+1).join("0")+t;return t}
 
 
+/** Clamp a value to ensure it sits within a designated range. */
+function clamp(n,a,t){return Math.min(Math.max(n,a||0),undefined===t?1:t)}
+
+
 /** Returns TRUE if a variable is a Number or number-like String. */
 function isNumeric(t){return""!==t&&+t==t&&(String(t)===String(+t)||!/[^\d\.]+/.test(t))}
 

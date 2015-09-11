@@ -73,6 +73,23 @@ function zeroise(value, min){
 
 
 /**
+ * Clamp a value to ensure it sits within a designated range.
+ *
+ * Called with no arguments, this function returns a value to fall
+ * between 0 - 1, offering a useful shorthand for validating multipliers.
+ *
+ * @param {Number} input - Value to operate upon
+ * @param {Number} min - Lower threshold; defaults to 0
+ * @param {Number} max - Upper threshold; defaults to 1
+ * @return {Number}
+ */
+function clamp(input, min, max){
+	return Math.min(Math.max(input, min || 0), undefined === max ? 1 : max);
+}
+
+
+
+/**
  * Returns TRUE if a variable is a Number or number-like String.
  * 
  * The string-checking is intentionally restricted to "basic" notation only: strings
