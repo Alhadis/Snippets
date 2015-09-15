@@ -46,6 +46,7 @@ label{
 
 abbr[title]{
 	border: none;
+	text-decoration: none;
 }
 
 /** Headings */
