@@ -14,6 +14,7 @@ alias lipsum='lorem-ipsum 10 paragraphs'
 alias fit-chrome='osascript -e '"'"'tell first window of application "Google Chrome" to set bounds to {0, 0, 1440, 820}'"'"
 alias html-day-options='html-option-list -w 2 {1..31} | pbcopy';
 alias passgen='passgen -c -l 24'
+alias woff-decode='woff2sfnt'
 alias woff2-compress='woff2_compress'
 alias woff2-decompress='woff2_decompress'
 alias woff2-decode='woff2_decompress'
