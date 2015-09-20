@@ -14,3 +14,10 @@
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteRule ^(.+)\d+\.(css|ico|jpe?g|js|png|svg)$ $1.$2 [L]
 </IfModule>
+
+
+# Redirect WebP-compatible browsers to use an image's WebP version if available
+RewriteCond %{HTTP_ACCEPT} image/webp
+RewriteCond %{REQUEST_FILENAME} (.*)\.(jpg|jpeg|png)$
+RewriteCond %1\.webp -f
+RewriteRule ^(.*)\.(jpg|jpeg|png)$ $1.webp [R,L]
