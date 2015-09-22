@@ -40,9 +40,6 @@ a:visited{
 		text-decoration: underline;
 	}
 
-label{
-	cursor: pointer;
-}
 
 abbr[title]{
 	border: none;
@@ -106,7 +103,7 @@ textarea{
 		max-height: 0 !important;
 	}
 
-.disclosure{
+label, .disclosure{
 	cursor: pointer;
 	-webkit-user-select:	none;
 	-moz-user-select:		none;
