@@ -262,6 +262,27 @@ function cssSelectorSupport(s){
 
 
 
+/**
+ * Returns the name of the WebGL rendering context supported by the browser, if any.
+ *
+ * If no support is detected whatsoever, an empty string is returned.
+ *
+ * @return {String}
+ */
+function getWebGLSupport(){
+	var	i = 0, c,
+		canvas		= document.createElement("canvas"),
+		contexts	= "webgl experimental-webgl moz-webgl webkit-3d".split(" ");
+
+	/** Cycle through each known WebGL context type trying to break something */
+	for(; i < 4; ++i) try{
+		c = canvas.getContext(contexts[i]);
+		if(c) return contexts[i];
+	} catch(e){}
+	return "";
+}
+
+
 
 /**
  * Returns the width of the scrollbars being displayed by this user's OS/device.
