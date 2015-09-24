@@ -489,11 +489,39 @@ function array_disambiguate_empty_values($array){
 /**
  * Caveman debugging function well-suited for irritable web developers.
  * Takes a variable number of arguments and spits their string representations into error_log.
+ *
+ * @return mixed - The first argument passed to the function
  */
 function trace(){
-	$spaces	=	str_repeat(' ', 4);
+	$spaces		= str_repeat(' ', 4);
+
+	$divider	= '';
+	# Custom log dividers
+	if(defined('DEBUG_TRACE_DIVIDER'))
+		$divider = DEBUG_TRACE_DIVIDER;
+
+
+	# Optional file to write traced data to (otherwise uses error_log's default)
+	$log_type = 0;
+	$log_path = '';
+	if(defined('DEBUG_TRACE_PATH')){
+		$log_type = 3;
+		$log_path = DEBUG_TRACE_PATH;
+	}
+
+	$output = '';
 	foreach(func_get_args() as $a)
-		error_log(str_replace($spaces, "\t", print_r(((is_bool($a) || $a === NULL) ? var_export($a, TRUE) : call_user_func('array_disambiguate_empty_values', $a)), true)));
+		$output .= str_replace($spaces, "\t", print_r(((is_bool($a) || $a === NULL) ? var_export($a, TRUE) : call_user_func('array_disambiguate_empty_values', $a)), TRUE)) . "\n\n";
+
+	# Ensure there's only one trailing newline
+	$output = preg_replace('#\n+$#ms', "\n", $output);
+
+	# Append the divider if there was one
+	if($divider)
+		$output .= $divider;
+
+	error_log($output, $log_type, $log_path);
+	return func_get_arg(0);
 }
 
 
