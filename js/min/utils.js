@@ -1,8 +1,8 @@
 function random(n,o){return Math.floor(Math.random()*o-n+1)+n}
 
-function percent(n,e,r){var r=r==undefined?0:r;return(n-r)/(e-r)*100}
+function percent(n,e,r){var r=undefined===r?0:r;return(n-r)/(e-r)*100}
 
-function percentOf(n,e,f){return n/100*(e-(f==undefined?0:f))}
+function percentOf(n,e,f){return n/100*(e-(undefined===f?0:f))}
 
 
 /** Measures the arctangent between two points (the angle required for one point to face another). */

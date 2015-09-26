@@ -3,12 +3,12 @@ function random(min, max){
 }
 
 function percent(value, outOf, startAt){
-	var startAt	=	(startAt == undefined) ? 0 : startAt;
-	return ((value-startAt) / (outOf-startAt)) * 100;
+	var startAt	=	undefined === startAt ? 0 : startAt;
+	return ((value - startAt) / (outOf - startAt)) * 100;
 }
 
 function percentOf(percentage, outOf, startAt){
-	return ((percentage / 100) * (outOf - ((startAt == undefined) ? 0 : startAt)));
+	return ((percentage / 100) * (outOf - (undefined === startAt ? 0 : startAt)));
 }
 
 /** Measures the arctangent between two points (the angle required for one point to face another). */
