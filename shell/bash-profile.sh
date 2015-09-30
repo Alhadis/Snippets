@@ -24,8 +24,6 @@ alias md5='md5 -q'
 alias wl='watchman watch-list'
 alias wlt='watchman trigger-list $(pwd)'
 alias n='node --harmony'
-alias use-node='brew unlink iojs; brew link node;'
-alias use-iojs='brew unlink node; brew link --force iojs;'
 alias unquarantine='find .  -print0 -type f -o -type d | xargs -0 xattr -d com.apple.quarantine 2>/dev/null;'
 
 
