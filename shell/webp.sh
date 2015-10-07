@@ -7,7 +7,8 @@
 		abspath=$(realpath "$1")
 		dirname=$(dirname "$abspath");
 		filename=$(basename "$abspath");
-		cwebp "$abspath" -o "$dirname/"$(echo "$filename" | sed -E "s/(\.[A-Za-z0-9]+)$//")".webp";
+		echo "$filename" | grep -e '\.webp$' && { cmd=dwebp; ext=.png; }
+		${cmd-cwebp} "$abspath" -o "$dirname/"$(echo "$filename" | sed -E "s/(\.[A-Za-z0-9]+)$//")${ext-.webp};
 	} || {
 		>&2 echo "ERROR: \"$1\" isn't a valid image file.";
 		exit 1;
