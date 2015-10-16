@@ -351,6 +351,62 @@ HTMLTableElement.prototype.extract	=	function(){
 
 
 /**
+ * Build a dictionary object from the terms of a description list.
+ *
+ * If more than one <dd> tag falls under a single term, the term is assigned an array of strings instead.
+ * If a duplicate definition is encountered, its values are added to the array of the original.
+ *
+ * @param {Boolean}          useHTML  Use a <dd>'s HTML source instead of its purely-textual content.
+ * @param {Function|RegExp}  filter   Callback to execute on each definition term's name. If a RegExp
+ *                                    is supplied, it's used to delete matches from the term instead.
+ *                                    If omitted, the parameter defaults to a regex that strips trailing
+ *                                    colons (e.g., producing {Name: "..."} from "<dt>Name:</dt>"
+ * @return {Object}
+ */
+HTMLDListElement.prototype.buildDict = function(useHTML, filter){
+	var	filter	= filter || /(^\s*|\s*:\s*$)/g,
+		output	= {},
+		items	= this.childNodes,
+		i = 0, l = items.length, term, value, el;
+
+
+	/** If given a regex, convert it into a callback to delete the characters it matches */
+	if(filter instanceof RegExp || "string" === typeof filter)
+		filter	= (function(pattern){
+			return function(s){ return s.replace(pattern, ""); }
+		}(filter));
+
+
+	for(; i < l; ++i){
+		el		= items[i];
+		
+		/** Skip if this node isn't a <dt> or <dd> element */
+		if(!{DT:1, DD:1}[el.tagName]) continue;
+
+		/** Starting a new description/definition term */
+		if("DT" === el.tagName)
+			term = filter(el.textContent);
+
+		/** Adding a description to an existing term */
+		else{
+			value	= useHTML ? el.innerHTML : el.textContent;
+
+			/** If this isn't the first definition assigned to a term, convert its assigned value to an array */
+			if("string" === typeof output[term])
+				output[term] = [output[term]];
+
+			undefined === output[term] ?
+				output[term] = value :		/** No definitions have been assigned to this term yet */
+				output[term].push(value);	/** Something's been defined under this term before */
+		}
+	}
+	
+	return output;
+};
+
+
+
+/**
  * Inclusive string splitting method. Similar to String.prototype.split, except
  * matching results are always included as part of the returned array.
  *

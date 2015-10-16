@@ -90,6 +90,10 @@ function getScrollbarWidth(){var e=document,t=e.createElement("div"),o=t.style,r
 HTMLTableElement.prototype.extract=function(){var t,e,r=[],i=[],h=this.tHead?this.tHead.querySelectorAll("tr:first-child > th"):this.tBodies[0].querySelectorAll("tr:first-child > td");for(t=0,e=h.length;t<e;++t)r.push(h[t].textContent.trim());for(t=0,e=this.tBodies.length;t<e;++t){(function(t,e,i){var h=i,l=t.children.length,n,o,s,d;for(;h<l;++h){n=t.children[h].children,s=0,o=n.length,d={};for(;s<o;++s)d[r[s]]=n[s].textContent.trim();e.push(d)}})(this.tBodies[t],i,+(!this.tHead&&!t))}return i};
 
 
+/** Build a dictionary object from the terms of a description list. */
+HTMLDListElement.prototype.buildDict=function(t,e){var e=e||/(^\s*|\s*:\s*$)/g,n={},i=this.childNodes,o=0,r=i.length,f,s,u;if(e instanceof RegExp||"string"===typeof e)e=function(t){return function(e){return e.replace(t,"")}}(e);for(;o<r;++o){u=i[o];if(!{DT:1,DD:1}[u.tagName])continue;if("DT"===u.tagName)f=e(u.textContent);else{s=t?u.innerHTML:u.textContent;if("string"===typeof n[f])n[f]=[n[f]];undefined===n[f]?n[f]=s:n[f].push(s)}}return n};
+
+
 
 /** Inclusive string splitting method. Similar to String.prototype.split, except matching results are always included as part of the returned array. */
 String.prototype.isplit=function(t){var s=[],i=0,h;while(h=t.exec(this)){s.push(this.substring(i,t.lastIndex-h[0].length),h[0]);i=t.lastIndex}if(i<this.length)s.push(this.substring(i,this.length));return s};
