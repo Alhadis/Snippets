@@ -15,6 +15,7 @@ alias fit-chrome='osascript -e '"'"'tell first window of application "Google Chr
 alias html-day-options='html-option-list -w 2 {1..31} | pbcopy';
 alias passgen='passgen -c -l 24'
 alias woff-decode='woff2sfnt'
+alias woff-decompress='woff2sfnt'
 alias woff2-compress='woff2_compress'
 alias woff2-decompress='woff2_decompress'
 alias woff2-decode='woff2_decompress'
