@@ -138,6 +138,20 @@ function parseURL(path){
 
 
 /**
+ * Check if a string is a valid 16-digit credit card number.
+ *
+ * Non-alphanumeric separators like hyphens or spaces are ignored when determining validity.
+ *
+ * @param {String} input
+ * @return {Boolean}
+ */
+function isValidCCNumber(input){
+	return /^([^\dA-Za-z]*\d[^\dA-Za-z]*){16}$/.test(input);
+}
+
+
+
+/**
  * Parses a well-formed URL query string into an object hash.
  * 
  * @param {String} q - If supplied, will be used instead of the current document's own URL.
