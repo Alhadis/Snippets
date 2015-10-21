@@ -1,1 +1,18 @@
+# Tell Git to use its default newline-handling behaviour
+* text=auto
+
+# Force Unix-style line endings for obvious text files
+*.css   text eol=lf
+*.htm   text eol=lf
+*.html  text eol=lf
+*.js    text eol=lf
+*.php   text eol=lf
+*.svg   text eol=lf
+
+# Force Windows-style newlines for CSV files (RFC 4180)
+*.csv text eol=crlf
+
+
+# Exclude certain files from being evaluated by Linguist
+src/min/* linguist-documentation
 *.1 linguist-documentation
