@@ -48,11 +48,6 @@ fit(){
 export fit; fit
 
 
-# Include GNU core utilities in $PATH
-PATH="/usr/local/opt/coreutils/libexec/gnubin:$PATH"
-MANPATH="/usr/local/opt/coreutils/libexec/gnuman:$MANPATH"
-
-
 # Various other crap
 { rm ~/.DS_Store; dsclean ~/Desktop; } > /dev/null 2>&1
 cd ~/Desktop;
