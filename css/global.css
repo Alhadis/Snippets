@@ -98,8 +98,8 @@ textarea{
 .control{
 	display: none;
 }
-	.control[type="checkbox"]:checked ~ .fold,
-	.control[type="radio"]:not(:checked) ~ .fold{
+	.control[type="checkbox"]:checked    + .fold,
+	.control[type="radio"]:not(:checked) + .fold{
 		max-height: 0 !important;
 	}
 
