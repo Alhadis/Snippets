@@ -1,0 +1,35 @@
+.TH DSCLEAN 1
+.f1
+.nh .\" Disable hyphenation
+.ad l .\" Disable justification: left-align only
+.SH NAME
+\fBdsclean\fP \-\- Recursively clear a subdirectory of .DS_Store files
+.SH SYNOPSIS
+.PP
+.nf
+\fBdsclean\fP [\-\fBq\fP] \fIdirectory\fP
+\fBdsclean\fP [\-\fBh\fP | \-\-\fBhome\fP]
+.fi
+.SH DESCRIPTION
+The \fBdsclean\fP utility recursively cleans a \fIdirectory\fP of .DS_Store junk added by Finder.
+Timestamps of containing folders are preserved when access permissions allow.
+.PP
+When the utility runs, deleted files are listed as they're cleared.
+The feedback ends with a summary of how many files were deleted, and how many bytes were saved.
+.SH OPTIONS
+.TP 5
+\fB\-q\fP
+Quiet mode, suppresses all output\&.
+Analoguous to: dsclean >/dev/null
+.TP 5
+\fB\-h, \-\-home\fP
+Targets the user's home directory, ignoring the current working directory.
+STDERR is also silenced to suppress error messages raised by \fBfind\fP\&.
+.sp
+Analoguous to: dsclean ~ 2>/dev/null
+.SH BUGS
+Incorrect feedback is reported when attempting to set the modification times of read-only folders.
+.SH AUTHOR
+Copyright (c) 2015 John Gardner <gardnerjohng@gmail.com>.
+.PP
+Freely released under the MIT license. See also http://opensource.org/licenses/MIT
