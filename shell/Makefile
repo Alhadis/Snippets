@@ -9,51 +9,91 @@ OPTS_CLEANCSS	:=	--skip-advanced
 OPTS_UGLIFYJS	:=	--mangle
 
 
-# List of files in each source directory
-CSS			:=	$(wildcard $(CSSDIR)/*.css)
-JS			:=	$(wildcard $(JSDIR)/*.js)
+# Builds all JavaScript and CSS files
+all: css js
+	
+# Installs needed dependencies
+NODE_MODULES	:=	cleancss myth uglifyjs babel
+install:
+	@for dep in $(NODE_MODULES); do \
+		which "$$dep" 2>&1 > /dev/null && { echo "Checking $$dep: installed"; } || { \
+			echo "Installing $$dep"; \
+			npm -g install "$$dep"; \
+		} \
+	done;
+
+.PHONY: install
 
 
+#==============================================================================
 
-# Processes every JavaScript file located in JSDIR
-js: $(patsubst $(JSDIR)/%.js,$(OBJDIR)/%.js,$(JS))
+# Primary CSS tasks
+css:				css-main css-contact css-home
+css-main:			$(OBJDIR)/min.css
+css-contact:		$(OBJDIR)/page.contact.css
+css-home:			$(OBJDIR)/page.home.css
 
-# Processes every CSS file in CSSDIR
-css: $(patsubst $(CSSDIR)/%.css,$(OBJDIR)/%.css,$(CSS))
 
-
+# Build the main/global CSS bundle
+$(OBJDIR)/min.css: $(OBJDIR)/fonts.css $(OBJDIR)/global.css $(OBJDIR)/main.css
+	cat $^ > $@
 
 # Build a single CSS file
 $(OBJDIR)/%.css: $(CSSDIR)/%.css
-	@myth $< | \
-	cleancss $(OPTS_CLEANCSS) > $@
+	@mkdir -p "$(@D)"
+	myth $< | cleancss $(OPTS_CLEANCSS) > $@
+
+
+#==============================================================================
+
+# Primary JS tasks
+js:					js-main js-home
+js-main:			$(OBJDIR)/min.js
+js-home:			$(OBJDIR)/home.js
+
+
+# Macros
+clear-subdir	=	rmdir "$(sort $(filter-out $(OBJDIR),$(1)))";
+USE_STRICT		:=	"use strict";
+
+define compress-js
+	printf '%s' '$(USE_STRICT)' > $@
+	cat $^ | sed -E s/'$(USE_STRICT)'//g | uglifyjs $(OPTS_UGLIFYJS) >> $@
+endef
+
+
+
+# Main/global JS
+$(OBJDIR)/min.js: $(OBJDIR)/lib/utils.js $(OBJDIR)/lib/tween.js $(OBJDIR)/main.js
+	$(compress-js)
+
+
+# Homepage
+$(OBJDIR)/home.js: $(OBJDIR)/lib/rotator.js $(OBJDIR)/lib/range-slider.js $(OBJDIR)/page.home.js
+	$(compress-js)
 
 
 # Build a single JavaScript file
 $(OBJDIR)/%.js: $(JSDIR)/%.js
-	@babel $< | \
-	uglifyjs $(OPTS_UGLIFYJS) > $@
+	@mkdir -p "$(@D)"
+	babel $< > $@
 
 
+
+#==============================================================================
 
 # Chucks everything that was built into freakin' /dev/null
 clean:
-	rm $(wildcard $(OBJDIR)/*)
+	@rm -rf $(wildcard $(OBJDIR)/*) 2>/dev/null || { echo 'Nothing to clean'; }
 
 
 
 # Enter the Watchman
 PWD := $(shell pwd)
 watch:
-	@watchman watch $(PWD) > /dev/null
-	@watchman -- trigger $(PWD) remake-css $(CSSDIR)/'*.css' -- make css > /dev/null
-	@watchman -- trigger $(PWD) remake-js  $(JSDIR)/'*.js'   -- make js > /dev/null
+	watchman watch $(PWD) > /dev/null
+	watchman -- trigger $(PWD) remake-css $(CSSDIR)/'*' -- make css > /dev/null
+	watchman -- trigger $(PWD) remake-js  $(JSDIR)/'*'  -- make js > /dev/null
 
 unwatch:
-	@watchman watch-del $(PWD) > /dev/null
-	
-
-
-# Print a list of destination files
-list:
-	@echo $(patsubst $(JSDIR)/%.js,$(OBJDIR)/%.js,$(JS))
+	watchman watch-del $(PWD) > /dev/null
