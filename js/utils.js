@@ -661,6 +661,20 @@ function isIE(version, operand){
 
 
 /**
+ * Convert a kebab-cased-string into a camelCasedString.
+ *
+ * @param {String} input
+ * @return {String}
+ */
+function kebabToCamelCase(input){
+	return input.toLowerCase().replace(/([a-z])-+([a-z])/g, function(match, a, b){
+		return a + b.toUpperCase();
+	});
+}
+
+
+
+/**
  * Converts a camelCased string to its kebab-cased equivalent.
  * Hilariously-named function entirely coincidental.
  * 
