@@ -1,0 +1,36 @@
+.TH PASSGEN 1
+.SH NAME
+\fBpassgen\fP \-\- Generate a strong password
+.SH SYNOPSIS
+\fBpassgen\fP [\fB\-\-length\fP \fIchars\fP] [\fB\-\-use\-symbols\fP] [\fB\-\-use\-similar\fP] [\fB\-\-spaces\fP] [\fB\-\-copy\fP]
+.SH DESCRIPTION
+Creates a cryptographically\-strong password and sends the result to STDOUT.
+.SH OPTIONS
+.TP
+\fB\-l, \-\-length\fP \fIcharacters\fP
+Set the length of the generated password. Default:
+.I 16
+.TP
+\fB\-\-use\-symbols\fP \fIflag\fP
+Set whether punctuation is allowed in the password.
+\fIflag\fP is either a 1 or 0 to enable or disable punctuation, respectively.
+Default:
+.I 1
+.TP
+\fB\-\-use\-similar\fP \fIflag\fP
+Set whether similar\-looking characters are allowed in the password, such as 1 and lowercase L.
+\fIflag\fP is either a 1 or 0 to enable or disable similar\-looking characters.
+Default:
+.I 1
+.TP
+\fB\-s, \-\-spaces\fP
+Enable the use of space characters (U+0020) in passwords.
+By default, no whitespace will be used.
+.TP
+\fB\-c, \-\-copy\fP
+Copy the password to the system clipboard (Mac OS only).
+The result that's sent to STDOUT is a formatted notification describing what's been copied to the clipboard.
+.SH AUTHOR
+Copyright (c) 2015 John Gardner <\fIgardnerjohng@gmail.com\fP>.
+.PP
+Freely released under the ISC license. See also \fIhttp://opensource.org/licenses/ISC\fP.
