@@ -9,9 +9,10 @@ let palettes = [
 	`!"#$%&'()*+,-./:;<=>?@[]^_{|}~`
 ];
 
+let size    = Math.max(128, length) * 2;
 let random  = [
-	crypto.randomBytes(length * length),
-	crypto.randomBytes(length * length)
+	crypto.randomBytes(size * size),
+	crypto.randomBytes(size * size)
 ];
 
 let output  = "";
