@@ -27,4 +27,17 @@ for i in *; do
 		git status --porcelain && { git pull; };
 
 	); };
+	
+	
+	# Is this a Subversion repository instead?
+	[ -d "$i/.svn" ] && { echo $(
+		
+		cd $i;
+		
+		# Drop another divider to break feedback up a little
+		printf %s$'\n' "${BOLD}${BLUE}==>${RESET}${BOLD} Updating: $i${RESET}";
+		
+		# Update!
+		svn update;
+	); };
 done;
