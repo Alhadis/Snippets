@@ -37,6 +37,9 @@ for i in *; do
 		# Drop another divider to break feedback up a little
 		printf %s$'\n' "${BOLD}${BLUE}==>${RESET}${BOLD} Updating: $i${RESET}";
 		
+		# Clear .DS_Store crap if possible
+		hash dsclean 2>/dev/null && dsclean;
+		
 		# Update!
 		svn update;
 	); };
