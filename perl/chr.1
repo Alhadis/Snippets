@@ -1,0 +1,46 @@
+.TH CHR 1
+.nh .\" Disable hyphenation
+.ad l .\" Disable justification: left-align only
+.SH NAME
+\fBchr\fP \-\- Print a character by codepoint
+.SH SYNOPSIS
+\fBchr\fP [\fB\-\-decimal\fP] [\fB\-\-newlines\fP] [\fB\-\-separator\fP \fIstring\fP] [\fIcodepoints\fP...]
+.SH DESCRIPTION
+\fBchr\fP prints characters specified by one or more hexadecimal \fIcodepoints\fP.
+Leading "U+" components are stripped unless \fB\-\-decimal\fP is set.
+.SH OPTIONS
+.TP
+\fB\-d, \-\-decimal\fP
+Interpret \fIcodepoints\fP as a sequence of base\-10 values.
+.TP
+\fB\-n, \-\-newlines
+Display each character on its own line.
+Analogous to passing "\-\-string=$'\\n'" on command\-line.
+This is simply offered for brevity and takes precedence over the \fB\-\-string\fP option if both are used.
+.TP
+\fB\-s, \-\-separator\fP \fIstring\fP
+Insert \fIstring\fP between each generated character.
+.SH EXAMPLES
+.SS Standard usage
+Display "ROT":
+    \fB$  chr\fP  52 4F 54
+    \fB$  chr\fP  U+0052 U+004F U+0054
+    \fB$  chr\fP  U+52 U+4F 54
+.PP
+Display the alchemical symbol for putrefaction:
+    \fB$  chr\fP  U+1F764
+.PP
+Display something really profane in Chinese:
+    \fB$  chr\fP  U+80B9       # Hexadecimal (default)
+    \fB$  chr\fP  32953 \-d     # Decimal/base\-10
+.SS Using separators
+Inject a full\-stop between each character:
+    \fB$  chr\fP  \-d 67 89 70 65 87 83 \-\-separator=.
+.PP
+List each character on its own line:
+    \fB$  chr\fP  52 4F 54   \-\-separator=$'\\n'  # Verbose form
+    \fB$  chr\fP  52 4F 54   \-n                 # Shorter, easier form
+.SH AUTHOR
+Copyright (c) 2015 John Gardner <\fIgardnerjohng@gmail.com\fP>.
+.PP
+Freely released under the ISC license. See also \fIhttp://opensource.org/licenses/ISC\fP.
