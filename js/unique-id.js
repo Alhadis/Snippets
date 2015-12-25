@@ -16,14 +16,14 @@
 	 * document tree is always consulted first to ensure a duplicate ID is never
 	 * returned.
 	 *
-	 * @param {String}  prefix - Optional prefix to prepend to the result
+	 * @param {String}  prefix - Prefix prepended to result. Default: "_"
 	 * @param {Boolean} random - Generate collision-proof IDs using random symbols
 	 * @param {Number}  length - Length of random passwords. Default: 6
 	 * @return {String}
 	 */
 	function uniqueID(prefix, complex, length){
 		length     = +(length || 6);
-		var result =  (prefix = prefix || "");
+		var result =  (prefix = prefix || "_");
 		
 		/** Simple IDs */
 		if(!complex){
@@ -32,7 +32,7 @@
 			if(!indexes[prefix])
 				indexes[prefix] = 0;
 			
-			result += "_"+(++indexes[prefix]);
+			result += ++indexes[prefix];
 		}
 		
 		/** Uglier/safer IDs */
