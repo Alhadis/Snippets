@@ -37,18 +37,5 @@ Object.defineProperties	=	Object.defineProperties || function(obj, props){for(va
 }());
 
 
-
-function IE8PropertyPunch(fn, argIndex, argName){
-	return function(){
-		var p, args	=	arguments,
-			THIS	=	args[argIndex || 0];
-		if(argName)
-			THIS	=	THIS[argName];
-
-		for(p in fn.prototype)
-			THIS[p]	=	fn.prototype[p];
-
-		fn.apply(THIS, args);
-		return THIS;
-	};
-}
+/** Object.defineProperty patch */
+var IE8PP=function(t){if(t instanceof Element)return t;if("function"==typeof t)return function(){var e=document.createElement("s");for(var r in t.prototype)e[r]=t.prototype[r];return e.prototype=t.prototype,t.apply(e,arguments),e};var e=document.createElement("s");for(var r in t)e[r]=t[r];return e.prototype=t,e};
