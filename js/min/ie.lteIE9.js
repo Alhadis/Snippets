@@ -39,3 +39,7 @@ Object.defineProperties	=	Object.defineProperties || function(obj, props){for(va
 
 /** Object.defineProperty patch */
 var IE8PP=function(t){if(t instanceof Element)return t;if("function"==typeof t)return function(){var e=document.createElement("s");for(var r in t.prototype)e[r]=t.prototype[r];return e.prototype=t.prototype,t.apply(e,arguments),e};var e=document.createElement("s");for(var r in t)e[r]=t[r];return e.prototype=t,e};
+
+
+/** childElementCount, firstElementChild, lastElementChild, nextElementSibling, previousElementSibling */
+!function(){"use strict";var n={firstElementChild:function(){for(var n,e=this.children,t=0,i=e.length;i>t;++t)if(n=e[t],1===n.nodeType)return n;return null},lastElementChild:function(){for(var n,e=this.children,t=e.length-1;t>=0;--t)if(n=e[t],1===n.nodeType)return n;return null},nextElementSibling:function(){for(var n=this.nextSibling;n&&1!==n.nodeType;)n=n.nextSibling;return n},previousElementSibling:function(){for(var n=this.previousSibling;n&&1!==n.nodeType;)n=n.previousSibling;return n},childElementCount:function(){for(var n,e=0,t=this.children,i=0,r=t.length;r>i;++i)n=t[i],1===n.nodeType&&++e;return e}};for(var e in n)e in document.documentElement||Object.defineProperty(Element.prototype,e,{get:n[e]})}();
