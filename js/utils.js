@@ -195,6 +195,47 @@ function resolveProperty(object, path, useLast){
 }
 
 
+/**
+ * Recursively alphabetise the enumerable properties of an object.
+ *
+ * This function returns a copy of the original object with all properties
+ * listed in alphabetic order, rather than enumeration order. The original
+ * object is unmodified.
+ *
+ * @param {Object}  input
+ * @param {Boolean} strictCase - If TRUE, will order case-sensitively (capitals first)
+ * @return {Object}
+ */
+function alphabetiseProperties(input, strictCase){
+	let stringTag = Object.prototype.toString.call(input);
+	
+	/** Regular JavaScript object; enumerate properties */
+	if("[object Object]" === stringTag){
+		let keys = Object.keys(input);
+		
+		keys = strictCase ? keys.sort() : keys.sort((a, b) => {
+			let A = a.toLowerCase();
+			let B = b.toLowerCase();
+			if(A < B) return -1;
+			if(A > B) return 1;
+			return 0;
+		});
+		
+		let result = {};
+		for(let i of keys)
+			result[i] = alphabetiseProperties(input[i]);
+		return result;
+	}
+	
+	/** This is an array; make sure the properties of its values are sorted too */
+	else if("[object Array]" === stringTag)
+		return Array.prototype.map.call(input, e => alphabetiseProperties(e));
+	
+	/** Just return it untouched */
+	return input;
+}
+
+
 
 /**
  * Returns the English ordinal suffix for a number (-st, -nd, -rd, -th)
