@@ -56,7 +56,7 @@ head -n1 < "$path" | grep -iEx "^(Release)?\s*v?$version" 2>&1 >/dev/null && {
 	
 	# Package.json: Make sure the version inside matches the one we're committing
 	[ -f package.json ] && {
-		package_version=$(node -pe 'require("./package.json").version');
+		package_version=$(node -pe '(require("./package.json").version || "").replace(/^v/i, "")');
 		[ $new_version != $package_version ] && {
 			
 			# Spit an error message
