@@ -1,0 +1,23 @@
+.TH UNIQUE 1
+.nh .\" Disable hyphenation
+.ad l .\" Disable justification: left-align only
+.SH NAME
+\fBunique\fP \-\- Delete duplicates from a file list
+.SH SYNOPSIS
+\fBunique\fP [\fB\-n\fP] [\fI...files\fP]
+.SH DESCRIPTION
+The \fBunique\fP command deletes duplicates from a list of \fIfiles\fP, based on MD5 checksum.
+.PP
+If any directories are encountered, their immediate contents are included in the filtering.
+.SH OPTIONS
+.TP \fB-n\fP
+Dry-run mode: don't delete files, just print which are duplicates.
+.SH EXIT STATUS
+.nf
+\fB0\fP    No errors
+\fB1\fP    No arguments were supplied
+\fB2\fP    None of the given arguments were readable files
+.SH AUTHOR
+Copyright (c) 2016 John Gardner <\fIgardnerjohng@gmail.com\fP>.
+.PP
+Freely released under the ISC license. See also \fIhttp://opensource.org/licenses/ISC\fP.
