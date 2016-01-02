@@ -19,7 +19,7 @@ $/=undef;
 
 my $tc = Lingua::EN::Titlecase->new();
 while(<>){
-	s/^\s*|\s*$//gm;   # Strip leading and trailing whitespace
+	s/^\s*|\s*$//g;    # Strip leading and trailing whitespace
 	s/^[^\t]+$//gm;    # Delete any line without a tab character; it'll be junk
 	s/\t+\x{20}*(Show lyrics|Instrumental)\t*$//gmi; # Might as well accommodate MA too
 	s/\t+[:\d]*$//gm;  # Drop track durations from the end of each line
@@ -45,7 +45,12 @@ while(<>){
 	my @lines   = map { $tc->title($_); } split /\n+/, $_;
 	my $results = join "\n", @lines;
 	
+	# Inject double-lines between artists for split tracklists
 	$results =~ s/((?:^|\n)\t+[^\n]+(?:\n(?=\w)|$))/$1\n/g;
+	
+	# Make sure the last word of each title is always uppercased
+	$results =~ s/([\w']+$)/\u$1/gm;
+	
 	print $results;
 }
 
