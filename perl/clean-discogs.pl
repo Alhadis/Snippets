@@ -35,7 +35,7 @@ while(<>){
 		
 		if(defined $3){
 			$remainder  = $3;
-			$remainder =~ s!^\x{2013}$1\t+!\t!gm;
+			$remainder =~ s!^\x{2013}\Q$1\E\t+!\t!gm;
 		}
 		
 		$result . $remainder;
