@@ -11,6 +11,9 @@ BOLD=`tput bold`
 BLUE=`tput setaf 12`
 RESET=`tput sgr0`
 
+# Include directories that start with a leading dot
+shopt -s dotglob
+
 
 # Cycle through each item in the CWD
 for i in *; do
