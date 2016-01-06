@@ -89,6 +89,8 @@ clean:
 
 
 # Enter the Watchman
+# NOTE: Always call make with a named task; Watchman triggers don't seem to run
+# `make all` when make is run without arguments
 PWD := $(shell pwd)
 watch:
 	watchman watch $(PWD) > /dev/null
