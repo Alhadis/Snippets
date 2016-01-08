@@ -7,7 +7,10 @@
  *
  * URL: https://developer.mozilla.org/en-US/docs/Web/Events/transitionend
  */
- var transitionEnd = (function(){
+
+
+/** Name of the onTransitionEnd event supported by this browser. */
+var transitionEnd = (function(){
 	for(var names = "transitionend webkitTransitionEnd oTransitionEnd otransitionend".split(" "), i = 0; i < 4; ++i)
 		if("on"+names[i].toLowerCase() in window) return names[i];
 	return names[0];
