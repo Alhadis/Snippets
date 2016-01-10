@@ -86,27 +86,27 @@ function getScrollbarWidth(){var e=document,t=e.createElement("div"),o=t.style,r
 
 
 
-/** Exports a table's data as an array of object literals. */
-HTMLTableElement.prototype.extract=function(){var t,e,r=[],i=[],h=this.tHead?this.tHead.querySelectorAll("tr:first-child > th"):this.tBodies[0].querySelectorAll("tr:first-child > td");for(t=0,e=h.length;t<e;++t)r.push(h[t].textContent.trim());for(t=0,e=this.tBodies.length;t<e;++t){(function(t,e,i){var h=i,l=t.children.length,n,o,s,d;for(;h<l;++h){n=t.children[h].children,s=0,o=n.length,d={};for(;s<o;++s)d[r[s]]=n[s].textContent.trim();e.push(d)}})(this.tBodies[t],i,+(!this.tHead&&!t))}return i};
+/** Export a table's data as an array of object literals. */
+function extractTableData(t){var e,r,l=[],n=[],i=t.tHead?t.tHead.querySelectorAll("tr:first-child > th"):t.tBodies[0].querySelectorAll("tr:first-child > td");for(e=0,r=i.length;r>e;++e)l.push(i[e].textContent.trim());for(e=0,r=t.tBodies.length;r>e;++e)!function(t,e,r){for(var n,i,o,d,h=r,c=t.children.length;c>h;++h){for(n=t.children[h].children,o=0,i=n.length,d={};i>o;++o)d[l[o]]=n[o].textContent.trim();e.push(d)}}(t.tBodies[e],n,+(!t.tHead&&!e));return n}
 
 
 /** Build a dictionary object from the terms of a description list. */
-HTMLDListElement.prototype.buildDict=function(t,e){var e=e||/(^\s*|\s*:\s*$)/g,n={},i=this.childNodes,o=0,r=i.length,f,s,u;if(e instanceof RegExp||"string"===typeof e)e=function(t){return function(e){return e.replace(t,"")}}(e);for(;o<r;++o){u=i[o];if(!{DT:1,DD:1}[u.tagName])continue;if("DT"===u.tagName)f=e(u.textContent);else{s=t?u.innerHTML:u.textContent;if("string"===typeof n[f])n[f]=[n[f]];undefined===n[f]?n[f]=s:n[f].push(s)}}return n};
+function buildDict(t,n,e){var r,i,o,e=e||/(^\s*|\s*:\s*$)/g,s={},u=t.childNodes,a=0,c=u.length;for((e instanceof RegExp||"string"==typeof e)&&(e=function(t){return function(n){return n.replace(t,"")}}(e));c>a;++a)o=u[a],{DT:1,DD:1}[o.tagName]&&("DT"===o.tagName?r=e(o.textContent):(i=n?o.innerHTML:o.textContent,"string"==typeof s[r]&&(s[r]=[s[r]]),void 0===s[r]?s[r]=i:s[r].push(i)));return s}
 
 
 
 /** Inclusive string splitting method. Similar to String.prototype.split, except matching results are always included as part of the returned array. */
-String.prototype.isplit=function(t){var s=[],i=0,h;while(h=t.exec(this)){s.push(this.substring(i,t.lastIndex-h[0].length),h[0]);i=t.lastIndex}if(i<this.length)s.push(this.substring(i,this.length));return s};
+function isplit(n,t){for(var s,e=[],l=0;s=t.exec(n);)e.push(n.substring(l,t.lastIndex-s[0].length),s[0]),l=t.lastIndex;return l<n.length&&e.push(n.substring(l,n.length)),e}
 
 
 
-/** Converts a string to title case using crude/basic English capitalisation rules. */
-String.prototype.toTitleCase=function(){var t=function(t){var r={};for(var e in t)r[t[e]]=true;return r}("the a an and but or nor of to in on for with to".split(" ")),r=this.toLowerCase().replace(/\b(\w)(\w+)?/gi,function(r,e,n,o,i){if(n===undefined){return e.toUpperCase()}if(t[r]||"'"===i[o-1]&&/\w'$/.test(i.substring(o,0)))return r;return e.toUpperCase()+n}).replace(/\bi\b/g,"I");return r[0].toUpperCase()+r.slice(1)};
+/** Convert a string to title case using crude/basic English capitalisation rules. */
+function toTitleCase(t){var e=function(t){var e={};for(var r in t)e[t[r]]=!0;return e}("the a an and but or nor of to in on for with to".split(" ")),r=t.toLowerCase().replace(/\b(\w)(\w+)?/gi,function(t,r,o,n,a){return void 0===o?r.toUpperCase():e[t]||"'"===a[n-1]&&/\w'$/.test(a.substring(n,0))?t:r.toUpperCase()+o}).replace(/\bi\b/g,"I");return r[0].toUpperCase()+r.slice(1)}
 
 
 
-/** Wraps a string to a specified line length. */
-String.prototype.wordWrap=function(t){for(var t=t||80,s=[],n,i,h=0,r=this.length;h<r;h+=t){var e=this.substring(h,h+t);if(-1!==(i=e.lastIndexOf("\n"))){s.push(e.substring(0,i+1));e=e.substring(i+1)}if(/\S/.test(this[h+t-1])&&(n=e.match(/\s(?=\S+$)/))){s.push(e.substr(0,h+t>this.length?this.length:n.index+1));h=h-(n.input.length-n.index)+1}else s.push(e)}return s};
+/** Wrap a string to a specified line length. */
+function wordWrap(s,n){for(var t,r,n=n||80,u=[],e=0,i=s.length;i>e;e+=n){var h=s.substring(e,e+n);-1!==(r=h.lastIndexOf("\n"))&&(u.push(h.substring(0,r+1)),h=h.substring(r+1)),/\S/.test(s[e+n-1])&&(t=h.match(/\s(?=\S+$)/))?(u.push(h.substr(0,e+n>i?i:t.index+1)),e=e-(t.input.length-t.index)+1):u.push(h)}return u}
 
 
 
@@ -182,5 +182,5 @@ function base64Decode(e){var i=b=c=d=s="",n=String.fromCharCode,r="ABCDEFGHIJKLM
 
 
 
-/** Stops a function from firing too quickly. */
-Function.prototype.debounce=function(t,e){var i=this,t=t<0?0:t,n,o,u,a,f=function(){var r=Date.now()-n;if(r>=t){if(!e)i.apply(o,u);if(a)clearTimeout(a);a=o=u=null}else a=setTimeout(f,t-r)};return function(){o=this,u=arguments;if(!t)return i.apply(o,u);n=Date.now();if(!a){if(e)i.apply(o,u);a=setTimeout(f,t)}}};
+/** Stop a function from firing too quickly. */
+function debounce(t,e,n){var u,o,a,i,e=0>e?0:e,r=function(){var l=Date.now()-u;l>=e?(n||t.apply(o,a),i&&clearTimeout(i),i=o=a=null):i=setTimeout(r,e-l)};return function(){return o=this,a=arguments,e?(u=Date.now(),void(i||(n&&t.apply(o,a),i=setTimeout(r,e)))):t.apply(o,a)}}

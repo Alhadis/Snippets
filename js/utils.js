@@ -363,45 +363,50 @@ function getScrollbarWidth(){
 
 
 
-/** Exports a table's data as an array of object literals. */
-HTMLTableElement.prototype.extract	=	function(){
+/**
+ * Export a table's data as an array of object literals.
+ *
+ * @param {HTMLTableElement} table
+ * @return {Array}
+ */
+function extractTableData(table){
 
 	/** Iterator variables */
 	var i, l,
 
 	/** Arrays to load our data into. */
-		headers	=	[],
-		data	=	[],
+		headers = [],
+		data    = [],
 
 
 	/** Gather our column names */
-	th	=	this.tHead ? this.tHead.querySelectorAll("tr:first-child > th") : this.tBodies[0].querySelectorAll("tr:first-child > td");
+	th = table.tHead ? table.tHead.querySelectorAll("tr:first-child > th") : table.tBodies[0].querySelectorAll("tr:first-child > td");
 	for(i = 0, l = th.length; i < l; ++i)
 		headers.push(th[i].textContent.trim());
 
 
 	/** Next, start collecting our data. */
-	for(i = 0, l = this.tBodies.length; i < l; ++i){
+	for(i = 0, l = table.tBodies.length; i < l; ++i){
 		(function(body, data, start){
-			var	row		=	start,
-				numRows	=	body.children.length,
+			var row     = start,
+				numRows = body.children.length,
 				cells, numCells, c, item;
 
 			for(; row < numRows; ++row){
-				cells		=	body.children[row].children,
-				c			=	0,
-				numCells	=	cells.length,
-				item		=	{};
+				cells       = body.children[row].children,
+				c           = 0,
+				numCells    = cells.length,
+				item        = {};
 				for(; c < numCells; ++c)
-					item[headers[c]]	=	cells[c].textContent.trim();
+					item[headers[c]] = cells[c].textContent.trim();
 				data.push(item);
 			}
 
-		}(this.tBodies[i], data, +(!this.tHead && !i)));
+		}(table.tBodies[i], data, +(!table.tHead && !i)));
 	}
 
 	return data;
-};
+}
 
 
 
@@ -411,6 +416,7 @@ HTMLTableElement.prototype.extract	=	function(){
  * If more than one <dd> tag falls under a single term, the term is assigned an array of strings instead.
  * If a duplicate definition is encountered, its values are added to the array of the original.
  *
+ * @param {HTMLDListElement} dl       Description list to build a dictionary from
  * @param {Boolean}          useHTML  Use a <dd>'s HTML source instead of its purely-textual content.
  * @param {Function|RegExp}  filter   Callback to execute on each definition term's name. If a RegExp
  *                                    is supplied, it's used to delete matches from the term instead.
@@ -418,10 +424,10 @@ HTMLTableElement.prototype.extract	=	function(){
  *                                    colons (e.g., producing {Name: "..."} from "<dt>Name:</dt>"
  * @return {Object}
  */
-HTMLDListElement.prototype.buildDict = function(useHTML, filter){
-	var	filter	= filter || /(^\s*|\s*:\s*$)/g,
-		output	= {},
-		items	= this.childNodes,
+function buildDict(dl, useHTML, filter){
+	var filter  = filter || /(^\s*|\s*:\s*$)/g,
+		output  = {},
+		items   = dl.childNodes,
 		i = 0, l = items.length, term, value, el;
 
 
@@ -457,7 +463,7 @@ HTMLDListElement.prototype.buildDict = function(useHTML, filter){
 	}
 	
 	return output;
-};
+}
 
 
 
@@ -465,50 +471,52 @@ HTMLDListElement.prototype.buildDict = function(useHTML, filter){
  * Inclusive string splitting method. Similar to String.prototype.split, except
  * matching results are always included as part of the returned array.
  *
- * @param {RegExp} pattern - The pattern to split the string by.
- * @this {String}
+ * Always make sure a pattern's global flag is enabled!
+ *
+ * @param {String} input
+ * @param {RegExp} pattern - Pattern to split the string by.
  * @return {Array}
  */
-String.prototype.isplit	=	function(pattern){
-	var	output			=	[],
-		startFrom		=	0,
+function isplit(input, pattern){
+	var output    = [],
+		startFrom = 0,
 		match;
-	while(match = pattern.exec(this)){
-		output.push(this.substring(startFrom, pattern.lastIndex - match[0].length), match[0]);
-		startFrom	=	pattern.lastIndex;
+	while(match = pattern.exec(input)){
+		output.push(input.substring(startFrom, pattern.lastIndex - match[0].length), match[0]);
+		startFrom = pattern.lastIndex;
 	}
-	if(startFrom < this.length)
-		output.push(this.substring(startFrom, this.length));
+	if(startFrom < input.length)
+		output.push(input.substring(startFrom, input.length));
 	return output;
-};
+}
 
 
 
 /**
- * Converts a string to title case using crude/basic English capitalisation rules.
+ * Convert a string to title-case using crude/basic English capitalisation rules.
  *
- * @this {String}
+ * @param {String} input
  * @return {String}
  */
-String.prototype.toTitleCase	=	function(){
-	var ignore	=	(function(o){
-		var h	=	{};
+function toTitleCase(input){
+	var ignore = (function(o){
+		var h = {};
 		for(var i in o) h[o[i]] = true;
 		return h;
 	}("the a an and but or nor of to in on for with to".split(" "))),
 
-	o	=	this.toLowerCase().replace(/\b(\w)(\w+)?/gi, function(word, firstLetter, remainder, index, input){
+	o = input.toLowerCase().replace(/\b(\w)(\w+)?/gi, function(word, firstLetter, remainder, index, input){
 		
 		/** Matching a single letter. */
-		if(remainder === undefined){
+		if(undefined === remainder)
 			return firstLetter.toUpperCase();
-		}
-		if(	/** Ignore certain words that're supposed to be left lowercase between words. */
+		
+		if( /** Ignore certain words that're supposed to be left lowercase between words. */
 			ignore[word] ||
 
 			/** Beware of contractions. */
 			("'" === input[index-1] && /\w'$/.test(input.substring(index, 0)))
-		)	return word;
+		) return word;
 
 		return firstLetter.toUpperCase() + remainder;
 	})
@@ -517,42 +525,38 @@ String.prototype.toTitleCase	=	function(){
 	.replace(/\bi\b/g, "I");
 
 	return o[0].toUpperCase() + o.slice(1);
-};
+}
 
 
 
 /**
- * Wraps a string to a specified line length.
+ * Wrap a string to a specified line length.
  *
  * Words are pushed onto the following line, unless they exceed the line's total length limit.
+ *
+ * @param {String} input - Block of text to wrap
  * @param {Number} length - Number of characters permitted on each line.
  * @return {Array} An array of fold points, preserving any new-lines in the original text.
  */
-String.prototype.wordWrap	=	function(length){
-for(var	length	=	length || 80,
-		output	=	[],
-		match,	nl,
-		i		=	0,
-		l		=	this.length
-
-	; i < l; i += length){
-		var segment	=	this.substring(i, i+length);
-
+function wordWrap(input, length){
+	for(var length = length || 80, output = [], match, nl, i = 0, l = input.length; i < l; i += length){
+		var segment = input.substring(i, i+length);
+		
 		/** Segment contains at least one newline. */
 		if(-1 !== (nl = segment.lastIndexOf("\n"))){
 			output.push(segment.substring(0, nl+1));
-			segment	=	segment.substring(nl+1);
+			segment = segment.substring(nl+1);
 		}
-
+		
 		/** We're attempting to cut on a non-whitespace character. Do something. */
-		if(/\S/.test(this[(i+length)-1]) && (match = segment.match(/\s(?=\S+$)/))){
-			output.push(segment.substr(0, i + length > this.length ? this.length : (match.index+1)));
-			i	=	(i - (match.input.length - match.index))+1;
+		if(/\S/.test(input[(i+length)-1]) && (match = segment.match(/\s(?=\S+$)/))){
+			output.push(segment.substr(0, i + length > l ? l : (match.index+1)));
+			i = (i - (match.input.length - match.index))+1;
 		}
 		else output.push(segment);
 	}
 	return output;
-};
+}
 
 
 
@@ -999,30 +1003,29 @@ function base64Decode(data){
 
 
 /**
- * Stops a function from firing too quickly.
+ * Stop a function from firing too quickly.
  *
- * This method returns a copy of the original function that runs only after the designated
+ * Returns a copy of the original function that runs only after the designated
  * number of milliseconds have elapsed. Useful for throttling onResize handlers.
  *
+ * @param {Function} fn - Original function to debounce
  * @param {Number} limit - Threshold to stall execution by, in milliseconds.
  * @param {Boolean} soon - If TRUE, will call the function *before* the threshold's elapsed, rather than after.
  * @return {Function}
  */
-Function.prototype.debounce	=	function(limit, soon){
-	var fn		=	this,
-		limit	=	limit < 0 ? 0 : limit,
+function debounce(fn, limit, soon){
+	var limit = limit < 0 ? 0 : limit,
 		started, context, args, timer,
 
-
-		delayed	=	function(){
+		delayed = function(){
 
 			/** Get the time between now and when the function was first fired. */
-			var timeSince	=	Date.now() - started;
+			var timeSince = Date.now() - started;
 
 			if(timeSince >= limit){
 				if(!soon) fn.apply(context, args);
 				if(timer) clearTimeout(timer);
-				timer = context = args	=	null;
+				timer = context = args = null;
 			}
 
 			else timer = setTimeout(delayed, limit - timeSince);
@@ -1031,16 +1034,16 @@ Function.prototype.debounce	=	function(limit, soon){
 
 	/** Debounced copy of the original function. */
 	return function(){
-		context		=	this,
-		args		=	arguments;
+		context = this,
+		args    = arguments;
 
 		if(!limit)
 			return fn.apply(context, args);
 
-		started	=	Date.now();
+		started = Date.now();
 		if(!timer){
 			if(soon) fn.apply(context, args);
-			timer	=	setTimeout(delayed, limit);
+			timer = setTimeout(delayed, limit);
 		}
 	};
-};
+}
