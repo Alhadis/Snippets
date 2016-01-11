@@ -184,3 +184,7 @@ function base64Decode(e){var i=b=c=d=s="",n=String.fromCharCode,r="ABCDEFGHIJKLM
 
 /** Stop a function from firing too quickly. */
 function debounce(t,e,n){var u,o,a,i,e=0>e?0:e,r=function(){var l=Date.now()-u;l>=e?(n||t.apply(o,a),i&&clearTimeout(i),i=o=a=null):i=setTimeout(r,e-l)};return function(){return o=this,a=arguments,e?(u=Date.now(),void(i||(n&&t.apply(o,a),i=setTimeout(r,e)))):t.apply(o,a)}}
+
+
+/** Run a callback once an image's dimensions are accessible. */
+function onSizeKnown(n,r){if((e=function(){return n.complete||n.naturalWidth||n.naturalHeight})())return void r.call(null,n);var e,t,l=["abort","error","load"],o=function(n){(e()||n&&"error"===n.type)&&a()},a=function(){for(clearInterval(i),t=0;3>t;++t)n.removeEventListener(l[t],o);r.call(null,n)},i=setInterval(o,20);for(t=0;3>t;++t)n.addEventListener(l[t],o)}
