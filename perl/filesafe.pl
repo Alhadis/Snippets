@@ -13,7 +13,8 @@ sub filesafe{
 	$i =~ s/\.$/․/g; # Directories can't end in full-stops
 	$i =~ s{ / }{\x{2002}∕\x{2002}}g;
 	$i =~ s{/}{ ∕ }g;
-	$i =~ tr/:""''<>/꞉“”‘’﹤﹥/;
+	$i =~ s/"([^"]*)"/“$1”/g;
+	$i =~ tr/:"<>/꞉”﹤﹥/;
 	return $i;
 }
 
