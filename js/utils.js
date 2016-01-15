@@ -1080,3 +1080,89 @@ function onSizeKnown(img, fn){
 	var intervalID = setInterval(check, 20), i;
 	for(i = 0; i < 3; ++i) img.addEventListener(eventTypes[i], check)
 }
+
+
+
+/**
+ * Generate a generic AST based on line indentation.
+ *
+ * The returned array is populated with objects, which are in turn enumerated with
+ * 1-2 properties: "name" (holding the line's textual content, sans whitespace),
+ * and "children" (an array of child objects holding the same data).
+ *
+ * The parent/child relationships are described by their leading indentation.
+ *
+ * NOTE: Only proper indentation is considered (hard tabs). "Soft tabs" will NOT work.
+ *
+ * @param {String}
+ * @return {Array}
+ */
+function tokeniseOutline(str){
+	
+	/** Drop leading and trailing blank lines */
+	str = str.replace(/^([\x20\t]*\n)*|(\n\s*)*$/g, "");
+	
+	/** Define how many leading tabs to ignore based on the first line's indentation */
+	let indent = str.match(/^[\t\x20]+(?=\S)/);
+	if(indent)
+		str = str.replace(new RegExp("^"+indent[0], "gm"), "");
+	
+	
+	/** Start going through lines */
+	let lines        = str.split(/\n+/g);
+	let results      = [];
+	let currentLevel = 0;
+	let previousItem;
+	
+	for(let l of lines){
+		let level = l.match(/^\t*/)[0].length;
+		let name  = l.replace(/^\t+/, "");
+		let item  = {
+			level:  level,
+			name:   name,
+			toJSON: function(){
+				let result = Object.assign({}, this);
+				delete result.parent;
+				return result;
+			}
+		};
+		
+
+		/** Indenting */
+		if(level > currentLevel){
+			item.parent = previousItem;
+			(previousItem.children = previousItem.children || []).push(item);
+			currentLevel = level;
+		}
+		
+		/** Outdenting */
+		else if(level < currentLevel){
+			while(previousItem){
+				if(previousItem.level <= level){
+					currentLevel = previousItem.level;
+					previousItem.parent
+						? previousItem.parent.children.push(item)
+						: results.push(item);
+					item.parent = previousItem.parent;
+					break;
+				}
+				previousItem = previousItem.parent;
+			}
+		}
+		
+		
+		/** New sibling */
+		else{
+			if(level){
+				previousItem = previousItem.parent;
+				previousItem.children.push(item)
+				item.parent = previousItem;
+			}
+			else results.push(item)
+		}
+		
+		previousItem = item;
+	}
+	
+	return results;
+}
