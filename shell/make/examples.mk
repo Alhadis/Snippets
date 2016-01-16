@@ -6,4 +6,4 @@ include includes.mk
 check:
 	$(call chk, pdftotext,   'Run `brew install poppler` and try again.')
 	$(call chk, wkhtmltopdf, "Download and install wkhtmltopdf. \
-	You'll be glad you did:\n\x1B[4mhttp://wkhtmltopdf.org/downloads.html\x1B[0m")
+	You'll be glad you did: \nhttp://wkhtmltopdf.org/downloads.html")
