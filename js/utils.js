@@ -41,7 +41,6 @@ function degToRad(value){
 function bijectiveBase26(int){
 	const sequence    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 	const length      = sequence.length;
-	const last        = sequence[sequence.length - 1];
 	
 	if(int <= 0)      return int;
 	if(int <= length) return sequence[int - 1];
