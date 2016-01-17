@@ -32,6 +32,33 @@ function degToRad(value){
 }
 
 
+/**
+ * Convert an integer to bijective hexavigesimal notation (alphabetic base-26).
+ *
+ * @param {Number} int - A positive integer above zero
+ * @return {String} The number's value expressed in uppercased bijective base-26
+ */
+function bijectiveBase26(int){
+	const sequence    = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const length      = sequence.length;
+	const last        = sequence[sequence.length - 1];
+	
+	if(int <= 0)      return int;
+	if(int <= length) return sequence[int - 1];
+	
+	
+	let index  = (int % length) || length;
+	let result = [sequence[index - 1]];
+	
+	while((int = Math.floor((int - 1) / length)) > 0){
+		index = (int % length) || length;
+		result.push(sequence[index - 1]);
+	}
+	
+	return result.reverse().join("")
+}
+
+
 /** Applies De Casteljau's algorithm to an array of points to ascertain the final midpoint. */
 function deCasteljau(points, p){
 	var a, b, i, p	=	p || .5,
