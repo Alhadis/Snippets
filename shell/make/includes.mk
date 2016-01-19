@@ -15,18 +15,47 @@ endif
 #
 #  Verify the availability of an external dependency
 #===============================================================================
+
+CHK_RESET   := \x1B[0m
+CHK_BOLD    := \x1B[1m
+
+# Windows
+ifdef IS_WINDOWS
 define chk
-	@hash $1 2>/dev/null || {                                    \
-		echo >&2 "\x1B[31;4;38;5;9mERROR!\x1B[0m\n";              \
-		echo >&2 "    \x1B[1m"$(1)"\x1B[0m not installed\n";       \
-		[ $(2) ] && {                                               \
-			text=$$($(call url-decorate,$(2)));                      \
-			echo >&2 "$$(echo "$${text}" | sed 's/^/     /g')" "\n";  \
-		};                                                             \
-		echo >&2 "\x1B[31;38;5;9mTask aborted\x1B[0m";                  \
-		exit 8;                                                          \
+	@which $1 > nul 2> nul || ( \
+		$(call e,$(CHK_ERROR)ERROR!$(CHK_RESET)\n) & \
+		$(call e,    $(CHK_BOLD)$(1)$(CHK_RESET) not installed\n) & \
+		( if '' NEQ 'MINNUT' ( \
+			$(call url-decorate,$(2)) | \
+			sed -r "s/^/     /g" ) \
+		) & \
+		$(call e,\n$(CHK_ERROR)Task aborted$(CHK_RESET)) & \
+		die 2> nul \
+	)
+endef
+CHK_ERROR   := \x1B[31;1m
+CHK_RESET   := \x1B[0m
+
+
+# Unix-friendly/regular variant
+else
+define chk
+	@hash $1 2>/dev/null || {                                       \
+		echo >&2 "$(CHK_ERROR)ERROR!$(CHK_RESET)\n";                 \
+		echo >&2 "    $(CHK_BOLD)"$(1)"$(CHK_RESET) not installed\n"; \
+		[ $(2) ] && {                                                  \
+			text=$$($(call url-decorate,$(2)));                         \
+			echo >&2 "$$(echo "$${text}" | sed 's/^/     /g')" "\n";     \
+		};                                                                \
+		echo >&2 "$(CHK_ABORTED)Task aborted$(CHK_RESET)";                 \
+		exit 8;                                                             \
 	}
 endef
+CHK_ERROR   := \x1B[31;4;38;5;9m
+CHK_ABORTED := \x1B[31;38;5;9m
+endif
+
+
 
 
 
@@ -35,11 +64,46 @@ endef
 #
 #  Add colouring and underlines to URL patterns in a string
 #===============================================================================
+
+# Windows (currently not working)
+ifdef IS_WINDOWS
+base64-encoded-regex       := KCgoKGh0dHBzP3xzc2h8Z2l0fGZ0cHM/fHJzeW5jfGZpbGV8c3ZuKTpcL1wvKXxtYWlsdG86fGRhdGE6KVteXHg1RCBcdFxyXG5cZlwpXHgyNyI+XSsp
+base64-encoded-replacement := G1szMm0kMRtbMG0=
+
+define url-decorate
+	@printf $(1) | node -e "var p = process, i = p.stdin; i.on('readable', function(){ \
+		var input = (i.read() || '') + ''; \
+		var regex = new RegExp(new Buffer('$(base64-encoded-regex)', 'base64').toString('ascii'), 'gi'); \
+		console.log(input.replace(regex, '$$1')); \
+	})"
+endef
+
+
+
+# Everybody else
+else
+url-decorate-match    := (((https?|ssh|git|ftps?|rsync|file|svn):\/\/)|mailto:|data:)[^] \t\r\n\f)\x27">]+
+url-decorate-replace  := \x1B[4;32m&\x1B[0m
+
 define url-decorate
 	printf %s $(1) | sed -r -e 's/$(url-decorate-match)/$(url-decorate-replace)/g'
 endef
-url-decorate-match    := (((https?|ssh|git|ftps?|rsync|file|svn):\/\/)|mailto:|data:)[^] \t\r\n\f)\x27">]+
-url-decorate-replace  := \x1B[4;32m&\x1B[0m
+endif
+
+
+
+#===============================================================================
+#  escape                   $(call escape, "Code with too many string literals")
+#
+#  Escape single and double-quotes in a string
+#===============================================================================
+define escape
+$(subst $(escape-apos),$(escaped-apos),$(subst $(escape-quot),$(escaped-quot),$(1)))
+endef
+escape-apos  := '
+escape-quot  := "
+escaped-apos := \'
+escaped-quot := \"
 
 
 
@@ -60,7 +124,7 @@ url-decorate-replace  := \x1B[4;32m&\x1B[0m
 # leverage Node support to handle the translation for us.
 #
 ifdef IS_WINDOWS
-	e = @node -e "console.log('$(1)')"
+	e = node -e "console.log('$(call escape,$(1))')"
 else
-	e = @echo $(1)
+	e = echo $(1)
 endif
