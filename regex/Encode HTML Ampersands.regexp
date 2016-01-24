@@ -1,0 +1,2 @@
+#	Source:	http://www.php.net/manual/en/function.htmlspecialchars.php#96159
+preg_replace('~&(?![A-Za-z0-9#]{1,7};)~', '&amp;', $string);

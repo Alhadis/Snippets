@@ -1,0 +1,2 @@
+# Get nth word in a sentence. Substitute 8 for nth - 1
+^(?:(?:^|\s+)\S+){8}(\s+\S+)
