@@ -438,6 +438,18 @@ function mb_chr($ascii){
 
 
 /**
+ * Return a lowercased, URI-friendly version of a string.
+ *
+ * @param string $input
+ * @return string
+ */
+function uri_friendly_id($input){
+	return preg_replace('#(^\W+|\W+$)#', '', preg_replace('#(?<!^)[\W]+(?!$)#', '-', strtolower($input)));
+}
+
+
+
+/**
  * Normalises newlines in a string, replacing all Windows/Unix-style line-breaks with a consistent EOL terminator.
  *
  * @param string $input - String to operate upon

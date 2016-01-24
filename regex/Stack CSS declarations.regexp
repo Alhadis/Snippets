@@ -1,3 +1,0 @@
-Search:		\{\n([^\}]+)\n\}
-
-Replace:	\t\t\{\1\t\}

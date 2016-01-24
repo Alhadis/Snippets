@@ -1,5 +1,0 @@
-#	Inclusive hyphenation ("One-word" will be one word)
-/[^\w-_'\u2019]+|['\u2019]{2,}/g
-
-#	Exclusive hyphenation ("Two-words" will be two words)
-/[^\w_'\u2019]+|['\u2019]{2,}/g
