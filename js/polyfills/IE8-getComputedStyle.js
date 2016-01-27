@@ -20,24 +20,12 @@ window.getComputedStyle = window.getComputedStyle || function(el){
 	var box     = el.getBoundingClientRect();
 	var shadow  = document.createElement("div");
 	var output  = shadow.style;
-	for(i in style)
+	for(var i in style)
 		output[i] = style[i];
 	
 	/** Fix some glitches */
 	output.cssFloat = output.styleFloat;
 	if("auto" === output.width)  output.width  = (box.right - box.left) + "px";
 	if("auto" === output.height) output.height = (box.bottom - box.top) + "px";
-	
-	/** Include property indices (which IE doesn't include in CSSStyleDeclaration instances anyway) */
-	var cssText = output.cssText;
-	var indexed = cssText.split(/; /g);
-	for(var name, count = 0, i = 0, l = indexed.length; i < l; ++i){
-		if(name = (indexed[i].split(/:/) || {})[0]){
-			output[i] = name.toLowerCase();
-			++count;
-		}
-	}
-	output.length = count;
-	output.cssText = cssText;
 	return output;
 };
