@@ -10,11 +10,11 @@
  * Requires debouncing function from utils.js (or something similar).
  */
 
-var folds	=	document.getElementsByClassName("fold");
+var folds = document.getElementsByClassName("fold");
 window.addEventListener("resize", (new function(){
 
 	Array.prototype.forEach.call(folds, function(o){
-		o.style.maxHeight	=	o.scrollHeight + "px";
+		o.style.maxHeight = o.scrollHeight + "px";
 	});
 
 	return this.constructor;

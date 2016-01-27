@@ -29,11 +29,11 @@ keep_zeroes=0
 # Begin parsing our options
 while getopts d:f:lpk option; do
 	case $option in
-	d)	length=$OPTARG		;;	# Specifies maximum decimal length (digits after the decimal point)
-	f)	filename=$OPTARG	;;	# Read bytes from a file's size instead of an arbitrary amount.
-	l)	use_long=1			;;	# Use long unit names ("Kilobytes" instead of "KBs", etc)
-	p)	pluralise_short=1	;;	# Pluralises short units when necessary; useful only if -l is off
-	k)	keep_zeroes=1		;;	# Preserves useless zeroes to produce output like "1.00 KB"
+	d)  length=$OPTARG      ;; # Specifies maximum decimal length (digits after the decimal point)
+	f)  filename=$OPTARG    ;; # Read bytes from a file's size instead of an arbitrary amount.
+	l)  use_long=1          ;; # Use long unit names ("Kilobytes" instead of "KBs", etc)
+	p)  pluralise_short=1   ;; # Pluralises short units when necessary; useful only if -l is off
+	k)  keep_zeroes=1       ;; # Preserves useless zeroes to produce output like "1.00 KB"
 	esac
 done
 shift $((OPTIND - 1))

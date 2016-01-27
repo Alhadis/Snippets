@@ -23,24 +23,24 @@
 
 	<script type="text/javascript" src="word-limit.js"></script>
 	<script type="text/javascript">
-		var counter	=	document.querySelector(".words-left");
-		var example	=	new WordLimit({
-			limit:		25,
-			clip:		false,
-			capLimits:	false,
-			el:			document.getElementById("your-answer"),
-			invalidated:	function(){
+		var counter = document.querySelector(".words-left");
+		var example = new WordLimit({
+			limit:     25,
+			clip:      false,
+			capLimits: false,
+			el:        document.getElementById("your-answer"),
+			invalidated: function(){
 				alert("hurr, u sukk");
 			},
 
-			counter:		counter,
-			counterFormat:	"Words: %2 (%1 remaining)",
+			counter:       counter,
+			counterFormat: "Words: %2 (%1 remaining)",
 
-			overflow:	function(){
+			overflow: function(){
 				counter.parentNode.classList.add("error");
 			},
 
-			underflow:	function(){
+			underflow: function(){
 				counter.parentNode.classList.remove("error");
 			}
 		});

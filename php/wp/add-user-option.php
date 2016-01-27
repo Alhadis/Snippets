@@ -10,14 +10,14 @@ function dd_update_user_options($id){
 
 add_action("personal_options", "dd_user_options");
 function dd_user_options($user){
-	$lang	=	get_available_languages();
-	$value	=	get_user_meta($user->ID, "display_language", true);
+	$lang   = get_available_languages();
+	$value  = get_user_meta($user->ID, "display_language", true);
 ?> 
 	<tr>
 		<td><label for="display_language" style="font-size: 13px">Display Language:</label></td>
 		<td>
 			<select id="display_language" name="display_language" style="width: 15em"><?php
-				if(!$lang["en"])	array_push($lang, "en");
+				if(!$lang["en"]) array_push($lang, "en");
 				
 				foreach($lang as $l) :
 			?> 

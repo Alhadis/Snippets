@@ -1,37 +1,37 @@
 <?php
 
 /**
- * Vomits a diverse morass of varyingly-sized favicons tailored for different devices.
+ * Vomit a diverse morass of varyingly-sized favicons tailored for different devices.
  *
- * @param int $colour	- Background tile colour, relevant only for Windows Phones.
+ * @param int $colour   - Background tile colour, relevant only for Windows Phones.
  * @param string $name  - App/site's name, used by Android Chrome M39, iOS8 and Windows 8
- * @param string $base	- Path containing each icon, trailing slash inclusive. Defaults to root directory: '/'
- * @param bool $inc_ico	- If TRUE, will include a link for Windows Icon files for IE.
+ * @param string $base  - Path containing each icon, trailing slash inclusive. Defaults to root directory: '/'
+ * @param bool $inc_ico - If TRUE, will include a link for Windows Icon files for IE.
  * @return string
  */
 function favicons($colour = 0x000000, $name = '', $base = '/', $inc_ico = TRUE){
-	$colour			=	sprintf("%'.06x", $colour);
-	$name			=	htmlspecialchars($name);
+	$colour       = sprintf("%'.06x", $colour);
+	$name         = htmlspecialchars($name);
+	
+	$touch_icons  = array('57x57', '60x60', '72x72', '76x76', '114x114', '120x120', '144x144', '152x152', '180x180');
+	$favicons     = array('16x16', '32x32', '96x96', '194x194');
+	$android      = array('192x192');
+	$output       = '';
+	
+	foreach($touch_icons as $size)  $output .=  sprintf('<link rel="apple-touch-icon" sizes="%1$s" href="%2$sapple-touch-icon-%1$s.png"/>'.PHP_EOL,     $size, $base);
+	foreach($favicons as $size)     $output .=  sprintf('<link rel="icon" type="image/png" href="%2$sfavicon-%1$s.png" sizes="%1$s"/>'.PHP_EOL,         $size, $base);
+	foreach($android as $size)      $output .=  sprintf('<link rel="icon" type="image/png" href="%2$sandroid-chrome-%1$s.png" sizes="%1$s"/>'.PHP_EOL,  $size, $base);
 
-	$touch_icons	=	array('57x57', '60x60', '72x72', '76x76', '114x114', '120x120', '144x144', '152x152', '180x180');
-	$favicons		=	array('16x16', '32x32', '96x96', '194x194');
-	$android		=	array('192x192');
-	$output			=	'';
-
-	foreach($touch_icons as $size)	$output	.=	sprintf('<link rel="apple-touch-icon" sizes="%1$s" href="%2$sapple-touch-icon-%1$s.png"/>'.PHP_EOL,		$size, $base);
-	foreach($favicons as $size)		$output	.=	sprintf('<link rel="icon" type="image/png" href="%2$sfavicon-%1$s.png" sizes="%1$s"/>'.PHP_EOL,			$size, $base);
-	foreach($android as $size)		$output	.=	sprintf('<link rel="icon" type="image/png" href="%2$sandroid-chrome-%1$s.png" sizes="%1$s"/>'.PHP_EOL,	$size, $base);
-
-	$output	.=	sprintf('<link rel="manifest" href="%1$smanifest.json"/>'.PHP_EOL,				$base);
-	$output	.=	sprintf('<meta name="apple-mobile-web-app-title" content="%1$s"/>'.PHP_EOL,		$name);
-	$output	.=	sprintf('<meta name="application-name" content="%1$s"/>'.PHP_EOL,				$name);
-	$output	.=	sprintf('<meta name="msapplication-TileColor" content="#%1$s"/>'.PHP_EOL,		$colour);
-	$output	.=	sprintf('<meta name="msapplication-TileImage" content="%1$smstile-144x144.png"/>'.PHP_EOL, $base);
-	$output	.=	sprintf('<meta name="theme-color" content="#%1$s"/>'.PHP_EOL, $colour);
+	$output .=  sprintf('<link rel="manifest" href="%1$smanifest.json"/>'.PHP_EOL,            $base);
+	$output .=  sprintf('<meta name="apple-mobile-web-app-title" content="%1$s"/>'.PHP_EOL,   $name);
+	$output .=  sprintf('<meta name="application-name" content="%1$s"/>'.PHP_EOL,             $name);
+	$output .=  sprintf('<meta name="msapplication-TileColor" content="#%1$s"/>'.PHP_EOL,     $colour);
+	$output .=  sprintf('<meta name="msapplication-TileImage" content="%1$smstile-144x144.png"/>'.PHP_EOL, $base);
+	$output .=  sprintf('<meta name="theme-color" content="#%1$s"/>'.PHP_EOL, $colour);
 
 	# Include .ICO files unless explicitly disabled.
 	if($inc_ico)
-		$output	.=	sprintf('<!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="%1$sfavicon.ico" /><![endif]-->', $base).PHP_EOL;
+		$output .= sprintf('<!--[if IE]><link rel="shortcut icon" type="image/x-icon" href="%1$sfavicon.ico" /><![endif]-->', $base).PHP_EOL;
 
 	return $output;
 }
@@ -40,7 +40,7 @@ function favicons($colour = 0x000000, $name = '', $base = '/', $inc_ico = TRUE){
 
 
 /**
- * Injects Facebook's Custom Audience tracking code into the page.
+ * Inject Facebook's Custom Audience tracking code into the page.
  *
  * @param string $id - Tracking ID
  * @version 2.0 - Updated 2015-08-25
@@ -82,12 +82,12 @@ function fb_conversion_pixel($id, $fire = FALSE){
 <script>(function(){
 var _fbq = window._fbq || (window._fbq = []);
 if(!_fbq.loaded){
-	var fbds	= document.createElement("script");
-	fbds.async	= true;
-	fbds.src	= "//connect.facebook.net/en_US/fbds.js";
-	var s		= document.getElementsByTagName("script")[0];
+	var fbds = document.createElement("script");
+	fbds.async = true;
+	fbds.src = "//connect.facebook.net/en_US/fbds.js";
+	var s = document.getElementsByTagName("script")[0];
 	s.parentNode.insertBefore(fbds, s);
-	_fbq.loaded	= true;
+	_fbq.loaded = true;
 }
 })();
 window._fbq = window._fbq || [];<?php
@@ -114,9 +114,9 @@ function fb_canvas($id){ ?>
 <script>
 	window.fbAsyncInit = function(){
 		FB.init({
-			appId:		"<?= $id ?>",
-			xfbml:		true,
-			version:	"v2.4"
+			appId:   "<?= $id ?>",
+			xfbml:   true,
+			version: "v2.4"
 		});
 
 		/** If fluid height is required (which it almost always will be): */
@@ -154,7 +154,7 @@ echo PHP_EOL;
  * @return {string} The escaped and URL-encoded link, ready for echoing to an HREF attribute.
  */
 function fb_share_link($params = array()){
-	$params	=	array_map('html_entity_decode', $params);
+	$params = array_map('html_entity_decode', $params);
 
 	return htmlspecialchars('https://www.facebook.com/dialog/feed?' . http_build_query($params));
 }
@@ -186,16 +186,16 @@ function mailto_link($params = array()){
 	
 	# If passed a string, treat it as the $to parameter.
 	if(is_string($params))
-		$params	=	array('to' => $params);
+		$params = array('to' => $params);
 
 
-	$params	=	array_map('html_entity_decode', $params);
+	$params = array_map('html_entity_decode', $params);
 
 	# Don't include the recipient's e-mail address in the query parameters.
-	$to	=	$params['to'];
+	$to = $params['to'];
 	unset($params['to']);
 
-	$params	=	http_build_query($params);
+	$params = http_build_query($params);
 	return htmlspecialchars(str_replace('+', '%20', sprintf('mailto:%1$s%2$s', $to, $params ? '?'.$params : '')));
 }
 

@@ -3,7 +3,7 @@
 add_action('admin_init', function(){
 
 	add_settings_field('skip-attach', '<label for=\'skip_attachments\'>'.__('Skip Attachment Pages?').'</label>', function(){
-		$v	=	get_option('skip_attachments');
+		$v = get_option('skip_attachments');
 		?> 
 		<input type='checkbox' id='skip_attachments' name='skip_attachments' value='1'<?php checked($v); ?> />
 		<span class='description'>

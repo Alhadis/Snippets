@@ -10,14 +10,14 @@ use Getopt::Long qw(:config auto_abbrev);
 
 # Returns a random character from a string
 sub randchar {
-	my $string	=	$_[0];
-	my $length	=	length $string;
+	my $string = $_[0];
+	my $length = length $string;
 	my $index;
 
-	do{		$index = irand(256);	}
-	while(	$index >= $length		);
+	do{     $index = irand(256); }
+	while(  $index >= $length    );
 
-	my $output	= substr $string, $index, 1;
+	my $output = substr $string, $index, 1;
 	return $output;
 }
 
@@ -25,8 +25,8 @@ sub randchar {
 # Scatters randomly-picked values from one array throughout another.
 sub sprinkle {
 	my ($string, $grains, $bias) = @_;
-	my $length		=	(length $string) * ($bias || .5);
-	my $num_grains	=	length $grains;
+	my $length      = (length $string) * ($bias || .5);
+	my $num_grains  = length $grains;
 
 	for(my $i = 0; $i < $length; ++$i){
 		substr($string, irand($length) - 1, 1) = randchar $grains;
@@ -45,25 +45,25 @@ sub generate_password {
 	# Enforce a minimum length
 	my $min_length = $use_symbols ? 4 : 3;
 	if($length < $min_length){
-		my $red		=	`tput setaf 9`;
-		my $reset	=	`tput sgr0`;
+		my $red     = `tput setaf 9`;
+		my $reset   = `tput sgr0`;
 		print STDERR "${red}ERROR: Password cannot be shorter than $min_length characters.${reset}\n";
 		exit;
 	}
 
 	# Character strings
-	my $letters		=	"ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-	my $numbers		=	"0123456789";
-	my $symbols		=	"!\"#\$%&'()*+,-./:;<=>?@[\]^_{|}~";
+	my $letters     = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	my $numbers     = "0123456789";
+	my $symbols     = "!\"#\$%&'()*+,-./:;<=>?@[\]^_{|}~";
 
 	# Include a space if it's okay to do so
-	$symbols .=	' ' if($allow_spaces);
+	$symbols .= ' ' if($allow_spaces);
 
 
 	# Strip similar-looking characters if --use-similar was disabled
 	if(!$use_similar){
-		$letters	=~	s{[ILO]}{}g;
-		$numbers	=~	s{01}{};
+		$letters    =~ s{[ILO]}{}g;
+		$numbers    =~ s{01}{};
 	}
 	
 	my $num_letters = length($letters);
@@ -75,14 +75,14 @@ sub generate_password {
 	my $password = "";
 	my $char;
 	for(my $i = 0; $i < $length; ++$i){
-		$char		=	substr $letters, irand($num_letters), 1;
-		$char		=	lc($char) unless irand(256) % 2;
-		$password	.=	$char;
+		$char       = substr $letters, irand($num_letters), 1;
+		$char       = lc($char) unless irand(256) % 2;
+		$password  .= $char;
 	}
 	
 	# Pepper it with numerals
-	$password	=	sprinkle $password, $numbers;
-	$password	=	sprinkle $password, $symbols unless !$use_symbols;
+	$password      = sprinkle $password, $numbers;
+	$password      = sprinkle $password, $symbols unless !$use_symbols;
 
 	return $password;
 }
@@ -98,17 +98,17 @@ sub validate {
 
 
 # Parse our command-line options
-my $length			=	16;
-my $use_symbols		=	1;
-my $use_similar		=	1;
-my $allow_spaces	=	0;
-my $copy			=	0;
+my $length          = 16;
+my $use_symbols     = 1;
+my $use_similar     = 1;
+my $allow_spaces    = 0;
+my $copy            = 0;
 GetOptions(
-	"length=i"		=> \$length,
-	"use-symbols=i"	=> \$use_symbols,
-	"use-similar=i"	=> \$use_similar,
-	"spaces"		=> \$allow_spaces,
-	"copy"			=> \$copy
+	"length=i"      => \$length,
+	"use-symbols=i" => \$use_symbols,
+	"use-similar=i" => \$use_similar,
+	"spaces"        => \$allow_spaces,
+	"copy"          => \$copy
 );
 
 
@@ -120,10 +120,10 @@ while(!validate $password);
 
 # If --copy was passed, copy our password to the system clipboard (Mac OS/X only).
 if($copy){
-	my $bold	=	`tput bold`;
-	my $green	=	`tput setaf 10`;
-	my $reset	=	`tput sgr0`;
-	$password	=~	s{"}{\\"}g;
+	my $bold    = `tput bold`;
+	my $green   = `tput setaf 10`;
+	my $reset   = `tput sgr0`;
+	$password   =~ s{"}{\\"}g;
 	`printf %s "$password" | pbcopy;` unless !$copy;
 	say "${bold}COPIED TO CLIPBOARD:${reset}  ${green}$password${reset}";
 }

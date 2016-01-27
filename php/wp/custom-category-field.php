@@ -18,7 +18,7 @@
 	add_action('category_edit_form_fields', 'dd_edit_category');
 	function dd_edit_category($tag){
 		global $dd_iso_cats;
-		$checked	=	in_array($tag->term_id, $dd_iso_cats);
+		$checked = in_array($tag->term_id, $dd_iso_cats);
 	?> 
 		<tr>
 			<th scope="row" valign="top"><label for="isolate-category"><?php _ex('Name of Field', 'Taxonomy Description', T_DOMAIN); ?></label></th>
@@ -33,11 +33,11 @@
 	add_action('created_term', 'dd_update_term', 15, 3);
 	add_action('edited_term', 'dd_update_term', 15, 3);
 	function dd_update_term($term_id, $tt_id = NULL, $taxonomy = NULL){
-		$a	=	get_option('isolated_categories', array());
+		$a = get_option('isolated_categories', array());
 
-		$_POST['isolate-category']	?
-			array_push($a, $term_id) :
-			array_remove_value($a, $term_id);
+		$_POST['isolate-category']
+			? array_push($a, $term_id)
+			: array_remove_value($a, $term_id);
 
 		update_option('isolated_categories', array_unique($a));
 	}

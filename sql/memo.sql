@@ -9,7 +9,7 @@ SELECT
 	users.*,
 	groups.*
 
-	FROM			users
-	INNER JOIN		groups
-		WHERE		groups.id = 1
-		ORDER BY	users.id;
+	FROM            users
+	INNER JOIN      groups
+		WHERE       groups.id = 1
+		ORDER BY    users.id;

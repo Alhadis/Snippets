@@ -3,7 +3,7 @@ function random(min, max){
 }
 
 function percent(value, outOf, startAt){
-	var startAt	=	undefined === startAt ? 0 : startAt;
+	var startAt = undefined === startAt ? 0 : startAt;
 	return ((value - startAt) / (outOf - startAt)) * 100;
 }
 
@@ -11,22 +11,22 @@ function percentOf(percentage, outOf, startAt){
 	return ((percentage / 100) * (outOf - (undefined === startAt ? 0 : startAt)));
 }
 
-/** Measures the arctangent between two points (the angle required for one point to face another). */
+/** Measure the arctangent between two points (the angle required for one point to face another). */
 function angleTo(a, b){
 	return (Math.atan2(b[1] - a[1], a[0] - b[0])) * 180 / Math.PI;
 }
 
-/** Measures the distance between two points. */
+/** Measure the distance between two points. */
 function distance(a, b){
 	return Math.sqrt(Math.pow(b[0] - a[0], 2) + Math.pow(b[1] - a[1], 2));
 }
 
-/** Converts radians to degrees. */
+/** Convert radians to degrees. */
 function radToDeg(value){
 	return value * 180 / Math.PI;
 }
 
-/** Converts degrees to radians. */
+/** Convert degrees to radians. */
 function degToRad(value){
 	return value * Math.PI / 180;
 }
@@ -58,25 +58,26 @@ function bijectiveBase26(int){
 }
 
 
-/** Applies De Casteljau's algorithm to an array of points to ascertain the final midpoint. */
+/** Apply De Casteljau's algorithm to an array of points to ascertain the final midpoint. */
 function deCasteljau(points, p){
-	var a, b, i, p	=	p || .5,
-		midpoints	=	[];
-
+	var a, b, i,
+	midpoints = [],
+	p         = p || 0.5;
+	
 	while(points.length > 1){
-
+		
 		for(i = 0; i < points.length - 1; ++i){
-			a	=	points[i];
-			b	=	points[i+1];
-
+			a = points[i];
+			b = points[i+1];
+			
 			midpoints.push([
 				a[0] + ((b[0] - a[0]) * p),
 				a[1] + ((b[1] - a[1]) * p)
 			]);
 		}
-
-		points		=	midpoints;
-		midpoints	=	[];
+		
+		points      = midpoints;
+		midpoints   = [];
 	}
 
 	return [points[0], a, b];
@@ -91,9 +92,9 @@ function deCasteljau(points, p){
  * @param {Number} min - The minimum required length of the formatted number.
  */
 function zeroise(value, min){
-	var val	=	value.toString();
+	var val = value.toString();
 	if(val.length < min)
-		val	=	Array(min - val.length + 1).join("0") + val;
+		val = Array(min - val.length + 1).join("0") + val;
 	return val;
 }
 
@@ -116,7 +117,7 @@ function clamp(input, min, max){
 
 
 /**
- * Returns TRUE if a variable is a Number or number-like String.
+ * Return TRUE if a variable is a Number or number-like String.
  * 
  * The string-checking is intentionally restricted to "basic" notation only: strings
  * using advanced notation like hexadecimal, exponential or binary literals are ignored.
@@ -131,7 +132,7 @@ function isNumeric(i){
 
 
 /**
- * Formats a number of bytes for human-readable output.
+ * Format a number of bytes for human-readable output.
  * @param {Number} input - Number of bytes.
  * @return {String} A reader-friendly representation of filesize.
  */
@@ -144,7 +145,7 @@ function formatBytes(input){
 
 
 /**
- * Breaks a path into separate components.
+ * Break a path into separate components.
  *
  * The elements of the returned array are:
  *    0:    Original input string
@@ -178,26 +179,26 @@ function isValidCCNumber(input){
 
 
 /**
- * Parses a well-formed URL query string into an object hash.
+ * Parse a well-formed URL query string into an object hash.
  * 
  * @param {String} q - If supplied, will be used instead of the current document's own URL.
  * @return {Object} A hash enumerated with key/value pairs found in the parsed string.
  */
 function unserialiseQuery(q){
-	q	=	q || document.location.search;
+	q = q || document.location.search;
 	if(!q) return {};
-	q	=	q.replace(/^\?/, "").split(/&/g);
+	q = q.replace(/^\?/, "").split(/&/g);
 	for(var q, output = {}, i = 0; i < q.length; ++i){
 		if(!i) continue;
-		q[i]	=	q[i].split(/=/);
-		output[q[i][0]]	=	q[i].slice(1).join("=");
+		q[i]   = q[i].split(/=/);
+		output[q[i][0]] = q[i].slice(1).join("=");
 	}
 	return output;
 }
 
 
 /**
- * Returns the subproperty located on an object at the designated path.
+ * Return the subproperty located on an object at the designated path.
  *
  * For instance, to access a nested value of "App.config.pages[0].dialogue.title.innerText", simply pass that
  * exact string sequence (minus "App.") to the function's second argument, with App passed to the first.
@@ -209,12 +210,12 @@ function unserialiseQuery(q){
  * @return {Mixed} The referenced value, or undefined if the path pointed to an invalid property.
  */
 function resolveProperty(object, path, useLast){
-	var	path	=	path.replace(/\[(['"])?([^\]]+)\1\]/g, ".$2").split(/\./g),
-		prev	=	object, p, i = 0, l = path.length;
+	var path = path.replace(/\[(['"])?([^\]]+)\1\]/g, ".$2").split(/\./g);
+	var prev = object, p, i = 0, l = path.length;
 	for(; i < l; ++i){
-		p	=	path[i];
+		p    = path[i];
 		if(prev === undefined || !(p in prev)) return useLast ? prev : undefined;
-		prev	=	prev[p];
+		prev = prev[p];
 		if(i >= l-1) return prev;
 	}
 	return undefined;
@@ -264,7 +265,7 @@ function alphabetiseProperties(input, strictCase){
 
 
 /**
- * Returns the English ordinal suffix for a number (-st, -nd, -rd, -th)
+ * Return the English ordinal suffix for a number (-st, -nd, -rd, -th).
  *
  * @param {Number} n - A number (preferably an integer) to return the suffix for.
  * @return {String}
@@ -275,27 +276,27 @@ function ordinalSuffix(n){
 
 
 /**
- * Returns a number of milliseconds from a string representing a time value in CSS.
+ * Return a number of milliseconds from a string representing a time value in CSS.
  *
  * @param {String} t - A CSS time value such as "3200ms" or "4s".
  * @return {Number}
  */
 function parseDuration(t){
-	if(typeof t != "string")	return t;
-	if(/\ds\s*$/i.test(t))		return parseFloat(t) * 1000;
-	else						return parseFloat(t);
+	if(typeof t != "string") return t;
+	if(/\ds\s*$/i.test(t))   return parseFloat(t) * 1000;
+	else                     return parseFloat(t);
 }
 
 
 
 /**
- * Ascertains a browser's support for a CSS property.
+ * Ascertain a browser's support for a CSS property.
  * 
  * @param {String} n - CSS property name, supplied in sentence case (e.g., "Transition")
  * @return {Boolean} TRUE if the browser supports the property in either prefixed or unprefixed form. 
  */
 function cssSupport(n){
-	s	=	document.documentElement.style;
+	s = document.documentElement.style;
 	if(n.toLowerCase() in s) return true;
 	for(var s, p = "Webkit Moz Ms O Khtml", p = (p.toLowerCase() + p).split(" "), i = 0; i < 10; ++i)
 		if(p[i]+n in s) return true;
@@ -306,54 +307,56 @@ function cssSupport(n){
 
 
 /**
- * Returns TRUE if a browser appears to support a given CSS unit.
+ * Check if a browser appears to support a given CSS unit.
  *
  * @param {String} unit - Name of a CSS unit (e.g., em, rem, vmax)
  * @return {Boolean}
  */
 function cssUnitSupport(unit){
 	try{
-		var d			=	document.createElement("div");
-		d.style.width	=	"32"+unit;
+		var d         = document.createElement("div");
+		d.style.width = "32"+unit;
 		return d.style.width == "32"+unit;
-	}	catch(e){return false;}
+	} catch(e){return false;}
 }
 
 
 
 /**
- * Returns TRUE if browser understands a given CSS selector.
+ * Check if the browser understands a given CSS selector.
+ *
  * Not supported in IE6-7 (which always report TRUE, even for unsupported selectors).
  *
  * @param {String} s - Selector to test support for. E.g., "input:checked"
  * @return {Boolean}
  */
 function cssSelectorSupport(s){
-	var	d	=	document,
-		b	=	d.body,
-		r	=	s+"{}",
-		s	=	b.appendChild(d.createElement("style")),
-		h	=	s.sheet, o;
+	var o,
+	d = document,
+	b = d.body,
+	r = s+"{}",
+	s = b.appendChild(d.createElement("style")),
+	h = s.sheet;
 
-		h ? (s.textContent = r, h = s.sheet) : ((h = s.styleSheet).cssText = r);
-		o	=	0 !== (h.cssRules || h.rules).length;
-		b.removeChild(s);
-		return o;
+	h ? (s.textContent = r, h = s.sheet) : ((h = s.styleSheet).cssText = r);
+	o = 0 !== (h.cssRules || h.rules).length;
+	b.removeChild(s);
+	return o;
 }
 
 
 
 /**
- * Returns the name of the WebGL rendering context supported by the browser, if any.
+ * Return the name of the WebGL rendering context supported by the browser, if any.
  *
  * If no support is detected whatsoever, an empty string is returned.
  *
  * @return {String}
  */
 function getWebGLSupport(){
-	var	i = 0, c,
-		canvas		= document.createElement("canvas"),
-		contexts	= "webgl experimental-webgl moz-webgl webkit-3d".split(" ");
+	var c, i  = 0,
+	canvas    = document.createElement("canvas"),
+	contexts  = "webgl experimental-webgl moz-webgl webkit-3d".split(" ");
 
 	/** Cycle through each known WebGL context type trying to break something */
 	for(; i < 4; ++i) try{
@@ -366,23 +369,24 @@ function getWebGLSupport(){
 
 
 /**
- * Returns the width of the scrollbars being displayed by this user's OS/device.
+ * Return the width of the scrollbars being displayed by this user's OS/device.
+ *
  * @return {Number}
  */
 function getScrollbarWidth(){
-	var	DOC		=	document,
-		el		=	DOC.createElement("div"),
-		style	=	el.style,
-		size	=	120,
-		result;
+	var result,
+	DOC    = document,
+	el     = DOC.createElement("div"),
+	style  = el.style,
+	size   = 120;
 
-	style.width			=
-	style.height		=	size+"px";
-	style.overflow		=	"auto";
-	el.innerHTML		=	Array(size*5).join(" W ");
+	style.width     =
+	style.height    = size+"px";
+	style.overflow  = "auto";
+	el.innerHTML    = Array(size*5).join(" W ");
 	(DOC.body || DOC.documentElement).appendChild(el);
 
-	result	=	el.offsetWidth - el.scrollWidth;
+	result  = el.offsetWidth - el.scrollWidth;
 	el.parentNode.removeChild(el);
 	return result;
 }
@@ -459,13 +463,13 @@ function buildDict(dl, useHTML, filter){
 
 	/** If given a regex, convert it into a callback to delete the characters it matches */
 	if(filter instanceof RegExp || "string" === typeof filter)
-		filter	= (function(pattern){
+		filter = (function(pattern){
 			return function(s){ return s.replace(pattern, ""); }
 		}(filter));
 
 
 	for(; i < l; ++i){
-		el		= items[i];
+		el = items[i];
 		
 		/** Skip if this node isn't a <dt> or <dd> element */
 		if(!{DT:1, DD:1}[el.tagName]) continue;
@@ -476,15 +480,15 @@ function buildDict(dl, useHTML, filter){
 
 		/** Adding a description to an existing term */
 		else{
-			value	= useHTML ? el.innerHTML : el.textContent;
+			value = useHTML ? el.innerHTML : el.textContent;
 
 			/** If this isn't the first definition assigned to a term, convert its assigned value to an array */
 			if("string" === typeof output[term])
 				output[term] = [output[term]];
 
-			undefined === output[term] ?
-				output[term] = value :		/** No definitions have been assigned to this term yet */
-				output[term].push(value);	/** Something's been defined under this term before */
+			undefined === output[term]
+				? output[term] = value        /** No definitions have been assigned to this term yet */
+				: output[term].push(value);   /** Something's been defined under this term before */
 		}
 	}
 	
@@ -587,31 +591,34 @@ function wordWrap(input, length){
 
 
 /**
- * Returns the number of words in a string. Hyphenation is ignored: "twenty-two" will be read as two words instead of one.
+ * Return the number of words in a string.
+ *
+ * Hyphenation is ignored: "twenty-two" will be read as two words instead of one.
+ *
  * @param {String} input - Text to measure the word count of.
  * @return {Number}
  */
 function wordCount(input){
-	var words	=	input.replace(/[^\w-_]+/g, " ").replace(/^\s+|\s+$/g, "").split(/\s+/g);
+	var words = input.replace(/[^\w-_]+/g, " ").replace(/^\s+|\s+$/g, "").split(/\s+/g);
 	return words[0] ? words.length : 0;
 }
 
 
 
 /**
- * Executes a callback function on every text node found within an element's descendants.
+ * Execute a callback function on every text node found within an element's descendants.
  * 
- * @param {Element} el - Element to parse the contents of.
- * @param {Function} fn - Callback executed on each text node. Passed two args: the text node itself, and the current depth level.
- * @param {Number} depth - Internal use only. Current number of recursion levels.
+ * @param {Element}  el    - Element to parse the contents of.
+ * @param {Function} fn    - Callback executed on each text node. Passed two args: the text node itself, and the current depth level.
+ * @param {Number}   depth - Internal use only. Current number of recursion levels.
  * 
  * @return {Element} The HTML element originally passed to the function.
  */
 function walkTextNodes(el, fn, depth){
-	depth	=	depth || 0;
+	depth = depth || 0;
 
 	for(var children = Array.prototype.slice.call(el.childNodes, 0), n, l = children.length, i = 0; i < l; ++i){
-		n	=	children[i];
+		n = children[i];
 		if(n.nodeType === Node.TEXT_NODE)
 			fn.call(this, n, depth);
 		else if(n.nodeType === Node.ELEMENT_NODE)
@@ -622,7 +629,7 @@ function walkTextNodes(el, fn, depth){
 
 
 /**
- * Injects <wbr /> elements into any lengthy words found in each text node found within an element's descendants.
+ * Inject <wbr /> elements into any lengthy words found in each text node found within an element's descendants.
  *
  * @uses walkTextNodes
  * @param {Element} element - DOM element to operate on.
@@ -631,18 +638,17 @@ function walkTextNodes(el, fn, depth){
 function injectWordBreaks(element, limit){
 
 	walkTextNodes(element, function(node){
-		var	original	=	node,
-			terminators	=	'.,+*?$|#{}()\\^\\-\\[\\]\\\\\/!%\'"~=<>_:;\\s',
-			splitAt		=	new RegExp("([^" + terminators + "]{" + limit + "})", "g"),
-		
-		/** Collect a list of insertion points. */
-			breakPoints	=	[];
+		var original = node,
+		terminators  = '.,+*?$|#{}()\\^\\-\\[\\]\\\\\/!%\'"~=<>_:;\\s',
+		splitAt      = new RegExp("([^" + terminators + "]{" + limit + "})", "g"),
+		breakPoints  = [];
 
+		/** Collect a list of insertion points. */
 		while(splitAt.exec(node.data))
 			breakPoints.push(splitAt.lastIndex);
 	
 		for(var otherHalf, i = breakPoints.length - 1; i >= 0; --i){
-			otherHalf	=	node.splitText(breakPoints[i]);
+			otherHalf = node.splitText(breakPoints[i]);
 			node.parentNode.insertBefore(document.createElement("wbr"), otherHalf);
 		}
 	});
@@ -651,7 +657,7 @@ function injectWordBreaks(element, limit){
 
 
 /**
- * Strips any text nodes from the immediate descendants of an element.
+ * Strip any text nodes from the immediate descendants of an element.
  * 
  * @param {Element} el - Subject element to operate on.
  * @param {Boolean} emptyOnly - Whether to limit deletion to whitespace nodes only.
@@ -661,8 +667,8 @@ function pruneTextNodes(el, emptyOnly){
 	if(!el || !el.childNodes.length) return el;
 	el.normalize();
 
-	var i	=	el.lastChild,
-		r	=	/^\s*$/;
+	var i = el.lastChild;
+	var r = /^\s*$/;
 
 	/** If the last node's a textNode, shoot it. */
 	if(3 === i.nodeType && (!emptyOnly || r.test(i.data))){
@@ -681,7 +687,7 @@ function pruneTextNodes(el, emptyOnly){
 
 
 /**
- * Returns the containing element of a node that matches the given selector.
+ * Return the containing element of a node that matches the given selector.
  *
  * If the node itself matches, it'll be returned unless ignoreSelf is set.
  *
@@ -691,16 +697,15 @@ function pruneTextNodes(el, emptyOnly){
  * @return {Element} The closest matching element, or NULL if none of the node's parents matched the selector.
  */
 function inside(node, selector, ignoreSelf){
-	var parent		=	ignoreSelf ? node.parentNode : node,
-		matches		=	document.querySelectorAll(selector),
-		numMatches	=	matches.length,
-		match;
+	var match,
+	parent     = ignoreSelf ? node.parentNode : node,
+	matches    = document.querySelectorAll(selector),
+	numMatches = matches.length;
 
-	if(numMatches)
-	while(parent){
+	if(numMatches) while(parent){
 		for(match = 0; match < numMatches; ++match)
 			if(matches[match] === parent) return parent;
-		parent	=	parent.parentNode;
+		parent = parent.parentNode;
 	}
 	return null;
 }
@@ -708,23 +713,23 @@ function inside(node, selector, ignoreSelf){
 
 
 /**
- * Checks if the user agent is a particular version of Internet Explorer.
+ * Check if the user agent is a particular version of Internet Explorer.
  *
  * @param {String} version - The version to check against.
  * @param {String} operand - Type of comparison to perform. Use basic JavaScript operators: <, >=, !=, etc.
  * @return {Boolean}
  */
 function isIE(version, operand){
-	var operands	=	{
-		"<":	"lt ",
-		"<=":	"lte ",
-		">":	"gt ",
-		">=":	"gte ",
-		"!=":	"!"
+	var operands = {
+		"<":   "lt ",
+		"<=":  "lte ",
+		">":   "gt ",
+		">=":  "gte ",
+		"!=":  "!"
 	},
 
-	div				=	document.createElement("div");
-	div.innerHTML	=	"<!--[if "+(operands[operand] || "")+"IE "+version+"]><i></i><![endif]-->";
+	div            = document.createElement("div");
+	div.innerHTML  = "<!--[if "+(operands[operand] || "")+"IE "+version+"]><i></i><![endif]-->";
 	return div.getElementsByTagName("i").length;
 }
 
@@ -746,7 +751,7 @@ function kebabToCamelCase(input){
 
 
 /**
- * Converts a camelCased string to its kebab-cased equivalent.
+ * Convert a camelCased string to its kebab-cased equivalent.
  * Hilariously-named function entirely coincidental.
  * 
  * @param {String} string - camelCasedStringToConvert
@@ -768,13 +773,13 @@ function camelToKebabCase(string){
  * This also allows "hotlinking" to said actions by including the hash as part of the requested URL.
  * For instance, the following would allow a gallery to be opened on page load:
  *
- *	<a href="#open-gallery">Browse gallery</a>
- *	hashActions({ openGallery: function(){ galleryNode.classList.add("open"); } });
- * 
+ *  <a href="#open-gallery">Browse gallery</a>
+ *  hashActions({ openGallery: function(){ galleryNode.classList.add("open"); } });
+ *
  * @param {Object} actions - An object map of callbacks assigned by key.
  */
 function hashActions(actions){
-	var id, addEvent	=	document.addEventListener || function(e,f){this.attachEvent("on"+e,f);};
+	var id, addEvent = document.addEventListener || function(e,f){this.attachEvent("on"+e,f);};
 	for(id in actions) (function(id, callback){
 		for(var id = camelToKebabCase(id), links = document.querySelectorAll('a[href="#' + id + '"]'), l = links.length, i = 0; i < l; ++i)
 			addEvent.call(links[i], "click", function(e){
@@ -799,12 +804,11 @@ function hashActions(actions){
  * @return {String} The cookie's existing value if a value wasn't passed to the function.
  */
 function cookie(name, value, options){
-	var cookies	=	document.cookie,
-		rSplit	=	/;\s*/g,
-		output	=	{},
-		decode	=	decodeURIComponent,
-		cutoff, i, l, expires;
-
+	var cutoff, i, l, expires,
+	cookies = document.cookie,
+	rSplit  = /;\s*/g,
+	output  = {},
+	decode  = decodeURIComponent;
 
 	/** If called without any arguments, or if an empty value's passed as our name parameter, return a hash of EVERY available cookie. */
 	if(!name){
@@ -817,10 +821,10 @@ function cookie(name, value, options){
 
 	/** Getter */
 	if(undefined === value){
-		for(cookies	=	cookies.split(rSplit),
-			cutoff	=	name.length + 1,
-			i		=	0,
-			l		=	cookies.length;
+		for(cookies = cookies.split(rSplit),
+			cutoff  = name.length + 1,
+			i       = 0,
+			l       = cookies.length;
 			i < l; ++i)
 			if(name+"=" === cookies[i].substr(0, cutoff))
 				return decode(cookies[i].substr(cutoff));
@@ -830,22 +834,22 @@ function cookie(name, value, options){
 
 	/** Setter */
 	else{
-		options		=	options || {};
-		expires		=	options.expires;
+		options = options || {};
+		expires = options.expires;
 
 		/** Delete a cookie */
 		if(null === value)
-			value	=	"",
-			expires	=	-1;
+			value   = "",
+			expires = -1;
 
 		if(expires)
 			/** If we weren't passed a Date instance as our expiry point, typecast the expiry option to an integer and use as a number of days from now. */
-			expires	=	(!expires.toUTCString ? new Date(Date.now() + (86400000 * expires)) : expires).toUTCString();
+			expires = (!expires.toUTCString ? new Date(Date.now() + (86400000 * expires)) : expires).toUTCString();
 
-		document.cookie	=	name+"="+encodeURIComponent(value) + (expires ? "; expires="+expires : "") 
-			+	(options.path ? "; path="+options.path : "")
-			+	(options.domain ? "; domain="+options.domain : "")
-			+	(options.secure ? "; secure" : "");
+		document.cookie = name+"="+encodeURIComponent(value) + (expires ? "; expires="+expires : "") 
+			+ (options.path   ? "; path="   + options.path   : "")
+			+ (options.domain ? "; domain=" + options.domain : "")
+			+ (options.secure ? "; secure"  : "");
 	}
 }
 
@@ -859,13 +863,14 @@ function cookie(name, value, options){
  * @return {Element}
  */
 function New(nodeType, obj){
-	var	node	=	document.createElement(nodeType), i,
-		absorb	=	function(a, b){
-			for(i in b)
-				if(Object(a[i]) === a[i] && Object(b[i]) === b[i])
-					absorb(a[i], b[i]);
-				else a[i] =	b[i];
-		};
+	var i,
+	node   = document.createElement(nodeType),
+	absorb = function(a, b){
+		for(i in b)
+			if(Object(a[i]) === a[i] && Object(b[i]) === b[i])
+				absorb(a[i], b[i]);
+			else a[i] = b[i];
+	};
 	if(obj) absorb(node, obj);
 	return node;
 }
@@ -873,7 +878,7 @@ function New(nodeType, obj){
 
 
 /**
- * Generates a base64-encoded 4x4-size PNG image of a designated RGBA value.
+ * Generate a base64-encoded 4x4-size PNG image of a designated RGBA value.
  *
  * @param {Number} r - Red component (0-255)
  * @param {Number} g - Green component (0-255)
@@ -883,45 +888,44 @@ function New(nodeType, obj){
  * @return {String} A base64-encoded PNG image without a leading data URI prefix (no "data:image/png;base64,"...)
  */
 function rgba(r, g, b, a){
-	var	chr		=	String.fromCharCode,
-		fill	=	function(mult, str){ return Array(mult+1).join(str || "\0"); },
-		hton	=	function(i){ return String.fromCharCode(i >>> 24, i >>> 16 & 255, i >>> 8 & 255, i & 255); },
+	var chr = String.fromCharCode,
+	fill    = function(mult, str){ return Array(mult+1).join(str || "\0"); },
+	hton    = function(i){ return String.fromCharCode(i >>> 24, i >>> 16 & 255, i >>> 8 & 255, i & 255); },
+
+	/** Binary output */
+	img     = "\x89PNG\15\12\32\12\0\0\0\15IHDR\0\0\0\4\0\0\0\4\10\6\0\0\0\xA9\xF1\x9E~\0\0\0O",
+
+	/** IDAT (Image Data) chunk. */
+	idat    = "IDAT\10\35\1D\0\xBB\xFF",
+	data    = "\1" + chr(r) + chr(g) + chr(b) + chr(a) + fill(12) + "\2" + fill(2, fill(16) + "\2") + fill(16),
+
+	crc1    = hton(function(data){
+		/** Addler's algorithm */
+		for(var a = 1, b = i = 0, l = data.length, k = 65521; i < l; ++i)
+			a  = (a + data.charCodeAt(i)) % k,
+			b  = (b + a) % k;
+		return b << 16 | a;
+	}(data)),
+
+	crc2    = hton(function(data){
+		/** CRC32 */
+		for(var c = ~0, i = 0; i < data.length; ++i)
+			for(var b = data.charCodeAt(i) | 0x100; b != 1; b >>>= 1)
+				c = (c >>> 1) ^ ((c ^ b) & 1 ? 0xEDB88320 : 0);
+		return ~c;
+	}(idat + data + crc1));
 
 
-		/** Binary output */
-		img		=	"\x89PNG\15\12\32\12\0\0\0\15IHDR\0\0\0\4\0\0\0\4\10\6\0\0\0\xA9\xF1\x9E~\0\0\0O",
+	/** Stitch the IDAT chunk together and write the IEND chunk to wrap it up. */
+	return (function(data){
 
-		/** IDAT (Image Data) chunk. */
-		idat	=	"IDAT\10\35\1D\0\xBB\xFF",
-		data	=	"\1" + chr(r) + chr(g) + chr(b) + chr(a) + fill(12) + "\2" + fill(2, fill(16) + "\2") + fill(16),
+		/** Base64-encode that bitch. */
+		for(var enc = "", c = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i = 5, n = data.length * 8 + 5; i < n; i += 6)
+			enc += c[(data.charCodeAt(~~(i/8)-1) << 8 | data.charCodeAt(~~(i/8))) >> 7 - i%8 & 63];
+		for(; enc.length % 4; enc += "=");
+		return enc;
 
-		crc1	=	hton(function(data){
-			/** Addler's algorithm */
-			for(var	a = 1, b = i = 0, l	= data.length, k = 65521; i < l; ++i)
-				a	=	(a + data.charCodeAt(i)) % k,
-				b	=	(b + a) % k;
-			return b << 16 | a;
-		}(data)),
-
-		crc2	=	hton(function(data){
-			/** CRC32 */
-			for(var c = ~0, i = 0; i < data.length; ++i)
-				for(var b = data.charCodeAt(i) | 0x100; b != 1; b >>>= 1)
-					c = (c >>> 1) ^ ((c ^ b) & 1 ? 0xEDB88320 : 0);
-			return ~c;
-		}(idat + data + crc1));
-
-
-		/** Stitch the IDAT chunk together and write the IEND chunk to wrap it up. */
-		return (function(data){
-
-			/** Base64-encode that bitch. */
-			for(var enc = "", c = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/", i = 5, n = data.length * 8 + 5; i < n; i += 6)
-				enc += c[(data.charCodeAt(~~(i/8)-1) << 8 | data.charCodeAt(~~(i/8))) >> 7 - i%8 & 63];
-			for(; enc.length % 4; enc += "=");
-			return enc;
-
-		}(	img + idat+data+crc1+crc2 +	fill(4)+"IEND\xAEB`\x82" ));
+	}( img + idat+data+crc1+crc2 + fill(4)+"IEND\xAEB`\x82" ));
 }
 
 
@@ -931,29 +935,29 @@ function rgba(r, g, b, a){
 /** Decodes a UTF-8 string into a stream of single-byte sequences. */
 function UTF8Decode(data){
 	for(var char = String.fromCharCode, data = data.replace(/\r\n/g, "\n"), s = "", c, i = 0, l = data.length; i < l; ++i){
-		c	=	data.charCodeAt(i);
-		if(c < 128)							s	+=	char(c);
-		else if((c > 127) && (c < 2048))	s	+=	char((c >> 6)	| 192) + char((c & 63)			| 128);
-		else								s	+=	char((c >> 12)	| 224) + char(((c >> 6) & 63)	| 128) + char((c & 63) | 128);
+		c = data.charCodeAt(i);
+		if(c < 128)                       s += char(c);
+		else if((c > 127) && (c < 2048))  s += char((c >> 6)  | 192) + char((c & 63)        | 128);
+		else                              s += char((c >> 12) | 224) + char(((c >> 6) & 63) | 128) + char((c & 63) | 128);
 	}
 	return s;
 };
 
 /** Encodes a sequence of single-byte characters as a UTF-8 string. */
 function UTF8Encode(data){
-	var	s	=
-		c	=	"",
-		i	=	0,
+	var s   = "",
+	c       = "",
+	i       = 0,
 
-		length	=	data.length,
-		at		=	"charCodeAt",
-		char	=	String.fromCharCode;
+	length  = data.length,
+	at      = "charCodeAt",
+	char    = String.fromCharCode;
 
 	while(i < length){
-		c	=	data[at](i);
-		if(c < 128){						s	+=	char(c); ++i;	}
-		else if((c > 191) && (c < 224)){	s	+=	char(((c & 31) << 6)	| (data[at](i+1) & 63));	i += 2;	}
-		else{								s	+=	char(((c & 15) << 12)	| ((data[at](i+1) & 63) << 6) | (data[at](i+2) & 63)); i += 3; }
+		c   = data[at](i);
+		if(c < 128){                      s += char(c); ++i; }
+		else if((c > 191) && (c < 224)){  s += char(((c & 31) << 6)  | (data[at](i+1) & 63)); i += 2; }
+		else{                             s += char(((c & 15) << 12) | ((data[at](i+1) & 63) << 6) | (data[at](i+2) & 63)); i += 3; }
 	}
 
 	return s;
@@ -965,12 +969,12 @@ function UTF8Encode(data){
 function base64Encode(data){
 
 	/** Convert UTF-8 strings to whatever "normal" encoding is needed for JavaScript to safely manipulate at binary-level. */
-	data	=	(function(data){
+	data = (function(data){
 		for(var char = String.fromCharCode, data = data.replace(/\r\n/g, "\n"), s = "", c, i = 0, l = data.length; i < l; ++i){
-			c	=	data.charCodeAt(i);
-			if(c < 128)							s	+=	char(c);
-			else if((c > 127) && (c < 2048))	s	+=	char((c >> 6)	| 192) + char((c & 63)			| 128);
-			else								s	+=	char((c >> 12)	| 224) + char(((c >> 6) & 63)	| 128) + char((c & 63) | 128);
+			c = data.charCodeAt(i);
+			if(c < 128)                      s += char(c);
+			else if((c > 127) && (c < 2048)) s += char((c >> 6)  | 192) + char((c & 63)        | 128);
+			else                             s += char((c >> 12) | 224) + char(((c >> 6) & 63) | 128) + char((c & 63) | 128);
 		}
 		return s;
 	}(data));
@@ -987,39 +991,40 @@ function base64Encode(data){
 
 /** Decodes a base64-encoded string */
 function base64Decode(data){
-	var	a = b = c = d = s =	"",
+	var a, b, c, d, s = "",
 
-	char	=	String.fromCharCode,
-	codex	=	"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
-	data	=	data.replace(/[^A-Za-z0-9\+\/=]/g, ""),
-	i		=	0,
-	l		=	data.length;
+	char   = String.fromCharCode,
+	codex  = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",
+	data   = data.replace(/[^A-Za-z0-9\+\/=]/g, ""),
+	i      = 0,
+	l      = data.length;
 
 	while(i < l){
-		a	=	codex.indexOf(data[i++]),
-		b	=	codex.indexOf(data[i++]),
-		c	=	codex.indexOf(data[i++]),
-		d	=	codex.indexOf(data[i++]);
-						s	+=	char((a << 2) | (b >> 4));
-		if(64 !== c)	s	+=	char(((b & 15) << 4) | (c >> 2));
-		if(64 !== d)	s	+=	char(((c & 3) << 6) | d);
+		a  = codex.indexOf(data[i++]),
+		b  = codex.indexOf(data[i++]),
+		c  = codex.indexOf(data[i++]),
+		d  = codex.indexOf(data[i++]);
+		s += char((a << 2) | (b >> 4));
+		if(64 !== c)   s += char(((b & 15) << 4) | (c >> 2));
+		if(64 !== d)   s += char(((c &  3) << 6) | d);
 	}
 
 	/** Re-encode the data as UTF-8 */
-	s	=	(function(data){
-		var	s = c = "",
-			i		=	0,
-			length	=	data.length,
-			at		=	"charCodeAt",
-			char	=	String.fromCharCode;
-
+	s = (function(data){
+		var s  = "",
+		c      = "",
+		i      = 0,
+		length = data.length,
+		at     = "charCodeAt",
+		char   = String.fromCharCode;
+		
 		while(i < length){
-			c	=	data[at](i);
-			if(c < 128){						s	+=	char(c); ++i;	}
-			else if((c > 191) && (c < 224)){	s	+=	char(((c & 31) << 6)	| (data[at](i+1) & 63));	i += 2;	}
-			else{								s	+=	char(((c & 15) << 12)	| ((data[at](i+1) & 63) << 6) | (data[at](i+2) & 63)); i += 3; }
+			c  = data[at](i);
+			if(c < 128){                      s += char(c); ++i; }
+			else if((c > 191) && (c < 224)){  s += char(((c & 31) <<  6) |  (data[at](i+1) & 63)); i += 2; }
+			else{                             s += char(((c & 15) << 12) | ((data[at](i+1) & 63) << 6) | (data[at](i+2) & 63)); i += 3; }
 		}
-
+		
 		return s;
 	}(s));
 
@@ -1040,22 +1045,22 @@ function base64Decode(data){
  * @return {Function}
  */
 function debounce(fn, limit, soon){
-	var limit = limit < 0 ? 0 : limit,
-		started, context, args, timer,
+	var started, context, args, timer,
+	limit   = limit < 0 ? 0 : limit,
 
-		delayed = function(){
+	delayed = function(){
 
-			/** Get the time between now and when the function was first fired. */
-			var timeSince = Date.now() - started;
+		/** Get the time between now and when the function was first fired. */
+		var timeSince = Date.now() - started;
 
-			if(timeSince >= limit){
-				if(!soon) fn.apply(context, args);
-				if(timer) clearTimeout(timer);
-				timer = context = args = null;
-			}
+		if(timeSince >= limit){
+			if(!soon) fn.apply(context, args);
+			if(timer) clearTimeout(timer);
+			timer = context = args = null;
+		}
 
-			else timer = setTimeout(delayed, limit - timeSince);
-		};
+		else timer = setTimeout(delayed, limit - timeSince);
+	};
 
 
 	/** Debounced copy of the original function. */

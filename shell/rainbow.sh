@@ -36,12 +36,12 @@ count=15
 # Parse any options we were given
 while getopts alc:t:b option; do
 	case $option in
-	a)	count=$max				;;	# Show all colours
-	l)	count=$max				;;	# Synoynm for -a: displays a long rainbow
-	c)	count=$((OPTARG - 1))	;;	# Display an arbitrary number of colours
-	t)	text=$OPTARG			;;	# Use a custom string to display each row
-	b)	text=$(bar 73)			;;	# Use a solid-coloured bar instead of text
-	?)	>&2 usage; exit 1;		;;	# Unknown option: print usage message and exit
+	a)  count=$max              ;;  # Show all colours
+	l)  count=$max              ;;  # Synoynm for -a: displays a long rainbow
+	c)  count=$((OPTARG - 1))   ;;  # Display an arbitrary number of colours
+	t)  text=$OPTARG            ;;  # Use a custom string to display each row
+	b)  text=$(bar 73)          ;;  # Use a solid-coloured bar instead of text
+	?)  >&2 usage; exit 1;      ;;  # Unknown option: print usage message and exit
 	esac
 done;
 

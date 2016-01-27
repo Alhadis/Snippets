@@ -1,19 +1,19 @@
 # Directories to read/write files to/from
-CSSDIR			:=	src/css
-JSDIR			:=	src/js
-OBJDIR			:=	src/min
+CSSDIR          := src/css
+JSDIR           := src/js
+OBJDIR          := src/min
 
 
 # CLI arguments for each program used to build our files
-OPTS_CLEANCSS	:=	--skip-advanced
-OPTS_UGLIFYJS	:=	--mangle
+OPTS_CLEANCSS   := --skip-advanced
+OPTS_UGLIFYJS   := --mangle
 
 
-# Builds all JavaScript and CSS files
+# Build all JavaScript and CSS files
 all: css js
 	
-# Installs needed dependencies
-NODE_MODULES	:=	cleancss myth uglifyjs babel
+# Install needed dependencies
+NODE_MODULES := cleancss myth uglifyjs babel
 install:
 	@for dep in $(NODE_MODULES); do \
 		which "$$dep" 2>&1 > /dev/null && { echo "Checking $$dep: installed"; } || { \
@@ -28,10 +28,10 @@ install:
 #==============================================================================
 
 # Primary CSS tasks
-css:				css-main css-contact css-home
-css-main:			$(OBJDIR)/min.css
-css-contact:		$(OBJDIR)/page.contact.css
-css-home:			$(OBJDIR)/page.home.css
+css:                css-main css-contact css-home
+css-main:           $(OBJDIR)/min.css
+css-contact:        $(OBJDIR)/page.contact.css
+css-home:           $(OBJDIR)/page.home.css
 
 
 # Build the main/global CSS bundle
@@ -47,14 +47,14 @@ $(OBJDIR)/%.css: $(CSSDIR)/%.css
 #==============================================================================
 
 # Primary JS tasks
-js:					js-main js-home
-js-main:			$(OBJDIR)/min.js
-js-home:			$(OBJDIR)/home.js
+js:                 js-main js-home
+js-main:            $(OBJDIR)/min.js
+js-home:            $(OBJDIR)/home.js
 
 
 # Macros
-clear-subdir	=	rmdir "$(sort $(filter-out $(OBJDIR),$(1)))";
-USE_STRICT		:=	"use strict";
+clear-subdir     = rmdir "$(sort $(filter-out $(OBJDIR),$(1)))";
+USE_STRICT      := "use strict";
 
 define compress-js
 	printf '%s' '$(USE_STRICT)' > $@

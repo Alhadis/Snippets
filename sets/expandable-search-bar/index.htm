@@ -52,20 +52,18 @@ label{
 
 	<script type="text/javascript">
 		(function(){
-			var	searchField	=	document.getElementById("s"),
-				searchClose	=	document.getElementById("search-close");
+			var searchField = document.getElementById("s"),
+				searchClose = document.getElementById("search-close");
 
 			/** Shifts input focus to the newly-revealed search pane. */
 			searchClose.addEventListener("change", function(e){
-
 				if(!e.target.checked)
 					setTimeout(function(){ searchField.focus(); }, 100);
 			});
 
-
 			/** If clicking/tapping anywhere in the page's body, close the search menu if it's still open. */
 			document.getElementsByTagName("main")[0].addEventListener("click", function(e){
-				searchClose.checked	=	true;
+				searchClose.checked = true;
 			});
 		}());
 	</script>

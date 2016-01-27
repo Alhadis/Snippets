@@ -1,6 +1,6 @@
 /** Interface */
-.control					{	display: none				}
-.menu.control:checked ~ ul	{	max-height: 0 !important;	}
+.control                    { display: none             }
+.menu.control:checked ~ ul  { max-height: 0 !important; }
 
 
 /** Styled dropdown container */
@@ -114,46 +114,44 @@
 	.styled-options > li,
 	.styled-dropdown h2,
 	.styled-options li.selected > a{
-		-webkit-border-radius:	inherit;
-		-moz-border-radius:		inherit;
-		border-radius:			inherit;
+		-webkit-border-radius:  inherit;
+		-moz-border-radius:     inherit;
+		border-radius:          inherit;
 	}
 
 	/** Cut the border radius on the top-most element (the one providing the menu's closed state) when it's opened. */
 	.styled-dropdown h2{
-		-webkit-border-bottom-left-radius:	0;
-		-webkit-border-bottom-right-radius:	0;
-		-moz-border-radius-bottomleft:		0;
-		-moz-border-radius-bottomright:		0;
-		border-bottom-left-radius:			0;
-		border-bottom-right-radius:			0;
+		-webkit-border-bottom-left-radius:  0;
+		-webkit-border-bottom-right-radius: 0;
+		-moz-border-radius-bottomleft:      0;
+		-moz-border-radius-bottomright:     0;
+		border-bottom-left-radius:          0;
+		border-bottom-right-radius:         0;
 	}
 	
 	.styled-options li:last-child > a,
 	.styled-dropdown > .menu.control:checked ~ h2{
-		-webkit-border-bottom-left-radius:	inherit;
-		-webkit-border-bottom-right-radius:	inherit;
-		-moz-border-radius-bottomleft:		inherit;
-		-moz-border-radius-bottomright:		inherit;
-		border-bottom-left-radius:			inherit;
-		border-bottom-right-radius:			inherit;
+		-webkit-border-bottom-left-radius:  inherit;
+		-webkit-border-bottom-right-radius: inherit;
+		-moz-border-radius-bottomleft:      inherit;
+		-moz-border-radius-bottomright:     inherit;
+		border-bottom-left-radius:          inherit;
+		border-bottom-right-radius:         inherit;
 	}
 
 
 	/** Use transitions on this dropdown menu */
 	.styled-options.trans{
-		-webkit-transition:	.2s ease-out max-height;
-		-moz-transition:	.2s ease-out max-height;
-		-ms-transition:		.2s ease-out max-height;
-		-o-transition:		.2s ease-out max-height;
-		transition:			.2s ease-out max-height;
+		-webkit-transition: .2s ease-out max-height;
+		-moz-transition:    .2s ease-out max-height;
+		-o-transition:      .2s ease-out max-height;
+		transition:         .2s ease-out max-height;
 	}
 		.styled-options.trans a{
-			-webkit-transition:	.2s linear opacity;
-			-moz-transition:	.2s linear opacity;
-			-ms-transition:		.2s linear opacity;
-			-o-transition:		.2s linear opacity;
-			transition:			.2s linear opacity;
+			-webkit-transition: .2s linear opacity;
+			-moz-transition:    .2s linear opacity;
+			-o-transition:      .2s linear opacity;
+			transition:         .2s linear opacity;
 		}
 
 

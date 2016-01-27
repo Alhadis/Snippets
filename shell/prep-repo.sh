@@ -5,8 +5,8 @@ snippets=$HOME/Labs/Snippets
 usegit=1
 
 while getopts u opt; do case $opt in
-	u)	usegit= ;;
-	\?)	>&2 echo "Example usage:
+	u)  usegit= ;;
+	\?) >&2 echo "Example usage:
     prep-repo         # Standard usage
     prep-repo -u      # Copy files, but don't commit to Git"; exit 1;;
 esac; done

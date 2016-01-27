@@ -60,12 +60,12 @@ mode=255
 # Assign any options that we were passed.
 while getopts lrt:f:wc option; do
 	case $option in
-	l)	mode=$(( $mode ^ 1 ))	;;	#	-l	Trim only the left-hand side of each line
-	r)	mode=$(( $mode ^ 2 ))	;;	#	-r	Trim only the right-hand side
-	t)	chars=$OPTARG			;;	#	-t	Specify a custom regex to use when trimming characters from each side
-	f)	file=$OPTARG			;;	#	-f	Use the specified file's content as input
-	w)	writeback=1				;;	#	-w	Write over the source file if -f was enabled
-	c)	clipboard=1				;;	#	-c	Read/write to and from system clipboard
+	l)  mode=$(( $mode ^ 1 ))   ;; #  -l  Trim only the left-hand side of each line
+	r)  mode=$(( $mode ^ 2 ))   ;; #  -r  Trim only the right-hand side
+	t)  chars=$OPTARG           ;; #  -t  Specify a custom regex to use when trimming characters from each side
+	f)  file=$OPTARG            ;; #  -f  Use the specified file's content as input
+	w)  writeback=1             ;; #  -w  Write over the source file if -f was enabled
+	c)  clipboard=1             ;; #  -c  Read/write to and from system clipboard
 	esac
 done
 shift $((OPTIND - 1))
@@ -76,14 +76,14 @@ if [ $mode != 255 ]; then mode=$(( ~$mode & 0xFF )); fi
 
 
 # Determine which of a line's ends to trim.
-start=$((	$mode & 1 ))
-end=$((		$mode & 2 ))
+start=$((   $mode & 1 ))
+end=$((     $mode & 2 ))
 
 
 # Construct a pattern to pass to sed.
-if   [[ $start -gt 0 && $end -gt 0 ]];	then	pattern="^$chars|$chars$";
-elif [[ $start -gt 0 ]];				then	pattern="^$chars";
-elif [[ $end -gt 0 ]];					then	pattern="$chars$";
+if   [[ $start -gt 0 && $end -gt 0 ]];  then pattern="^$chars|$chars$";
+elif [[ $start -gt 0 ]];                then pattern="^$chars";
+elif [[ $end -gt 0 ]];                  then pattern="$chars$";
 fi
 
 # Resolve the final pattern to pass to the stream editor.

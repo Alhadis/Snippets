@@ -75,14 +75,14 @@ use Getopt::Long qw(:config auto_abbrev);
 
 
 # Initialise output string
-my $output	= "";
+my $output  = "";
 
 
 # Process command-line options
-my $width	= 0;
-my $before	= "";
-my $after	= "";
-my $newline	= 0;
+my $width   = 0;
+my $before  = "";
+my $after   = "";
+my $newline = 0;
 my ($indent, $verbatim);
 GetOptions("width=i" => \$width, "before=s" => \$before, "after=s" => \$after, "newline" => \$newline, "new-line" => \$newline, "indent=i" => \$indent, "verbatim" => \$verbatim);
 
@@ -93,12 +93,12 @@ if($newline){ $after = "\n"; }
 
 # Similarly, if $indent is specified, use its value as the number of tabs to set $before to.
 if(defined($indent)){
-	$before	=	"\t" x $indent;
+	$before = "\t" x $indent;
 }
 
 
 # Define formatting string
-my $format	= $before . ($width > 1 ?
+my $format = $before . ($width > 1 ?
 	'<option' . ($verbatim ? '' : ' value="%1$s"') . '>%1$0'.$width.'s</option>' :
 	'<option>%1$s</option>'
 ) . $after;
@@ -107,6 +107,6 @@ my $format	= $before . ($width > 1 ?
 
 # Start formatting arguments.
 while(@ARGV){
-	$_	=	shift;
+	$_ = shift;
 	printf $format, $_;
 }

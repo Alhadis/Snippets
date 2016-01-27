@@ -33,38 +33,38 @@ p:last-of-type{
 	overflow: hidden;
 	z-index: 9999;
 	opacity: 0;
-	top:	0;
-	left:	0;
-	bottom:	0;
-	right:	100%;
+	top:    0;
+	left:   0;
+	bottom: 0;
+	right:  100%;
 	white-space: nowrap;
 	text-align: center;
 	background: rgba(0,0,0,.85);
 
-	-webkit-transform:		translateY(0);
-	-moz-transform:			translateY(0);
-	-ms-transform:			translateY(0);
-	-o-transform:			translateY(0);
-	transform:				translateY(0);
+	-webkit-transform:    translateY(0);
+	-moz-transform:       translateY(0);
+	-ms-transform:        translateY(0);
+	-o-transform:         translateY(0);
+	transform:            translateY(0);
 	
-	-webkit-transition:		0s step-end right .3s, 0s step-end padding .3s, .3s ease opacity;
-	-moz-transition:		0s step-end right .3s, 0s step-end padding .3s, .3s ease opacity;
-	-o-transition:			0s step-end right .3s, 0s step-end padding .3s, .3s ease opacity;
-	transition:				0s step-end right .3s, 0s step-end padding .3s, .3s ease opacity;
+	-webkit-transition:   0s step-end right .3s, 0s step-end padding .3s, .3s ease opacity;
+	-moz-transition:      0s step-end right .3s, 0s step-end padding .3s, .3s ease opacity;
+	-o-transition:        0s step-end right .3s, 0s step-end padding .3s, .3s ease opacity;
+	transition:           0s step-end right .3s, 0s step-end padding .3s, .3s ease opacity;
 	
-	-webkit-backface-visibility:	hidden;
-	-moz-backface-visibility:		hidden;
-	backface-visibility:			hidden;
+	-webkit-backface-visibility: hidden;
+	-moz-backface-visibility:    hidden;
+	backface-visibility:         hidden;
 }
 	.show.dialogue{
 		opacity: 1;
-		right:	0;
+		right: 0;
 		padding: 1em;
 
-		-webkit-transition-delay:	0s;
-		-moz-transition-delay:		0s;
-		-o-transition-delay:		0s;
-		transition-delay:			0s;
+		-webkit-transition-delay: 0s;
+		-moz-transition-delay:    0s;
+		-o-transition-delay:      0s;
+		transition-delay:         0s;
 	}
 
 	.dialogue-centre{
@@ -102,9 +102,9 @@ p:last-of-type{
 	/** Auxiliary stylesheets: not needed for the core effect, but will be useful. */
 	.dialogue-close{
 		position: absolute;
-		top:	0;
-		width:	1em;
-		height:	1em;
+		top:    0;
+		width:  1em;
+		height: 1em;
 		font-size: 2em;
 		margin: -.5em 0 0 -.5em;
 		background: url("src/img/close.png") no-repeat 50% 50%;
@@ -180,12 +180,12 @@ p:last-of-type{
 
 
 		/** If you need the cliché "button-over-corner" look, you'll need this to align it properly. */
-		var	closeBtn		=	document.querySelector(".dialogue-close"),
-			dialogueCentre	=	document.querySelector(".dialogue-centre"),
-			dialogueContent	=	document.querySelector(".dialogue-content");
-			closeBtn.pin	=	function(){
-				this.style.left	=	dialogueCentre.getBoundingClientRect().right	+ "px";
-				this.style.top	=	dialogueContent.getBoundingClientRect().top		+ "px";
+		var closeBtn        = document.querySelector(".dialogue-close"),
+			dialogueCentre  = document.querySelector(".dialogue-centre"),
+			dialogueContent = document.querySelector(".dialogue-content");
+			closeBtn.pin    = function(){
+				this.style.left = dialogueCentre.getBoundingClientRect().right + "px";
+				this.style.top  = dialogueContent.getBoundingClientRect().top  + "px";
 			};
 
 		window.addEventListener("resize", new function(){

@@ -11,10 +11,10 @@ use strict;
 sub parse_line {
 	
 	# Optional flag to return the parsed/modified data in the same format as it was supplied.
-	my $preserve_semicolons	=	$_[1];
+	my $preserve_semicolons = $_[1];
 
 	# Check if we should display feedback as we're parsing lines (debugging use only).
-	my $quiet	=	!$_[2];
+	my $quiet = !$_[2];
 
 
 	# Break the row apart.
@@ -37,7 +37,7 @@ sub parse_line {
 
 
 	# Use decimals to represent what'll be the primary key in the MySQL table (which obviously won't take kindly to hexadecimal values).
-	$codepoint	=	hex($codepoint);
+	$codepoint = hex($codepoint);
 
 
 	# Slice open the decomposition field and ensure the contents are properly formatted.
@@ -46,7 +46,7 @@ sub parse_line {
 		# Yeah, we're all cool here. Convert the hexadecimal codepoints to decimal form for easier lookup later.
 		if($decomposition =~ m/(<[^>]+>)?((?:^|\s+)[A-F\d]{4,})+/){
 			print "BEFORE: $decomposition\n" unless $quiet;
-			$decomposition	=~	s/\b([A-F0-9]{4})\b/hex($1)/ge;
+			$decomposition =~ s/\b([A-F0-9]{4})\b/hex($1)/ge;
 			print "AFTER: $decomposition\n" unless $quiet;
 		}
 
@@ -61,12 +61,12 @@ sub parse_line {
 	chomp($simple_titlecase_mapping);
 
 	# Handle the capitalisation mapping (which're also stored in UnicodeData in hexadecimal form).
-	$simple_uppercase_mapping	=	hex($simple_uppercase_mapping) || '';
-	$simple_lowercase_mapping	=	hex($simple_lowercase_mapping) || '';
-	$simple_titlecase_mapping	=	hex($simple_titlecase_mapping) || '';
+	$simple_uppercase_mapping = hex($simple_uppercase_mapping) || '';
+	$simple_lowercase_mapping = hex($simple_lowercase_mapping) || '';
+	$simple_titlecase_mapping = hex($simple_titlecase_mapping) || '';
 
 	# Recompile the row.
-	my $result_format	=	$preserve_semicolons ? ("%s;" x 14 . "%s\n") : ('"%s",' x 14 . "\"%s\"\n");
+	my $result_format = $preserve_semicolons ? ("%s;" x 14 . "%s\n") : ('"%s",' x 14 . "\"%s\"\n");
 
 	return sprintf($result_format,
 		$codepoint,
@@ -90,13 +90,13 @@ sub parse_line {
 
 
 # Open the damn file.
-my $filename	=	shift(@ARGV) || 'UnicodeData.csv';
+my $filename = shift(@ARGV) || 'UnicodeData.csv';
 open(my $input, "< :encoding(UTF-8)", $filename)
 	or die "ERROR: Couldn't locate or open requested filename.";
 
 
 # Open a filehandle for dropping the modified contents into.
-$filename	=~	s/(\.\w+)$/_2$1/;
+$filename =~ s/(\.\w+)$/_2$1/;
 open(my $output, "> $filename")
 	or die "Couldn't find somewhere to take a dump.";
 

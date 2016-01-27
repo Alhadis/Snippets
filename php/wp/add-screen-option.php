@@ -34,10 +34,10 @@ function screen_option($id, $name, $default, $cb_control, $cb_save = NULL){
 
 
 screen_option('tools_page_export-white-papers', 'whitepapers_per_page', 30, function($status, $screen, $option_name = '', $option_default = ''){
-	$value	=	get_user_option($option_name) ?: $option_default;
+	$value  =   get_user_option($option_name) ?: $option_default;
 
-	$submit	=	get_submit_button(__('Apply'), 'button', 'screen-options-apply', FALSE);
-	$output	=	<<<EOF
+	$submit =   get_submit_button(__('Apply'), 'button', 'screen-options-apply', FALSE);
+	$output =   <<<EOF
 	<div class="screen-options">
 		<h5>Show on screen</h5>
 		<input type="hidden" name="wp_screen_options[option]" value="$option_name" />
@@ -56,6 +56,6 @@ EOF;
 },
 
 function($value, $default = NULL){
-	$value	=	absint($value);
+	$value = absint($value);
 	return $value ?: $default;
 });

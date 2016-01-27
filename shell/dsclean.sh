@@ -16,7 +16,7 @@ verbose=1
 
 while getopts q option; do
 	case $option in
-	q)	verbose=0	;;	# Suppresses all feedback
+	q) verbose=0 ;; # Suppresses all feedback
 	esac
 done
 shift $((OPTIND - 1))
@@ -30,10 +30,10 @@ removed=0
 
 
 # Formatting variables
-B=$(tput bold)				# Bold type
-b=$(tput sgr0)				# Normal formatting
-blue=$(tput setaf 12)		# Blue-coloured
-arrow="${B}${blue}==>${b}"	# Arrow
+B=$(tput bold)              # Bold type
+b=$(tput sgr0)              # Normal formatting
+blue=$(tput setaf 12)       # Blue-coloured
+arrow="${B}${blue}==>${b}"  # Arrow
 
 
 # Display some feedback if we're running in verbose mode.

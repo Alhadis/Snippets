@@ -10,7 +10,7 @@ add_filter('style_loader_src', function($src, $handle = ''){
 	if(0 === stripos($src, THEME_DIR.'/src/css/')){
 
 		# Point the URL to the neighbouring "/min/" folder.
-		$replaced	= str_replace(THEME_DIR.'/src/css/', THEME_DIR.'/src/min/', $src);
+		$replaced = str_replace(THEME_DIR.'/src/css/', THEME_DIR.'/src/min/', $src);
 		if(file_exists(str_replace(trailingslashit(BLOG_URL), ABSPATH, $replaced)))
 			return $replaced;
 	}

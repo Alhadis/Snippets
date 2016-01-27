@@ -24,18 +24,18 @@
 	 *                                  this only if the elements are dynamically created. Optional.
 	 * }
 	 */
-	var GAEvents	=	function(config){
+	var GAEvents = function(config){
 
 		/** Loop through the targets config and assign direct event listeners to anything not marked as "persistent". */
-		var i, delegated	=	[];
+		var i, delegated = [];
 		for(i in config){
 
 			if(config[i].persistent)
 				delegated.push(i);
 
 			else (function(selector, attr){
-				var elements	=	document.querySelectorAll(selector);
-				Array.prototype.forEach.call(elements, function(el){
+				var elements = document.querySelectorAll(selector);
+				[].forEach.call(elements, function(el){
 					el.addEventListener("click", function(e){
 						if("function" === typeof attr)
 							attr.call(e.target, e);
@@ -48,9 +48,9 @@
 
 
 		/** Shim for Element.matches method */
-		var el	=	Element.prototype;
-		el.matches	= el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector || el.oMatchesSelector || function(selector){
-			var matches	=	(this.document || this.ownerDocument).querySelectorAll(selector), i	= 0;
+		var el = Element.prototype;
+		el.matches = el.matches || el.webkitMatchesSelector || el.mozMatchesSelector || el.msMatchesSelector || el.oMatchesSelector || function(selector){
+			var matches = (this.document || this.ownerDocument).querySelectorAll(selector), i = 0;
 			while(matches[i] && this !== matches[i]) i++;
 			return !!matches[i];
 		};
@@ -61,8 +61,8 @@
 			document.documentElement.addEventListener("click", function(e){
 
 				for(var i = 0, l = delegated.length; i < l; ++i){
-					var selector	=	delegated[i],
-						attr		=	config[selector];	
+					var selector = delegated[i],
+					attr         = config[selector];
 
 					if(e.target.matches(selector)){
 						if("function" === typeof attr)
@@ -77,5 +77,5 @@
 
 
 	/** Export */
-	window.GAEvents	=	GAEvents;
+	window.GAEvents = GAEvents;
 }());

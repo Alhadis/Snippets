@@ -16,9 +16,9 @@ sub emblazon {
 }
 
 my %items = (
-	Sword	=>	'Sharp',
-	Shield	=>	'Strong',
-	Armour	=>	'Sturdy'
+	Sword   => 'Sharp',
+	Shield  => 'Strong',
+	Armour  => 'Sturdy'
 );
 
 emblazon \%items;

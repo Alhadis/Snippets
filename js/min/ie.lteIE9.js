@@ -11,26 +11,25 @@
 
 /** ECMAScript5 */
 if(!Array.prototype.forEach){Array.prototype.forEach=function(r,o){if(typeof r!=="function")throw new TypeError(r+" is not a function");if(this==null)throw new TypeError('"this" is null or undefined.');var t,i=0,n=Object(this),e=n.length>>>0;while(i<e){if(i in n)r.call(o,n[i],i,n);++i}}}
-Date.now				=	Date.now || function(){return +new Date};
-String.prototype.trim	=	String.prototype.trim || function(){return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");};
-Object.defineProperties	=	Object.defineProperties || function(obj, props){for(var i in props) Object.defineProperty(obj, i, props[i]);};
+Date.now                = Date.now || function(){return +new Date};
+String.prototype.trim   = String.prototype.trim || function(){return this.replace(/^[\s\uFEFF\xA0]+|[\s\uFEFF\xA0]+$/g, "");};
+Object.defineProperties = Object.defineProperties || function(obj, props){for(var i in props) Object.defineProperty(obj, i, props[i]);};
 
 
 /** Store "constants" on the window object to flag specific versions of Explorer. */
 (function(){
-	var WIN			=	window,
-		DOC			=	document,
-		IE_VERSION	=	"IE_VERSION",
-		i			=	6;
-
+	var i      = 6,
+	IE_VERSION = "IE_VERSION",
+	WIN        = window,
+	DOC        = document;
+	
 	for(; i < 10; ++i) if(function(v){
-		var d		=	DOC.createElement("div");
-		d.innerHTML	=	"<!--[if IE "+v+"]><i></i><![endif]-->";
-		return d.getElementsByTagName("i").length;
+		var div = DOC.createElement("div");
+		div.innerHTML = "<!--[if IE " + v + "]><i></i><![endif]-->";
+		return div.getElementsByTagName("i").length;
 	}(i))
-		WIN["IS_IE" + i ]	=	true,
-		WIN[ IE_VERSION ]	=	i;
-
+		WIN["IS_IE" + i ] = true,
+		WIN[ IE_VERSION ] = i;
 
 	/** Might as well flag the root element with CSS classes while we're here. */
 	DOC.documentElement.classList.add("ie", "ie"+WIN[ IE_VERSION ]);

@@ -4,5 +4,5 @@
 	function meta_tags(){
 	?>
 
-	<?php	
+	<?php
 	}

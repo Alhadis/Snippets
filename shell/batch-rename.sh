@@ -3,8 +3,8 @@
 
 
 # Define token substrings that get replaced with variables in the file loop
-token_name='$n'		# Original filename
-token_index='$i'	# Counter's current index
+token_name='$n'     # Original filename
+token_index='$i'    # Counter's current index
 
 # Default behaviour is to essentially do nothing: rename the file to itself.
 format=$token_name
@@ -15,13 +15,13 @@ verbose=false
 
 while getopts f:c:e:n:i:v option; do
 	case $option in
-	f)	format=$OPTARG	;; # Format string
-	c)	count=$OPTARG	;; # Count from
-	e)	format=$OPTARG
-		use_regex=true	;; # Regular expression to use instead
-	n)	token_name=$OPTARG	;; # Substring that's replaced with file's original filename
-	i)	token_index=$OPTARG	;; # Substring in $format that's replaced with counter's current value
-	v)	verbose=true		;; # Print changed filenames to STDOUT
+	f)  format=$OPTARG  ;; # Format string
+	c)  count=$OPTARG   ;; # Count from
+	e)  format=$OPTARG
+		use_regex=true  ;; # Regular expression to use instead
+	n)  token_name=$OPTARG  ;; # Substring that's replaced with file's original filename
+	i)  token_index=$OPTARG ;; # Substring in $format that's replaced with counter's current value
+	v)  verbose=true        ;; # Print changed filenames to STDOUT
 	esac;
 done
 shift $((OPTIND - 1))
