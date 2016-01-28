@@ -29,14 +29,18 @@ String.prototype.repeat = String.prototype.repeat || function(num){return Array(
 	DOC        = document,
 	IE_VERSION = "IE_VERSION";
 	
-	for(; i < 10; ++i) if(function(v){
+	function is(v){
 		var div = DOC.createElement("div");
-		div.innerHTML = "<!--[if IE " + v + "]><i></i><![endif]-->";
+		div.innerHTML = "<!--[if " + v + "]><i></i><![endif]-->";
 		return div.getElementsByTagName("i").length;
-	}(i))
+	}
+	
+	for(; i < 10; ++i) if(is("IE " + i))
 		WIN["IS_IE" + i ] = true,
 		WIN[ IE_VERSION ] = i;
 
+	is("IEMobile") && (WIN.IS_IEMobile = true);
+	
 	/** Might as well flag the root element with CSS classes while we're here. */
 	DOC.documentElement.classList.add("ie", "ie"+WIN[ IE_VERSION ]);
 }());
