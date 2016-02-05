@@ -107,6 +107,23 @@ escaped-quot := \"
 
 
 
+#===============================================================================
+#  watch                                    $(call watch,file-pattern,task-name)
+#
+#  Run a Make task in response to filesystem changes
+#  Requires Watchman: https://facebook.github.io/watchman/
+#===============================================================================
+define watch
+	@watchman watch $(shell pwd) > /dev/null
+	@watchman -- trigger $(shell pwd) '$(2)-$(1)' $(1) -- make $(2) > /dev/null
+endef
+
+# Complementary unwatch function
+define unwatch
+	@watchman watch-del $(shell pwd) > /dev/null
+endef
+
+
 
 #===============================================================================
 #  e: "Escape-echo"                     $(call e, "String with ANSI formatting")
