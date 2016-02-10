@@ -26,3 +26,4 @@ error_log
 node_modules
 components
 npm-debug.log
+.apl.history
