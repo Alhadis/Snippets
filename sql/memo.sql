@@ -1,3 +1,6 @@
+# Count how many entries are in a table
+SELECT COUNT(*) FROM table;
+
 # Querying rows whose IDs are included in a predetermined set
 SELECT users_id, max(date) from `TABLE` WHERE users_id in (1,2,3,4,5) GROUP BY 1
 
