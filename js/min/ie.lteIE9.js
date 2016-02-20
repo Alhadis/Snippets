@@ -58,3 +58,6 @@ String.prototype.repeat = String.prototype.repeat || function(num){return Array(
 
 /** ChildNode.remove */
 "remove"in Element.prototype||(Element.prototype.remove=function(){this.parentNode&&this.parentNode.removeChild(this)});
+
+/** Node.textContent */
+!function(){"use strict";function e(e){var t=e.nodeType;if(o[t])return e.nodeValue;if(r[t])return null;var n=e.nodeName;if(n&&i[n])return e.innerHTML;for(var s="",u=e.childNodes,f=0,T=u.length;T>f;++f){var d=u[f];7!==d.nodeType&&8!==d.nodeType&&(s+=d.textContent)}return s}if(!("textContent"in Element.prototype))for(var t,n="Element Text HTMLDocument HTMLCommentElement".split(" "),o={3:1,8:1,4:1,7:1},r={9:1,10:1,12:1},i={SCRIPT:1,STYLE:1},s=0;4>s;++s)t=window[n[s]],t&&Object.defineProperty(t.prototype,"textContent",{get:function(){return e(this)},set:function(e){var t=this.nodeType;if(o[t])this.nodeValue=e;else if(!r[t]){var n=this.nodeName;"STYLE"===n?this.styleSheet.cssText=e:i[n]?this.text=e:this.innerText=e}}})}();
