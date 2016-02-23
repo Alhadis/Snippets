@@ -78,6 +78,11 @@ Match quoted strings, even when parts of it are escaped.
     (?:^[\x20\t]+)|(?:\n\s*)(?=\n)|\s+$|\n\n
 
 
+### Strip whitespace-only lines
+
+    /^[\x20\t]*\n|\n[\x20\t]*(?=\n|$)/gm
+
+
 ### Split a URL into its components
 
     ^([^\/#\?]*:?\/\/)?(\/?(?:[^\/#\?]+\/)*)?([^\/#\?]+)?(?:\/(?=$))?(\?[^#]*)?(#.*)?$
