@@ -181,19 +181,22 @@ function isValidCCNumber(input){
 /**
  * Parse a value into a query string.
  *
- * If the input is an object, its properties are broken up into "&key=value" pairs.
- * If any of the object's properties are assigned an array, its properties are split
- * apart into "&array[0]=value" sequences (to facilitate handling by server-side
- * languages like PHP).
+ * If given an object, its properties are broken up into "&key=value" pairs,
+ * with any arrays expanded into "&key[0]=value&key[1]=value" sequences. Any
+ * other value types are coerced into their stringified forms.
  *
- * The result will always be prepended with a question mark if not empty.
+ * The result is prepended with a question mark, unless empty.
  *
- * @param {String|Object} input
+ * @param {Object|} input
  * @return {String}
  */
 function parseQuery(input){
-	const encode       = encodeURIComponent;
-	const toString     = ({}).toString;
+	
+	/** Sanity check */
+	if(!input) return "";
+	
+	const encode   = encodeURIComponent;
+	const toString = ({}).toString;
 	
 	/** Input is an object of some description */
 	if("[object Object]" === toString.call(input)){
@@ -213,8 +216,8 @@ function parseQuery(input){
 		input = result;
 	}
 	
-	/** Return the stringified result, ensuring it starts with a question mark*/
-	return (input + "").replace(/^[?&]*/, "?");
+	/** Return the stringified result, adding a "?" if needed */
+	return (input + "").replace(/^[?&]*(?=.)/, "?");
 }
 
 
