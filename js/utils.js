@@ -179,6 +179,33 @@ function isValidCCNumber(input){
 
 
 /**
+ * Align a string by padding it with leading/trailing whitespace.
+ *
+ * @param {String} input
+ * @param {Number} width - Character width of the container
+ * @param {Number} axis  - Multiplier specifying axis of alignment:
+ *                           0.0: Left-aligned
+ *                           0.5: Centred
+ *                           1.0: Right-aligned
+ *                         The default is 0.5 (centre-aligned).
+ * @return {String}
+ */
+function alignText(input, width, axis){
+	axis           = undefined === axis ? 0.5 : axis;
+	let emptySpace = width - input.length;
+	
+	/** Bail early if there's nothing to do here */
+	if(emptySpace < 1) return input;
+	
+	let left  = emptySpace * axis;
+	let right = emptySpace - left;
+	
+	return " ".repeat(Math.round(left)) + input + " ".repeat(Math.round(right));
+}
+
+
+
+/**
  * Parse a value into a query string.
  *
  * If given an object, its properties are broken up into "&key=value" pairs,
