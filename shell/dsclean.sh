@@ -95,3 +95,6 @@ done;
 	# If there were any files skipped for whatever reason, include those too.
 	[ $skipped -gt 0 ] && { printf '    %s file%s skipped\n' $skipped $([ $skipped != 1 ] && echo 's'); };
 };
+
+
+exit 0;
