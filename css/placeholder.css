@@ -1,8 +1,0 @@
-/** Placeholder text styling. Can't we all just get along? */
-::-webkit-input-placeholder{    }
-::-ms-input-placeholder{        }
-:-ms-input-placeholder{         }
-::-moz-placeholder{opacity: 1;  }
-:-moz-placeholder{              }
-::placeholder{                  }
-:placeholder-shown{             }
