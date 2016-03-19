@@ -824,6 +824,73 @@ function deepest(el){
 
 
 /**
+ * Extract a DOM element from a chunk of HTML source.
+ * 
+ * @param {String} input
+ * @return {Array} An array of DOM nodes
+ */
+function parseHTMLFragment(input){
+	var output   = [];
+	var fragment = document.createDocumentFragment();
+	var queryTag;
+	
+	
+	/**
+	 * Not all elements are created equal. Table elements in particular need
+	 * to be injected into a <table>. E.g., "<tr><td>Test</td></tr>" will be
+	 * stripped down to just "Test".
+	 *
+	 * Sniff the apparent type of the first HTML tag matched in the string.
+	 * Wrap the input with missing tags that're required to parse the contents
+	 * accurately.
+	 *
+	 * It won't do justice to malformed HTML, but that won't be parsed accurately anyway.
+	 */
+	var tagType = (input.match(/^[^<]*<([-\w]+)/) || [,""])[1].toLowerCase();
+	
+	switch(tagType){
+		
+		case "thead":
+		case "tbody":
+		case "tfoot":
+		case "caption":
+			input = "<table>" + input + "</table>";
+			break;
+		
+		case "tr":
+			input = "<table><tbody>" + input + "</tbody></table>";
+			break;
+		
+		case "th":
+		case "td":
+			input = "<table><tbody><tr>" + input + "</tr></tbody></table>";
+			break;
+		
+		default:
+			tagType = "";
+			break;
+	}
+	
+	var root = fragment.appendChild(document.createElement("div"));
+	root.insertAdjacentHTML("afterbegin", input);
+	
+	
+	/** Switch the root element if we modified the input markup */
+	if(tagType && (tagType = root.querySelector(tagType)))
+		root = tagType.parentNode;
+	
+	
+	/** Cycle through the parsed nodes and detach them into an array */
+	while(root.firstChild)
+		output.push(root.removeChild(root.firstChild));
+	
+	/** Return a JavaScript array (rather than a NodeList/HTMLCollection) */
+	return output;
+}
+
+
+
+/**
  * Check if the user agent is a particular version of Internet Explorer.
  *
  * @param {String} version - The version to check against.
