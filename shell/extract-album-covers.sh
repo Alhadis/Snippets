@@ -35,7 +35,7 @@ ALREADY_EXTRACTED="${BOLD}${RED}Already extracted:${RESET} %s"$'\n'
 
 # Scan files
 IFS=$'\n'
-files=$(find . -name "*.*")
+files=$(find "$in" -name "*.*")
 for i in $files; do
 	
 	# Make sure this isn't a directory
