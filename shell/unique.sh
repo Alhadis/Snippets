@@ -9,7 +9,7 @@ done;
 shift $((OPTIND - 1))
 
 # Print usage message if no arguments were specified
-[ $# -eq 0 ] & {
+[ $# -eq 0 ] && {
 	echo >&2 "Usage: $0 [files...]"
 	exit 1;
 }
@@ -57,6 +57,7 @@ scan_directory(){
 }
 
 
+IFS=$'\n'
 for i in $@; do
 	
 	# This is a directory
