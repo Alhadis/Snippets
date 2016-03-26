@@ -188,10 +188,12 @@ function isValidCCNumber(input){
  *                           0.5: Centred
  *                           1.0: Right-aligned
  *                         The default is 0.5 (centre-aligned).
+ * @param {String} char - Chracter to pad with. Defaults to space (U+0020)
  * @return {String}
  */
-function alignText(input, width, axis){
+function alignText(input, width, axis, char){
 	axis           = undefined === axis ? 0.5 : axis;
+	char           = char || " ";
 	let emptySpace = width - input.length;
 	
 	/** Bail early if there's nothing to do here */
@@ -200,7 +202,7 @@ function alignText(input, width, axis){
 	let left  = emptySpace * axis;
 	let right = emptySpace - left;
 	
-	return " ".repeat(Math.round(left)) + input + " ".repeat(Math.round(right));
+	return char.repeat(Math.round(left)) + input + char.repeat(Math.round(right));
 }
 
 
