@@ -95,3 +95,8 @@ Match quoted strings, even when parts of it are escaped.
 Escaped version for ECMAScript:
 
     /^\s*(https?:)?\/\/([^:]+:[^@]+@)?([\w-]+)(\.[\w-]+)*(:\d+)?(\/\S+)?\s*$/
+
+
+## TextMate-compatible grammars: Unescaped line-break
+
+    (?<!\\\\)$
