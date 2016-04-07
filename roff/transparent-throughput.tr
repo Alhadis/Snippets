@@ -1,0 +1,16 @@
+.TH TRANSPARENT THROUGHPUT TEST
+.SH HEADING
+________
+
+BEFORE
+.di AB
+\!.B \fI Transparent \ \
+throughput \" Comment
+.di
+AFTER
+
+.nf
+________________________
+________________________
+________________________
+.AB

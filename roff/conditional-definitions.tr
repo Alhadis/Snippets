@@ -1,0 +1,18 @@
+.nr F 1
+
+.ie \nF \{
+.	de IX
+.	tm TOP
+.	tm TOP x2
+.	tm TOP x3
+..
+.\}
+.el \{
+.	de IX
+.	tm BOTTOM
+.	tm BOTTOM x2
+.	tm BOTTOM x3
+..
+.\}
+
+.IX
