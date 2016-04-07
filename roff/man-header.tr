@@ -1,0 +1,25 @@
+.\" 
+.\" Preamble
+.\" 
+.\"=== MACROS ==================================================================
+.\" 1. Verbatim text (yoinked from POD source)
+.\"      Usage:   Vb {number-of-lines-of-space-being-requested}
+.\"    Example:   Vb 3
+.de Vb
+.	ft CW
+.	nf
+.	ne \\$1
+..
+.\" 2. End verbatim text
+.de Ve
+.	ft R
+.	fi
+..
+.\"=== SETTINGS ================================================================
+.\" 
+.\" Disable justification for nroff
+.	if n .ad l
+.\" 
+.\"=== CONTENT =================================================================
+.\" 
+.TH TITLE 1 "2016-04-08" "Bottom-right" "Top-centre"
