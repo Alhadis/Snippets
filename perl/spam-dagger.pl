@@ -12,7 +12,8 @@ my @spam = (
 	"Good day, I am a single funny puss, looking for real man friend to hang out :=) \n Where are you from, do you speak english? \n \n reply me if you need my photos. Bye-bye",
 	"Best regards, I am a single charming puss, in search of real man to have a fun with ) \n Where are you from, do you speak english? \n \n reply me if you need photos of me. Bye-bye ;D",
 	"How are you, I'm alone bunny puss, looking handsome friend to hang out :D \n Where are you from, do you speak english? \n \n please reply me if you want to see my photos. See you around :=)",
-	"Good evening, I'm a lonely nice lass, in search of real man to have a date with ;D \n Where are you from, do you speak english? \n \n reply me if you need my photos. Have a nice time ;-)"
+	"Good evening, I'm a lonely nice lass, in search of real man to have a date with ;D \n Where are you from, do you speak english? \n \n reply me if you need my photos. Have a nice time ;-)",
+	"Welcome, I'm a single funny girlie, looking for a good guy for a hook up ) \n Where are you from, do you speak english? \n \n reply me if you would like to see my photos. Good bye ;D"
 );
 
 
@@ -25,7 +26,8 @@ for my $shit (@spam){
 			H[ei]y[ao]    |
 			Good\s*(\w+)  |
 			How  \s* (are \s* | '? \s* re) you\?? |
-			Best \s* regards
+			Best \s* regards  |
+			Welcome
 		) \s*
 		
 		
@@ -35,7 +37,7 @@ for my $shit (@spam){
 		(all)?                       \s*
 		(alone|single|lonely)        \s*
 		([fb]unny|nice|charming)     \s*
-		(girl|pussy?|lass)           \s*
+		(girl(ie)?|pussy?|lass)      \s*
 		,?                           \s*
 		
 		
@@ -45,16 +47,25 @@ for my $shit (@spam){
 			(in \s*)?
 			search(ing)?
 			(\s* of)?
-		)                            \s*
-		(real|funny|handsome)        \s*
-		(man|boy)?                   \s*
-		(friend)?                    \s*
-		to                           \s* 
-		(have)?                      \s*
-		(a)?                         \s*
-		(dating|hang\s*out|fun|date) \s*
-		(with)?                      \s*
-		
+		)                                \s*
+		a?                               \s*
+		(real|funny|handsome|good)       \s*
+		(man|boy|guy)?                   \s*
+		(friend)?                        \s*
+		(
+			to                           \s* 
+			(have)?                      \s*
+			(a)?                         \s*
+			(dating|hang\s*out|fun|date) \s*
+			(with)?                      \s*
+			
+			|
+			
+			for        \s*
+			a?         \s*
+			hook       \s*
+			up         \s*
+		) \s*
 		
 		# Emoticon
 		(
@@ -80,7 +91,8 @@ for my $shit (@spam){
 		me                 \s*
 		if                 \s*
 		you                \s*
-		(want|need)        \s*
+		(would)?           \s*
+		(want|need|like)   \s*
 		(to)?              \s*
 		(see)?             \s*
 		(my)?              \s*
@@ -100,7 +112,8 @@ for my $shit (@spam){
 			\w{2,}        \s+
 			(\w+)?
 			|
-			Bye \s*
+			(Good \s*)?
+			Bye   \s*
 			(\s*-?bye)?
 		)
 	/xi;
