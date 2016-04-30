@@ -1,0 +1,14 @@
+'\" t
+.mso man.tmac
+.if !dTS \{
+.	tm WARNING:
+.	tm \a    "tbl" package not found. Parts of this document will render incorrectly.
+.	tm \a    Rerun groff with the `-t` flag set.
+.\}
+.TS
+allbox;
+l c c .
+ID	Name	Type
+1	Apple	Fruit
+2	Lettuce	Vegetable
+.TE
