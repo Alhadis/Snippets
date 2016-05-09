@@ -137,38 +137,57 @@ CanvasRenderingContext2D.prototype.textArea = function(text, x, y, w, h, leading
 
 
 
-/** Draws a DOM element to the canvas. Not supported on IE9. */
+/** Draw a DOM element to the canvas. Not supported on IE9. */
 CanvasRenderingContext2D.prototype.drawHTML = function(node){
 	
+	var width  = this.canvas.width;
+	var height = this.canvas.height;
+	
+	/** Sweep through each contained element and take a snapshot of its calculated appearance */
+	var nodes = node.querySelectorAll("*");
+	var nodeAppearances = [];
+	
+	for(var i = 0, l = nodes.length; i < l; ++i){
+		var style   = window.getComputedStyle(nodes[i]);
+		var cssText = style.cssText || (function(){
+			
+			/** Mozilla, what the hell is wrong with you, man? */
+			var output = "";
+			for(var i = 0, l = style.length; i < l; ++i){
+				var name = style[i];
+				var value = style[name];
+				if(value) output += name + ": " + value + ";";
+			}
+			
+			return output;
+		}());
+		
+		nodeAppearances.push(cssText);
+	}
+	
+	/** Assumption: the cloned node's descendants are returned in the same order as before */
+	node = node.cloneNode(true);
+	nodes = node.querySelectorAll("*");
+	for(i = 0, l = nodes.length; i < l; ++i)
+		nodes[i].setAttribute("style", nodeAppearances[i]);
+
+	
 	/** Parse the node's HTML content as well-parsed XHTML (needed to pass it through SVG). */
-	var doc     = document.implementation.createHTMLDocument("");
-	doc.write(node.outerHTML);
+	var doc    = document.implementation.createHTMLDocument("");
 	doc.documentElement.setAttribute("xmlns", doc.documentElement.namespaceURI);
-	var html    = (new XMLSerializer).serializeToString(doc);
-
-
-	var $this   = this;
-
+	doc.body.innerHTML = node.outerHTML;
+	var markup = (new XMLSerializer).serializeToString(doc).replace(/<!DOCTYPE[^>]*>/i, "");
+	
 	/** Begin compiling our SVG markup. */
-	var d       = '<svg xmlns="http://www.w3.org/2000/svg" width="' + this.canvas.width + '" height="' + this.canvas.height + '">' +
+	var d = '<svg xmlns="http://www.w3.org/2000/svg" width="' + width + 'px" height="' + height + 'px">' +
 		'<foreignObject width="100%" height="100%">' +
-			'<div xmlns="http://www.w3.org/1999/xhtml" style="' + window.getComputedStyle(node).cssText + '">' +
-				markup +
-			'</div>' +
+			'<div xmlns="http://www.w3.org/1999/xhtml">' + markup + '</div>' +
 		'</foreignObject>' +
 	'</svg>';
-
-	/** "Blobify" our SVG markup. */
-	var fnURL   = self.URL || self.webkitURL || self;
-	var blob    = new Blob([d], {type:"image/svg+xml;charset=utf-8"}),
-	var url     = fnURL.createObjectURL(blob);
-
-
+	
 	/** Construct a new image */
-	img         = new Image(),
-	img.onload  = function(){
-		$this.drawImage(img, 0, 20);
-		fnURL.revokeObjectURL(url);
-	};
-	img.src     = url;
+	img        = new Image(),
+	img.onload = function(){THIS.drawImage(img, 0, 0, width, height)};
+	img.src    = "data:image/svg+xml;utf8," + encodeURIComponent(d);
+	var THIS   = this;
 };
