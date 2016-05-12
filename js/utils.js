@@ -893,6 +893,24 @@ function parseHTMLFragment(input){
 
 
 /**
+ * Node-only helper function to return the entirety of standard input.
+ *
+ * @return {Promise}
+ */
+function readStdin(){
+	return new Promise(resolve => {
+		let input = "";
+		process.stdin.setEncoding("UTF8");
+		process.stdin.on("readable", () => {
+			const chunk = process.stdin.read();
+			null !== chunk ? input += chunk : resolve(input);
+		})
+	});
+}
+
+
+
+/**
  * Check if the user agent is a particular version of Internet Explorer.
  *
  * @param {String} version - The version to check against.
