@@ -9,10 +9,17 @@ IFS=''
 # Formatting variables
 BOLD=`tput bold`
 BLUE=`tput setaf 12`
+RED=`tput setaf 9`
 RESET=`tput sgr0`
 
 # Include directories that start with a leading dot
 shopt -s dotglob
+
+
+# Print a divider to STDOUT to break up feedback better
+marker(){
+	printf %s$'\n' "${BOLD}$1==>${RESET}${BOLD} $2${RESET}";
+}
 
 
 # Cycle through each item in the CWD
@@ -22,12 +29,14 @@ for i in *; do
 	[ -d "$i/.git" ] && { echo $(
 
 		cd $i;
+		
+		# This repo's been flagged as exempt from updates; skip it
+		[ $(git config updates.skip) ] && marker $RED "Skipping: $i" || {
+			marker $BLUE "Updating: $i"
 
-		# Print a divider to STDOUT to break the feedback up better
-		printf %s$'\n' "${BOLD}${BLUE}==>${RESET}${BOLD} Updating: $i${RESET}";
-
-		# Update!
-		git status --porcelain && { git pull; };
+			# Update!
+			git status --porcelain && { git pull; };
+		};
 
 	); };
 	
@@ -38,7 +47,7 @@ for i in *; do
 		cd $i;
 		
 		# Drop another divider to break feedback up a little
-		printf %s$'\n' "${BOLD}${BLUE}==>${RESET}${BOLD} Updating: $i${RESET}";
+		marker $BLUE "Updating: $i"
 		
 		# Clear .DS_Store crap if possible
 		hash dsclean 2>/dev/null && dsclean;
