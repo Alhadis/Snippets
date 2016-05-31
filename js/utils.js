@@ -179,6 +179,39 @@ function isValidCCNumber(input){
 
 
 /**
+ * Generate a regex to match a string, bypassing intermediate punctuation.
+ *
+ * E.g., "CoffeeScript" matches "coffee-script", "cOfFeE sCRiPT" or even
+ * "C0FFEE.SCRIPT". Useful when words have multiple possible spellings.
+ *
+ * @param {String} input - A string, such as "reStructuredText" or "dBASE"
+ * @param {Function} format - Desired output format (String or RegExp)
+ * @return {String|RegExp}
+ */
+function fuzzyRegExp(input, format = RegExp){
+	
+	/** Don't bother doing anything if this isn't a string */
+	if("[object String]" !== ({}).toString.call(input))
+		return input;
+	
+	const output = input
+		.replace(/([A-Z])([A-Z]+)/g, (a, b, c) => b + c.toLowerCase())
+		.split(/\B(?=[A-Z])|[-\s]/g)
+		.map(i => i.replace(/([/\\^$*+?{}\[\]().|])/g, "\\$1?"))
+		.join("[\\W_ \\t]?")
+		.replace(/[0Oo]/g, "[0o]");
+	
+	/** Author's requested the regex source, return a string */
+	if(String === format)
+		return output;
+	
+	/** Otherwise, crank the fuzz */
+	return new RegExp(output, "i");
+}
+
+
+
+/**
  * Align a string by padding it with leading/trailing whitespace.
  *
  * @param {String} input
