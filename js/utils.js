@@ -614,6 +614,10 @@ function buildDict(dl, useHTML, filter){
  * @return {Array}
  */
 function isplit(input, pattern){
+	
+	/** Safety check to avoid infinite recursion */
+	if(!pattern.global) throw "isplit: Pattern's global flag must be set"
+	
 	var output    = [],
 		startFrom = 0,
 		match;
