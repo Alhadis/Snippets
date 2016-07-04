@@ -145,3 +145,24 @@ ifdef IS_WINDOWS
 else
 	e = echo $(1)
 endif
+
+
+
+
+#===============================================================================
+#  minify                                               $(call minify,image.png)
+#
+#  Routine to compress PNGs with TinyPNG, if an API key is available
+#===============================================================================
+ifdef TINYPNG_KEY
+define minify
+echo "Compressing image with TinyPNG...";
+URL=$$(curl https://api.tinify.com/shrink \
+	--user api:$(TINYPNG_KEY) \
+	--data-binary @$1 \
+	--silent | grep -Eo '"url":"https[^"]+"' | cut -d: -f 2-3 | tr -d '"'); \
+echo "Downloading from $$URL"; \
+curl $$URL --user api:$(TINYPNG_KEY) --silent --output $1
+echo "Compression complete."
+endef
+endif
