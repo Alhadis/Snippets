@@ -16,3 +16,6 @@
 # Exclude certain files from being evaluated by Linguist
 src/min/* linguist-documentation
 *.1 linguist-documentation
+
+# Don't mark that CSON file as CoffeeScript; it's data
+js/junk/*.cson linguist-language=JSON
