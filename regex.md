@@ -97,6 +97,11 @@ Escaped version for ECMAScript:
     /^\s*(https?:)?\/\/([^:]+:[^@]+@)?([\w-]+)(\.[\w-]+)*(:\d+)?(\/\S+)?\s*$/
 
 
-## TextMate-compatible grammars: Unescaped line-break
+### TextMate-compatible grammars: Unescaped line-break
 
     (?<!\\\\)$
+
+
+### Numeral with English ordinal suffix (1st, 2nd, 103rd, etc)
+
+	\b(\d*1[1-3]th|\d*0th|(?:(?!11st)\d)*1st|\d*2nd|(?:(?!13rd)\d*)3rd|\d*[4-9]th)\b
