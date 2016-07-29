@@ -166,3 +166,25 @@ curl $$URL --user api:$(TINYPNG_KEY) --silent --output $1
 echo "Compression complete."
 endef
 endif
+
+
+
+
+
+#===============================================================================
+#  close-preview                                        $(call close-preview,$*)
+#
+#  Close a file that's currently open in Preview
+#===============================================================================
+define close-preview
+osascript \
+-e 'tell application "Preview"' \
+	-e 'set windowCount to number of windows' \
+	-e 'repeat with x from 1 to windowCount' \
+		-e 'set docName to (name of document of front window)' \
+		-e 'if (docName starts with "$1") then' \
+			-e 'close window x' \
+		-e 'end if' \
+	-e 'end repeat' \
+-e 'end tell'
+endef
