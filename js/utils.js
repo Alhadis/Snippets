@@ -1113,6 +1113,28 @@ function New(nodeType, obj){
 
 
 /**
+ * Curried method to append multiple nodes at once.
+ *
+ * @example addTo(node)(el1, el2, …)
+ * @example node = addTo(node)(…)[0]
+ * @return {Function} fn
+ */
+function addTo(parent){
+	const fn = (...nodes) => {
+		for(let node of nodes){
+			if("string" === typeof node)
+				node = document.createTextNode(node);
+			parent.appendChild(node);
+		}
+		return fn;
+	};
+	fn[0] = parent;
+	return fn;
+}
+
+
+
+/**
  * Generate a base64-encoded 4x4-size PNG image of a designated RGBA value.
  *
  * @param {Number} r - Red component (0-255)
