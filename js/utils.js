@@ -1097,15 +1097,14 @@ function cookie(name, value, options){
  * @param {Object} obj - An optional hash of properties to assign the newly-created object.
  * @return {Element}
  */
-function New(nodeType, obj){
-	var i,
-	node   = document.createElement(nodeType),
-	absorb = function(a, b){
-		for(i in b)
+New(nodeType, obj){
+	function absorb(a, b){
+		for(const i in b)
 			if(Object(a[i]) === a[i] && Object(b[i]) === b[i])
 				absorb(a[i], b[i]);
 			else a[i] = b[i];
 	};
+	const node = document.createElement(nodeType);
 	if(obj) absorb(node, obj);
 	return node;
 }
