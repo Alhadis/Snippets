@@ -371,6 +371,22 @@ function alphabetiseProperties(input, strictCase){
 
 
 /**
+ * Generate an ID-safe slug from a name.
+ *
+ * @param {String} name
+ * @return {String} slug
+ */
+slug(name){
+	return (name || "").toString()
+		.toLowerCase()
+		.replace(/[^\w$]/gi, "-")
+		.replace(/-+/g, "-")
+		.replace(/^-+|-+$/g, "")
+}
+
+
+
+/**
  * Return the English ordinal suffix for a number (-st, -nd, -rd, -th).
  *
  * @param {Number} n - A number (preferably an integer) to return the suffix for.
