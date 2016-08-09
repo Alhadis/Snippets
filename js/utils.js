@@ -165,6 +165,42 @@ function parseURL(path){
 
 
 /**
+ * Locate the root directory shared by multiple paths.
+ *
+ * @param {Array} paths - A list of filesystem paths
+ * @return {String} root
+ */
+function findBasePath(paths){
+	const POSIX = paths[0].indexOf("/") !== -1;
+	let matched = [];
+	
+	/** Spare ourselves the trouble if there's only one path */
+	if(1 === paths.length){
+		matched = (paths[0].replace(/[\\/]+$/, "")).split(/[\\/]/g);
+		matched.pop();
+	}
+	
+	/** Otherwise, comb each array */
+	else{
+		const rows   = paths.map(d => d.split(/[\\/]/g));
+		const width  = Math.max(...rows.map(d => d.length));
+		const height = rows.length;
+		
+		let x, y;
+		X: for(x = 0; x < width; ++x){
+			const str = rows[0][x];
+			for(let y = 1; y < height; ++y)
+				if(str !== rows[y][x]) break X;
+			matched.push(str);
+		}
+	}
+
+	return matched.join(POSIX ? "/" : "\\");
+}
+
+
+
+/**
  * Check if a string is a valid 16-digit credit card number.
  *
  * Non-alphanumeric separators like hyphens or spaces are ignored when determining validity.
