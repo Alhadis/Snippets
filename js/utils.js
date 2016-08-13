@@ -248,6 +248,36 @@ function fuzzyRegExp(input, format = RegExp){
 
 
 /**
+ * Generate a RegEx from its string-based representation.
+ *
+ * Useful for "deserialising" a regex from JSON. Optional flags can be given
+ * to override trailing modifiers found in the source, if any.
+ *
+ * @example "/\\S+/i"       -> /\S+/i
+ * @example "\\d+\\.\\d+$"  -> /\d+\.\d+$/
+ * @param  {String} src
+ * @param  {String} flags
+ * @return {RegExp} regex
+ */
+function regexFromString(src, flags){
+	src = (src || "").toString();
+	if(!src) return null;
+	
+	const matchEnd = src.match(/\/([gimuy]*)$/);
+	
+	/** Input is a "complete" regular expression */
+	if(matchEnd && /^\//.test(src))
+		return new RegExp(
+			src.replace(/^\/|\/([gimuy]*)$/gi, ""),
+			flags != null ? flags : matchEnd[1]
+		);
+	
+	return new RegExp(src, flags);
+}
+
+
+
+/**
  * Align a string by padding it with leading/trailing whitespace.
  *
  * @param {String} input
