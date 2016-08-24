@@ -25,7 +25,7 @@ Chai.unindent = function(columns, char = "\t"){
 				return function(input, ...rest){
 					let obj = util.flag(this, "object");
 					
-					if("[object String]" === Object.prototype.call(input)){
+					if("[object String]" === Object.prototype.toString.call(input)){
 						const trimmed = input.replace(unindentPattern, "");
 						__super.apply(this, [trimmed, ...rest]);
 					}
