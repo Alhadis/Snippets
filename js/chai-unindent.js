@@ -1,10 +1,22 @@
 "use strict";
 
-const Chai = require("chai");
+const Chai = global.chai || require("chai");
 const {util} = Chai;
 
 
-let overwritten, unindentPattern;
+let overwritten;
+let unindentPattern;
+
+
+/** Unindent a value if it's a string, and Chai.unindent has been called */
+function trimIfNeeded(input){
+	if(unindentPattern && "[object String]" === Object.prototype.toString.call(input)){
+		unindent.noTrim || (input = input.replace(/^(?:[\x20\t]*\n)*|(?:\n[\x20\t]*)*$/gi, ""));
+		return input.replace(unindentPattern, "");
+	}
+	return input;
+}
+
 
 /**
  * Strip leading tabulation from string blocks when running "equal" method.
@@ -14,7 +26,7 @@ let overwritten, unindentPattern;
  * @param {Number} columns - Number of leading tabs to strip from each line
  * @param {String} char - What defines a "tab". Defaults to a hard tab.
  */
-Chai.unindent = function(columns, char = "\t"){
+function unindent(columns, char = "\t"){
 	
 	/** If Chai.unindent hasn't been run yet, overwrite the necessary methods */
 	if(!overwritten){
@@ -23,13 +35,7 @@ Chai.unindent = function(columns, char = "\t"){
 		for(const method of ["equal", "string"]){
 			Chai.Assertion.overwriteMethod(method, function(__super){
 				return function(input, ...rest){
-					let obj = util.flag(this, "object");
-					
-					if("[object String]" === Object.prototype.toString.call(input)){
-						const trimmed = input.replace(unindentPattern, "");
-						__super.apply(this, [trimmed, ...rest]);
-					}
-					else __super.apply(this, arguments);
+					__super.apply(this, [ trimIfNeeded(input), ...rest ]);
 				}
 			});
 		}
@@ -39,3 +45,5 @@ Chai.unindent = function(columns, char = "\t"){
 		? new RegExp("^(?:"+char+"){0,"+columns+"}", "gm")
 		: null;
 };
+
+Chai.unindent = unindent;
