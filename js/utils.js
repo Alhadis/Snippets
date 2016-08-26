@@ -1210,10 +1210,10 @@ function addTo(parent){
 		for(let node of nodes){
 			if("string" === typeof node)
 				node = document.createTextNode(node);
-			else
+			else if(node)
 				lastElement =
 				fn[++count] = node;
-			target.appendChild(node);
+			node && target.appendChild(node);
 		}
 		
 		target = lastElement || target;
