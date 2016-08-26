@@ -442,7 +442,7 @@ function alphabetiseProperties(input, strictCase){
  * @param {String} name
  * @return {String} slug
  */
-slug(name){
+function slug(name){
 	return (name || "").toString()
 		.toLowerCase()
 		.replace(/[^\w$]/gi, "-")
