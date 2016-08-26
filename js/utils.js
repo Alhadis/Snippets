@@ -1226,6 +1226,23 @@ function addTo(parent){
 
 
 /**
+ * Use a Symbol to store references between objects.
+ *
+ * Gives new meaning to the term "symbolic link".
+ *
+ * @param {Symbol} symbol
+ * @param {Object} objects
+ */
+function link(symbol, objects){
+	for(const key in objects){
+		const obj = objects[key];
+		let copyTo = obj[symbol] || {};
+		obj[symbol] = Object.assign(copyTo, objects);
+	}
+}
+
+
+/**
  * Generate a base64-encoded 4x4-size PNG image of a designated RGBA value.
  *
  * @param {Number} r - Red component (0-255)
