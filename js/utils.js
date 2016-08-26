@@ -1198,18 +1198,28 @@ function New(nodeType, obj){
  *
  * @example addTo(node)(el1, el2, …)
  * @example node = addTo(node)(…)[0]
- * @return {Function} fn
+ * @return {Function}
  */
 function addTo(parent){
+	let count = 0;
+	let target = parent;
+	
 	const fn = (...nodes) => {
+		let lastElement;
+		
 		for(let node of nodes){
 			if("string" === typeof node)
 				node = document.createTextNode(node);
-			parent.appendChild(node);
+			else
+				lastElement =
+				fn[++count] = node;
+			target.appendChild(node);
 		}
+		
+		target = lastElement || target;
 		return fn;
 	};
-	fn[0] = parent;
+	fn[count] = target;
 	return fn;
 }
 
