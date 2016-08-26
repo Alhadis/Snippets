@@ -1179,7 +1179,7 @@ function cookie(name, value, options){
  * @param {Object} obj - An optional hash of properties to assign the newly-created object.
  * @return {Element}
  */
-New(nodeType, obj){
+function New(nodeType, obj){
 	function absorb(a, b){
 		for(const i in b)
 			if(Object(a[i]) === a[i] && Object(b[i]) === b[i])
