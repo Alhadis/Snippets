@@ -1,0 +1,45 @@
+
+/-\*-[^*]*(?:mode:\s*)?\b([gnt]?roff)(?:\s*;.*?)?\s*-\*-/i
+#                         ^^^^^^^^^^
+#                        REPLACE THIS
+
+/(?:vim?|ex):\s*(?:set?.*\s)?(?:syntax|filetype|ft)=([gnt]?roff)\s?(?:.*:)?/i
+#                                                    ^^^^^^^^^^
+
+# Emacs modeline
+Emacs: """(?x)
+	-\*-
+	[^*]*
+	(mode:\s*)?
+	\b
+	[gnt]?
+	roff
+	(\s*;.*?)?
+	\s*
+	-\*-
+"""
+
+# Vim modeline
+Vim: """(?x)
+	(?:vim?|ex)
+	:
+	\s*
+	(?:
+		set?
+		.*
+		\s
+	)?
+	
+	(?:
+		syntax
+		|
+		filetype
+		|
+		ft
+	)
+	=
+	[gn]roff
+	\s?
+	(?:.*:)?
+
+"""

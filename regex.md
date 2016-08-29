@@ -2,6 +2,17 @@ Regular Expressions
 ===================
 
 
+### Emacs modeline ###
+
+	/-\*-[^*]*(?:mode:\s*)?\b(          )(?:\s*;.*?)?\s*-\*-/i
+	                          ^^^^^^^^^^
+	                         REPLACE THIS
+
+### Vim modeline ###
+
+	/(?:vim?|ex):\s*(?:set?.*\s)?(?:syntax|filetype|ft)=(          )\s?(?:.*:)?/i
+	                                                     ^^^^^^^^^^
+	                                                    REPLACE THIS
 
 ### Basic CSS Minification
 
