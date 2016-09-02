@@ -1236,6 +1236,7 @@ function addTo(parent){
 function link(symbol, objects){
 	for(const key in objects){
 		const obj = objects[key];
+		if(obj == null) continue;
 		let copyTo = obj[symbol] || {};
 		obj[symbol] = Object.assign(copyTo, objects);
 	}
