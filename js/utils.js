@@ -278,6 +278,19 @@ function regexFromString(src, flags){
 
 
 /**
+ * Escape special regex characters within a string.
+ *
+ * @example "file.js" -> "file\\.js"
+ * @param {String} input
+ * @return {String}
+ */
+function escapeRegExp(input){
+	return input.replace(/([/\\^$*+?{}\[\]().|])/g, "\\$1");
+}
+
+
+
+/**
  * Align a string by padding it with leading/trailing whitespace.
  *
  * @param {String} input
