@@ -4,9 +4,9 @@ Regular Expressions
 
 ### Emacs modeline ###
 
-	/-\*-[^*]*(?:mode:\s*)?\b(          )(?:\s*;.*?)?\s*-\*-/i
-	                          ^^^^^^^^^^
-	                         REPLACE THIS
+	/-\*-(?:(?:(?!mode\s*:)[^:;]+:[^:;]+;)*\s*mode\s*:)?\s*(          )\s*(?:;[^:;]+:[^:;]+?)*;?\s*-\*-/i
+	                                                        ^^^^^^^^^^
+	                                                       REPLACE THIS
 
 ### Vim modeline ###
 
