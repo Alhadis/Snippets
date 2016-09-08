@@ -2,13 +2,13 @@ Regular Expressions
 ===================
 
 
-### Emacs modeline ###
+### [Emacs modeline] ###
 
 	/-\*-(?:(?:(?!mode\s*:)[^:;]+:[^:;]+;)*\s*mode\s*:)?\s*(          )\s*(?:;[^:;]+:[^:;]+?)*;?\s*-\*-/i
 	                                                        ^^^^^^^^^^
 	                                                       REPLACE THIS
 
-### Vim modeline ###
+### [Vim modeline] ###
 
 	/(?:(?:\s|^)vi(?:m[<=>]?\d+|m)?|(?!^)\sex)(?=:(?=\s*set?\s[^\n:]+:)|:(?!\s*set?\s))(?:(?:\s|\s*:\s*)\w*(?:\s*=(?:[^\n\\\s]|\\.)*)?)*[\s:](?:filetype|ft|syntax)\s*=(          )(?=\s|:|$)/i
 	                                                                                                                                                                    ^^^^^^^^^^
@@ -116,3 +116,7 @@ Escaped version for ECMAScript:
 ### Numeral with English ordinal suffix (1st, 2nd, 103rd, etc)
 
 	\b(\d*1[1-3]th|\d*0th|(?:(?!11st)\d)*1st|\d*2nd|(?:(?!13rd)\d*)3rd|\d*[4-9]th)\b
+
+
+[Emacs modeline]: ./modeline-emacs.regexp
+[Vim modeline]:   ./modeline-vim.regexp
