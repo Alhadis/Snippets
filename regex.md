@@ -10,9 +10,9 @@ Regular Expressions
 
 ### Vim modeline ###
 
-	/(?:vim?|ex):\s*(?:set?.*\s)?(?:syntax|filetype|ft)=(          )\s?(?:.*:)?/i
-	                                                     ^^^^^^^^^^
-	                                                    REPLACE THIS
+	/(?:(?:\s|^)vi(?:m[<=>]?\d+|m)?|(?!^)\sex)(?=:(?=\s*set?\s[^\n:]+:)|:(?!\s*set?\s))(?:(?:\s|\s*:\s*)\w*(?:\s*=(?:[^\n\\\s]|\\.)*)?)*[\s:](?:filetype|ft|syntax)\s*=(          )(?=\s|:|$)/i
+	                                                                                                                                                                    ^^^^^^^^^^
+	                                                                                                                                                                   REPLACE THIS
 
 ### Basic CSS Minification
 
