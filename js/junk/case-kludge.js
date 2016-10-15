@@ -2,6 +2,58 @@
 
 
 /**
+ * Synthesise case-insensitivity for a regexp string.
+ *
+ * JavaScript doesn't support scoped modifiers like (?i),
+ * so this method seeks to approximate the next best thing.
+ *
+ * @param {String} input
+ * @param {Boolean} noFuzz
+ * @return {String}
+ */
+function caseKludge(input, noFuzz){
+	
+	let output = input.split("").map((s, index, array) => {
+		
+		if(/[A-Z]/.test(s)){
+			const output = "[" + s + s.toLowerCase() + "]";
+			const prev = array[index - 1];
+			
+			// Camel-case
+			if(!noFuzz && prev && /[a-z]/.test(prev))
+				return "[\\W_\\S]*" + output;
+			
+			return output;
+		}
+		
+		if(/[a-z]/.test(s))
+			return "[" + s.toUpperCase() + s + "]";
+		
+		if(noFuzz)
+			return s.replace(/([/\\^$*+?{}\[\]().|])/g, "\\$1");
+		
+		if("0" === s)
+			return "[0Oo]";
+		
+		if(/[\W_ \t]?/.test(s))
+			return "[\\W_ \\t]?";
+		
+		return s;
+	
+	}).join("");
+	
+	if(!noFuzz)
+		output = output.replace(/\[Oo\]/g, "[0Oo]");
+	
+	return output.replace(/(\[\w{2,3}\])(\1+)/g, (match, first, rest) => {
+		return first + "{" + ((rest.length / first.length) + 1) + "}"
+	});
+}
+
+
+// More beastly variant:
+
+/**
  * Mutilate a case-insensitive regex so it can be embedded inside one that isn't.
  *
  * @param {String|RegExp} input
