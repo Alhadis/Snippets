@@ -1502,6 +1502,27 @@ function debounce(fn, limit, soon){
 
 
 /**
+ * Monkey-patch an object's method with another function.
+ *
+ * @param {Object} subject
+ * @param {String} methodName
+ * @param {Function} handler
+ */
+function punch(subject, methodName, handler){
+	const originalMethod = subject[methodName];
+	
+	const punchedMethod = function(){
+		const call = () => originalMethod.apply(this, arguments);
+		return handler.call(this, call, originalMethod);
+	};
+	
+	subject[methodName] = punchedMethod;
+	return [originalMethod, punchedMethod];
+}
+
+
+
+/**
  * Run a callback once an image's dimensions are accessible.
  *
  * The function will also be executed if an image fails to load, and should
