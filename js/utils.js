@@ -1507,13 +1507,15 @@ function debounce(fn, limit, soon){
  * @param {Object} subject
  * @param {String} methodName
  * @param {Function} handler
+ * @return {Function[]}
  */
 function punch(subject, methodName, handler){
 	const originalMethod = subject[methodName];
 	
 	const punchedMethod = function(){
 		const call = () => originalMethod.apply(this, arguments);
-		return handler.call(this, call, originalMethod);
+		const args = Array.from(arguments);
+		return handler.call(this, call, args);
 	};
 	
 	subject[methodName] = punchedMethod;
