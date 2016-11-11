@@ -9,6 +9,9 @@ ifdef SYSTEMROOT
 endif
 
 
+# Absolute path of currently-running Makefile
+CURRENT_MAKEFILE = $(abspath $(lastword $(MAKEFILE_LIST)))
+
 
 #===============================================================================
 #  chk: "Check"               $(call chk, node, "You'll need Node to run this!")
