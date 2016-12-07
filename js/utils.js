@@ -117,11 +117,11 @@ function clamp(input, min, max){
 
 
 /**
- * Return TRUE if a variable is a Number or number-like String.
+ * Return true if a variable is a {@link Number} or number-like {@link String}.
  * 
- * The string-checking is intentionally restricted to "basic" notation only: strings
- * using advanced notation like hexadecimal, exponential or binary literals are ignored.
- * E.g., "0b11100100", "0xE4" or "3.1536e+10" would, if supplied as strings, test as FALSE.
+ * String-checking is intentionally restricted to "basic" numeric forms only.
+ * Advanced notation like hexadecimal, exponential or binary literals are ignored:
+ * strings like "0b10100100", "0xE4" and "3.1536e+10" will each return `false`.
  * 
  * @param {Mixed} i - Value to inspect
  * @return {Boolean}
