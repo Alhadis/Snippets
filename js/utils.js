@@ -248,6 +248,33 @@ function fuzzyRegExp(input, format = RegExp){
 
 
 /**
+ * Simple implementation of extended regular expressions.
+ *
+ * NOTE: Double-escaping of \ is still necessary. Also note that
+ * escaped whitespace is still stripped; use `\x20` instead.
+ *
+ * @example new ExtendedRegExp("a b c").test("abc")     -> true
+ * @example new ExtendedRegExp("^ [A Z] $").test("A Z") -> true
+ * @class
+ */
+class ExtendedRegExp extends RegExp {
+	constructor(source, flags){
+		source = source
+			.replace(/\[[^\]]+\]/g, s => s
+				.replace(/ /, "\\x20")
+				.replace(/\t/, "\\t"))
+			.replace(/\s+/g, "");
+		super(source, flags);
+		
+		Object.defineProperty(this, "source", {
+			get: () => source
+		});
+	}
+}
+
+
+
+/**
  * Generate a RegEx from its string-based representation.
  *
  * Useful for "deserialising" a regex from JSON. Optional flags can be given
