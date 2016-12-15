@@ -1253,6 +1253,37 @@ function cookie(name, value, options){
 
 
 /**
+ * Synchronous, callback-aware version of Promise.all.
+ *
+ * Functions are resolved using their return values.
+ * All other values are resolved normally.
+ *
+ * @example chain(() => promise1, "string"…);
+ * @param {...*} values
+ * @return {Promise}
+ */
+function chain(...values){
+	let promise = Promise.resolve();
+	const results = [];
+	
+	for(const value of values)
+		promise = promise.then(result => {
+			results.push(result);
+			const next = "function" === typeof value
+				? value()
+				: value;
+			return Promise.resolve(next);
+		});
+	
+	return promise.then(result => {
+		results.push(result);
+		results.shift();
+		return Promise.resolve(results);
+	});
+}
+
+
+/**
  * Return a {Promise} which auto-resolves after a delay.
  *
  * @param {Number} [delay=100] - Delay in milliseconds
