@@ -1252,6 +1252,18 @@ function cookie(name, value, options){
 }
 
 
+/**
+ * Return a {Promise} which auto-resolves after a delay.
+ *
+ * @param {Number} [delay=100] - Delay in milliseconds
+ * @return {Promise}
+ */
+function wait(delay = 100){
+	return new Promise(resolve => {
+		setTimeout(() => resolve(), delay);
+	});
+}
+
 
 /**
  * Wrapper for creating a new DOM element, optionally assigning it a hash of properties upon construction.
