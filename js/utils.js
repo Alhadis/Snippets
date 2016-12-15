@@ -1264,21 +1264,25 @@ function cookie(name, value, options){
  */
 function chain(...values){
 	let promise = Promise.resolve();
+	let rejection = null;
 	const results = [];
 	
 	for(const value of values)
 		promise = promise.then(result => {
 			results.push(result);
-			const next = "function" === typeof value
-				? value()
-				: value;
-			return Promise.resolve(next);
+			return "function" === typeof value ? value() : value;
+		}).catch(error => {
+			if(null === rejection)
+				rejection = null == error ? true : error;
+			return Promise.reject(error);
 		});
 	
 	return promise.then(result => {
 		results.push(result);
 		results.shift();
-		return Promise.resolve(results);
+		return null !== rejection
+			? Promise.reject(rejection)
+			: Promise.resolve(results);
 	});
 }
 
