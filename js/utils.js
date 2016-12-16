@@ -1253,6 +1253,25 @@ function cookie(name, value, options){
 
 
 /**
+ * Bind each of an object's methods to itself.
+ *
+ * @param {Object} subject
+ * @return {Object} The object that was passed.
+ */
+function bindMethods(subject){
+	const proto = subject.constructor.prototype;
+	const keys = new Set([
+		...Object.getOwnPropertyNames(proto),
+		...Object.keys(subject)
+	]);
+	for(const key of keys)
+		if("function" === typeof subject[key] && "constructor" !== key)
+			subject[key] = subject[key].bind(subject);
+	return subject;
+}
+
+
+/**
  * Synchronous, callback-aware version of Promise.all.
  *
  * Functions are resolved using their return values.
