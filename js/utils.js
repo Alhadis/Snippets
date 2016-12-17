@@ -1277,11 +1277,17 @@ function bindMethods(subject){
  * Functions are resolved using their return values.
  * All other values are resolved normally.
  *
+ * An array of values may also be used instead of multiple
+ * arguments. The array must be the only argument given.
+ *
  * @example chain(() => promise1, "string"…);
  * @param {...*} values
  * @return {Promise}
  */
 function chain(...values){
+	if(1 === values.length && Array.isArray(values))
+		values = [...values[0]];
+	
 	let promise = Promise.resolve();
 	let rejection = null;
 	const results = [];
