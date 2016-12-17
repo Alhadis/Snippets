@@ -1285,7 +1285,7 @@ function bindMethods(subject){
  * @return {Promise}
  */
 function chain(...values){
-	if(1 === values.length && Array.isArray(values))
+	if(1 === values.length && Array.isArray(values[0]))
 		values = [...values[0]];
 	
 	let promise = Promise.resolve();
