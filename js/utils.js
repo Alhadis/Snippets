@@ -275,6 +275,27 @@ class ExtendedRegExp extends RegExp {
 
 
 /**
+ * Filter an object's properties using a pattern.
+ *
+ * @example keyGrep(require.cache, /rimraf/);
+ * @param {Object} subject
+ * @param {RegExp|String} pattern
+ * @return {Object}
+ */
+function keyGrep(subject, pattern){
+	pattern = "string" === typeof pattern
+		? new RegExp(pattern)
+		: pattern;
+	
+	const output = {};
+	for(const key of Object.keys(subject).filter(k => pattern.test(k)))
+		output[key] = subject[key];
+	return output;
+}
+
+
+
+/**
  * Generate a RegEx from its string-based representation.
  *
  * Useful for "deserialising" a regex from JSON. Optional flags can be given
