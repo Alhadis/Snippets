@@ -339,6 +339,37 @@ function escapeRegExp(input){
 
 
 /**
+ * "Flatten" a (possibly nested) list of strings into a single-level array.
+ *
+ * Strings are split by whitespace as separate elements of the final array.
+ *
+ * @param {Array|String} input
+ * @return {String[]} An array of strings
+ */
+function collectStrings(input, refs = null){
+	refs = refs || new WeakSet();
+	input = "string" === typeof input
+		? [input]
+		: refs.add(input) && Array.from(input);
+	
+	const output = [];
+	for(const value of input){
+		if(!value) continue;
+		switch(typeof value){
+			case "string":
+				output.push(...value.split(/\s+/));
+				break;
+			case "object":
+				if(refs.has(value)) continue;
+				refs.add(value);
+				output.push(...collectStrings(value, refs));
+		}
+	}
+	return output;
+}
+
+
+/**
  * Align a string by padding it with leading/trailing whitespace.
  *
  * @param {String} input
