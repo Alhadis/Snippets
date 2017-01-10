@@ -21,3 +21,8 @@ RewriteCond %{HTTP_ACCEPT} image/webp
 RewriteCond %{REQUEST_FILENAME} (.*)\.(jpg|jpeg|png)$
 RewriteCond %1\.webp -f
 RewriteRule ^(.*)\.(jpg|jpeg|png)$ $1.webp [R,L]
+
+
+# Redirect to another domain
+RewriteEngine on
+RewriteRule (.*) http://target-domain.org/%{REQUEST_URI} [L,R=301]
