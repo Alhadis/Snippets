@@ -339,6 +339,23 @@ function escapeRegExp(input){
 
 
 /**
+ * Return a character not contained in a string.
+ *
+ * @example getUnusedChar("\x00\x02") -> "\x01"
+ * @param {String} input
+ * @return {String}
+ */
+function getUnusedChar(input){
+	let char = "\x00";
+	let code = 0;
+	while(-1 !== input.indexOf(char))
+		char = String.fromCodePoint(++code);
+	return char;
+}
+
+
+
+/**
  * "Flatten" a (possibly nested) list of strings into a single-level array.
  *
  * Strings are split by whitespace as separate elements of the final array.
