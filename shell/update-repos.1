@@ -1,0 +1,112 @@
+.\" -*- coding: utf-8 -*-
+.Dd "February 26, 2017"
+.Dt UPDATE-REPOS 1
+.Os macOS 10.12.3
+.Sh NAME
+.Nm update-repos
+.Nd Sync local repositories with their upstream.
+.
+.Sh SYNOPSIS
+.Nm update-repos
+.Sm off
+.Xo Oo Fl h | Fl -help
+.Oc Xc
+.Sm on
+.Op Fl gGp
+.Op Ar directories ...
+.
+.
+.Sh DESCRIPTION
+.Nm
+syncs a list of Git or SVN
+.Ar directories
+with their remote counterparts.
+.
+.Pp
+Updated folders must be a repository's root directory, or contain subdirectories which are.
+Unfamiliar folders are ignored: the script will not recurse into subdirectories.
+.
+.Bd -literal     \" TODO: Use Pic (or bare drawing commands) for this.
+\&     Example
+\&    Directory
+\&        │
+\&        ├── Atom           ✔  Updated: Has .git directory
+\&        │   └── .git
+\&        │
+\&        ├── GNU-APL        ✔  Updated: Has .svn directory
+\&        │   └── .svn
+\&        │
+\&        ├── Documents      ✖  Skipped: Not VCS-related
+\&        │   └── files
+\&        │
+\&        └── Google-V8      ✖  Skipped: .git not located
+\&            └── v8            in immediate subdirectory
+\&                └── .git
+.Ed
+.
+.Pp
+If no
+.Ar directories
+are passed, the current directory is used instead.
+.
+.Pp
+If called with
+.Fl h
+or
+.Fl -help ,
+the program prints terse help and exits.
+.
+.Ss Options
+Some plumbing commands are available using command-line switches:
+.
+.Bl -tag -width 7n
+.It Fl g
+Perform garbage collection and optimisation of Git repositories.
+The literal effect is to run the following line after an update:
+.Dl git gc && git prune \-v
+.
+.It Fl G
+Same as
+.Fl g ,
+except
+.Ql git gc
+is called with its
+.Fl \-aggressive No option set.
+Refer to
+.Xr git-gc 1
+for the effects of this.
+.
+.It Fl p
+Prune remote-tracking branches that are deleted upstream.
+If a remote named "fork" has been defined locally, it will also be checked for deleted branches.
+.El
+.
+.Sh FILES
+.ds file-1 ~/Labs/Snippets/shell/update-repos.sh
+.ds file-2 ~/Labs/Snippets/shell/update-repos.1
+.Bl -tag -width \*[file-1] -compact
+.It Pa \*[file-1]
+The executable file.
+.It Pa \*[file-2]
+This spiffy-looking manual page.
+.El
+.
+.Sh EXIT STATUS
+The script always exits with a status of 0, even if errors are encountered while updating.
+.No See Sx BUGS .
+.
+.Sh SEE ALSO
+.Xr git-gc 1 ,
+.Xr git-prune 1
+.
+.Sh AUTHORS
+Copyright \(co 2016-2017
+.An "John Gardner"
+.Aq Mt gardnerjohng@gmail.com .
+.Pp
+Freely released under the
+.Lk https://opensource.org/licenses/ISC "ISC license" .
+.
+.Sh BUGS
+The script fails to generate a meaningful error code if problems occur while updating.
+Invocations will always exit with a status of 0.
