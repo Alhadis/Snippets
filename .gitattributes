@@ -14,5 +14,4 @@
 
 
 # Exclude certain files from being evaluated by Linguist
-src/min/* linguist-documentation
 *.1 linguist-documentation

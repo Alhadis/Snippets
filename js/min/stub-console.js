@@ -1,1 +1,0 @@
-(function(){var e=window.console||{},o="assert clear count debug dir dirxml error exception group groupCollapsed groupEnd info log markTimeline profile profileEnd table time timeEnd timeStamp trace warn".split(" "),r=function(){},i=0,n;for(;i<22;++i)if(!e[n=o[i]])e[n]=n})();
