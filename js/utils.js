@@ -907,52 +907,61 @@ function wordCount(input){
 
 
 /**
- * Execute a callback function on every text node found within an element's descendants.
- * 
- * @param {Element}  el    - Element to parse the contents of.
- * @param {Function} fn    - Callback executed on each text node. Passed two args: the text node itself, and the current depth level.
- * @param {Number}   depth - Internal use only. Current number of recursion levels.
- * 
- * @return {Element} The HTML element originally passed to the function.
+ * Retrieve every text-node contained by a DOM element.
+ *
+ * @param {Element} el
+ *    Element to recursively scan for text-nodes.
+ * @param {String} [filter]
+ *    CSS selector to skip nodes of unwanted elements.
+ * @example collectTextNodes(el, "#ignore > .this");
+ * @return {CharacterData[]}
  */
-function walkTextNodes(el, fn, depth){
-	depth = depth || 0;
-
-	for(var children = Array.prototype.slice.call(el.childNodes, 0), n, l = children.length, i = 0; i < l; ++i){
-		n = children[i];
-		if(n.nodeType === Node.TEXT_NODE)
-			fn.call(this, n, depth);
-		else if(n.nodeType === Node.ELEMENT_NODE)
-			walkTextNodes(n, fn, depth+1);
-	}
-	return el;
-};
+function collectTextNodes(el, filter = ""){
+	const nodes = [];
+	for(const node of el.childNodes)
+		switch(node.nodeType){
+			case Node.TEXT_NODE:
+				nodes.push(node);
+				break;
+			case Node.ELEMENT_NODE:
+				if(!filter || !node.matches(filter))
+					nodes.push(...collectTextNodes(node));
+		}
+	return nodes;
+}
 
 
 /**
- * Inject <wbr /> elements into any lengthy words found in each text node found within an element's descendants.
+ * Inject <wbr /> elements into lengthy words in an element.
  *
- * @uses walkTextNodes
- * @param {Element} element - DOM element to operate on.
- * @param {Number} limit - Number of characters to traverse in a single word before inserting a breakpoint.
+ * @uses {@link collectTextNodes}
+ * @param {Element} element
+ *    DOM element to operate upon.
+ * @param {Number} [limit=80]
+ *    Number of characters to traverse in a single word before inserting a breakpoint.
+ * @return {HTMLElement} An array of <wbr /> elements that were inserted.
  */
-function injectWordBreaks(element, limit){
-
-	walkTextNodes(element, function(node){
-		var original = node,
-		terminators  = '.,+*?$|#{}()\\^\\-\\[\\]\\\\\/!%\'"~=<>_:;\\s',
-		splitAt      = new RegExp("([^" + terminators + "]{" + limit + "})", "g"),
-		breakPoints  = [];
-
-		/** Collect a list of insertion points. */
-		while(splitAt.exec(node.data))
-			breakPoints.push(splitAt.lastIndex);
+function injectWordBreaks(element, limit = 80){
+	const terminators = '.,+*?$|#{}()\\^\\-\\[\\]\\\\\/!%\'"~=<>_:;\\s';
+	const regexSource = "([^" + terminators + "]{" + limit + "})";
 	
-		for(var otherHalf, i = breakPoints.length - 1; i >= 0; --i){
-			otherHalf = node.splitText(breakPoints[i]);
-			node.parentNode.insertBefore(document.createElement("wbr"), otherHalf);
+	const injections = [];
+	for(const node of collectTextNodes(element)){
+		const splitBy = new RegExp(regexSource, "g");
+		const breakPoints = [];
+		
+		// Collect a list of insertion points.
+		while(splitBy.exec(node.data))
+			breakPoints.push(splitBy.lastIndex);
+		
+		for(const breakPoint of breakPoints.reverse()){
+			const wbr = document.createElement("wbr");
+			const otherHalf = node.splitText(breakPoint);
+			node.parentNode.insertBefore(wbr, otherHalf);
+			injections.push(wbr);
 		}
-	});
+	}
+	return injections;
 }
 
 
