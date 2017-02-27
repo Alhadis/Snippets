@@ -1,2 +1,0 @@
-RewriteEngine on
-RewriteRule (canvas|share)/?$ inc/canvas.php
